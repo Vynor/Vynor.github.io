@@ -17,7 +17,7 @@
 >保证给定类型三查询的答案最多超过 $1e18$，并且 $1e18 \le 2^{64}$
 
 显然每次最优操作是乘 $B_i$ 的总次数不会超过**64**
-只有 $B_i > 1$ 时才会考虑乘法，也就是 $[1, n]$最多有64个 $B_i$ 需要考虑，每2个 $B_i$ 之间无脑加即可。">
+只有 $B_i>1$ 时才会考虑乘法，也就是 $[1, n]$最多有64个 $B_i$ 需要考虑，每2个 $B_i$ 之间无脑加即可。">
 <meta property="og:title" content="368ABC题解">
 <meta property="og:description" content="# G - Add and Multiply Queries #
 
@@ -26,7 +26,7 @@
 >保证给定类型三查询的答案最多超过 $1e18$，并且 $1e18 \le 2^{64}$
 
 显然每次最优操作是乘 $B_i$ 的总次数不会超过**64**
-只有 $B_i > 1$ 时才会考虑乘法，也就是 $[1, n]$最多有64个 $B_i$ 需要考虑，每2个 $B_i$ 之间无脑加即可。">
+只有 $B_i>1$ 时才会考虑乘法，也就是 $[1, n]$最多有64个 $B_i$ 需要考虑，每2个 $B_i$ 之间无脑加即可。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/368ABC-ti-jie.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -81,7 +81,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/Vynor/Vynor.github.io/issues/3" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/Vynor/Vynor.github.io/issues/4" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -104,7 +104,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>保证给定类型三查询的答案最多超过 $1e18$，并且 $1e18 \le 2^{64}$</p>
 </blockquote>
 <p>显然每次最优操作是乘 $B_i$ 的总次数不会超过<strong>64</strong><br>
-只有 $B_i &amp;gt; 1$ 时才会考虑乘法，也就是 $[1, n]$最多有64个 $B_i$ 需要考虑，每2个 $B_i$ 之间无脑加即可。<br>
+只有 $B_i&amp;gt;1$ 时才会考虑乘法，也就是 $[1, n]$最多有64个 $B_i$ 需要考虑，每2个 $B_i$ 之间无脑加即可。<br>
 现在问题来到了</p>
 <ol>
 <li>找满足条件的 $B_i$
@@ -114,7 +114,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </ol>
 <p>找 $B_i$ 可以用Set先存下满足条件的 $B_i$ ,再用内置的二分函数查找。<br>
 而区间求和涉及单点修改和区间求和，树状数组完全可以胜任。<br>
-注意选择乘 $B_i &amp;gt; 1$ 不一定最优，记得特判</p>
+注意选择乘 $B_i&amp;gt;1$ 不一定最优，记得特判</p>
 <h1>代码</h1>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span><span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
