@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Mon, 26 Aug 2024 09:47:43 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>测试</title><link>https://Vynor.github.io/post/ce-shi.html</link><description># Test #&#13;
-&gt;[!TIP]&#13;
-&gt;```&#13;
-&gt;print('Hello World!')&#13;
-&gt;```&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Mon, 26 Aug 2024 09:51:00 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>测试</title><link>https://Vynor.github.io/post/ce-shi.html</link><description># Test #&#13;
+```&#13;
+print('Hello World!')&#13;
+```&#13;
 。</description><guid isPermaLink="true">https://Vynor.github.io/post/ce-shi.html</guid><pubDate>Mon, 26 Aug 2024 07:41:31 +0000</pubDate></item></channel></rss>
