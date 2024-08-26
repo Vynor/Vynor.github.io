@@ -113,8 +113,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </li>
 </ol>
 <p>找 $B_i$ 可以用Set先存下满足条件的 $B_i$ ,再用内置的二分函数查找。<br>
-而区间求和涉及单点修改和区间求和，树状数组完全可以胜任。<br>
-注意选择乘 $B_i \geq 2$ 不一定最优，记得特判</p>
+而区间求和涉及单点修改和区间查询操作，树状数组完全可以胜任。<br>
+注意选择乘 $B_i \geq 2$ 不一定最优，记得特判。<br>
+总的时间复杂度为max($N$, $M64log64$)</p>
 <h1>代码</h1>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span><span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
