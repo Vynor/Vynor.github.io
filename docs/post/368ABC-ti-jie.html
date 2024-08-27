@@ -121,23 +121,23 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
 
 <span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
-
 <span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>;
 
 <span class="pl-k">int</span> n, m;
-ll A[N], c[N];
-ll B[N];
+<span class="pl-k">int</span> A[N], B[N];
+ll c[N];
 
-<span class="pl-k">int</span> <span class="pl-en">lowbit</span>(<span class="pl-k">int</span> x) {<span class="pl-k">return</span> x &amp; (-x);}
+<span class="pl-k">int</span> <span class="pl-en">lowbit</span>(<span class="pl-k">int</span> x) {<span class="pl-k">return</span> x &amp; -x;}
 
-<span class="pl-k">void</span> <span class="pl-en">modify</span>(<span class="pl-k">int</span> x, ll val){
-    <span class="pl-k">for</span> (; x &lt;= n; x += <span class="pl-c1">lowbit</span>(x)) c[x] += val;
+<span class="pl-k">void</span> <span class="pl-en">modify</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> pos){
+    <span class="pl-k">for</span> (; x &lt;= n; x += <span class="pl-c1">lowbit</span>(x)) c[x] += pos;
 }
 
 ll <span class="pl-en">query</span>(<span class="pl-k">int</span> x){
     ll res = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (;x ; x -= <span class="pl-c1">lowbit</span>(x)) res += c[x];
+    <span class="pl-k">for</span> (; x; x -= <span class="pl-c1">lowbit</span>(x)) res += c[x];
     <span class="pl-k">return</span> res;
 }
 
@@ -148,39 +148,32 @@ ll <span class="pl-en">query</span>(<span class="pl-k">int</span> x){
 
     <span class="pl-c"><span class="pl-c">//</span>build</span>
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) <span class="pl-c1">modify</span>(i, A[i]);
-    set&lt;<span class="pl-k">int</span>&gt; se; <span class="pl-c"><span class="pl-c">//</span>记录B[i] &gt; 1的下标</span>
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
-        <span class="pl-k">if</span> (B[i] &gt; <span class="pl-c1">1</span>){
-            se.<span class="pl-c1">insert</span>(i);
-        }
+    set&lt;<span class="pl-k">int</span>&gt; se;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) <span class="pl-k">if</span> (B[i] &gt; <span class="pl-c1">1</span>) se.<span class="pl-c1">insert</span>(i);
+
     cin &gt;&gt; m;
     <span class="pl-k">while</span> (m -- ){
-        ll op, x, y;
+        <span class="pl-k">int</span> op, x, y;
         cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
-        <span class="pl-k">if</span> (op == <span class="pl-c1">1</span>){<span class="pl-c"><span class="pl-c">//</span>A[x] -&gt; y</span>
-            <span class="pl-c1">modify</span>(x, y - A[x]);
+        <span class="pl-k">if</span> (op == <span class="pl-c1">1</span>){
+            <span class="pl-c1">modify</span>(x, - A[x] + y);
             A[x] = y;
-        }
-        <span class="pl-k">else</span> <span class="pl-k">if</span> (op == <span class="pl-c1">2</span>){
-            <span class="pl-c"><span class="pl-c">//</span>B[x] -&gt; y</span>
-            <span class="pl-k">if</span> (B[x] != <span class="pl-c1">1</span>) se.<span class="pl-c1">erase</span>(x);
+        }<span class="pl-k">else</span> <span class="pl-k">if</span> (op == <span class="pl-c1">2</span>){
+            <span class="pl-k">if</span> (B[x] &gt; <span class="pl-c1">1</span>) se.<span class="pl-c1">erase</span>(x);
             B[x] = y;
-            <span class="pl-k">if</span> (B[x] != <span class="pl-c1">1</span>) se.<span class="pl-c1">insert</span>(x);
+            <span class="pl-k">if</span> (B[x] &gt; <span class="pl-c1">1</span>) se.<span class="pl-c1">insert</span>(x);
         }<span class="pl-k">else</span>{
-            <span class="pl-c"><span class="pl-c">//</span>求MAX</span>
-            ll res = A[x++]; <span class="pl-c"><span class="pl-c">//</span>[x, y]</span>
+            ll res = A[x++];
             <span class="pl-k">while</span> (x &lt;= y){
                 <span class="pl-k">auto</span> it = se.<span class="pl-c1">lower_bound</span>(x);
                 <span class="pl-k">if</span> (it == se.<span class="pl-c1">end</span>() || *it &gt; y){
                     res += <span class="pl-c1">query</span>(y) - <span class="pl-c1">query</span>(x - <span class="pl-c1">1</span>);
                     <span class="pl-k">break</span>;
-                }
-                <span class="pl-k">else</span> <span class="pl-k">if</span> (*it &lt;= y){
-                    <span class="pl-c"><span class="pl-c">//</span>[l, it]</span>
+                }<span class="pl-k">else</span>{
                     res += <span class="pl-c1">query</span>(*it - <span class="pl-c1">1</span>) - <span class="pl-c1">query</span>(x - <span class="pl-c1">1</span>);
-                    res = <span class="pl-c1">max</span>(res * B[*it], res + A[*it]);
+                    res = <span class="pl-c1">max</span>(res + A[*it], res * B[*it]);
+                    x = *it + <span class="pl-c1">1</span>;
                 }
-                x = *it + <span class="pl-c1">1</span>;
             }
             cout &lt;&lt; res &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
         }
@@ -195,7 +188,8 @@ ll <span class="pl-en">query</span>(<span class="pl-k">int</span> x){
         <span class="pl-c1">solve</span>();
     }
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div></div>
+}
+</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
