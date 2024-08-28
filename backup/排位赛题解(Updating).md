@@ -74,3 +74,7 @@ $2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$
 考虑转移，
 $subMAX = min(max(d1_x, dn_y),max(d1_y, dn_x))$
 如果 $MAX \geq subMAX$, $ans = max(ans, MAX + subMAX)$
+
+```c++
+
+```
