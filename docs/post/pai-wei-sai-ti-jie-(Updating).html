@@ -150,7 +150,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>$2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$</p>
 <h2>思路</h2>
 <h4>二分</h4>
-<p>考虑二分答案ans，设置 $d_x$表示从 $1-x$ 的<strong>最大通行时间</strong>。走一遍最短路，如果 $d_y + w &amp;lt;= ans$，表示可以从 $x$ 走到 $y$，否则超过二分值，不可走，最后返回<strong>是否</strong>可以到 $n$。<br>
+<p>考虑二分答案ans，设置 $d_x$表示从 $1-x$ 的<strong>最大通行时间</strong>。走一遍最短路，如果 $d_y + w \le ans$，表示可以从 $x$ 走到 $y$，否则超过二分值，不可走，最后返回<strong>是否</strong>可以到 $n$。<br>
 时间复杂度为 $O({log{2e9}} *  MlogM)$，显然会TLE，二分做法不可取</p>
 <h4>枚举</h4></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
