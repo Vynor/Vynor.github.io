@@ -2,6 +2,7 @@
     "title":"Sun Ming's Blog",
     "subTitle":"一个用于分享atcoder题解的博客",
     "singlePage":["about"],
+    "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script>",//目录插件
     "avatarUrl":"https://github.githubassets.com/favicons/favicon.svg",
     "GMEEK_VERSION":"last"
 }
