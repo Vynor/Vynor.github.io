@@ -244,7 +244,9 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
 </li>
 <li>如果 $s_i = "?"$。考虑前 $i-1$ 个字符带来的贡献，由于 $s_i$ 有 $3$ 种可能，可以使得 $dp_{i,j} \leftarrow 3 * dp_{i-1,j}$。考虑 $s_i$作为结尾带来的贡献， $dp_{i,j} +＝ dp_{i-1,j-1}$，与上情况不同的是 $j$ 有3种取值方式</li>
 </ul>
-<p>考虑初始化， $dp_{0,0} = 1$，即存在空集为 $1$</p></div>
+<p>考虑初始化， $dp_{0,0} = 1$，即存在空集为 $1$。注意在 $s_i = "?"$ 时，空集也会因此翻 $3$ 倍。</p>
+<h2>代码</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate"></pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
