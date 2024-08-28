@@ -76,5 +76,58 @@ $subMAX = min(max(d1_x, dn_y),max(d1_y, dn_x))$
 如果 $MAX \geq subMAX$, $ans = max(ans, MAX + subMAX)$
 
 ```c++
+using namespace std;
+const int N = 1e6 + 10;
 
+struct Node{
+    int x, y, v;
+}E[N];
+
+vector<pair<int, int>> edge[N];
+
+int n, m;
+int d1[N], dn[N];
+bool b[N];
+
+using pt = pair<int, int>;
+
+void dij(int st, int *dis){
+    for (int i = 1; i <= n; i ++ ) b[i] = 0, dis[i] = 1e9;
+    dis[st] = 0;
+    priority_queue<pt, vector<pt>, greater<pt>> q;
+    q.push({dis[st], st});
+    while (!q.empty()){
+        int x = q.top().second;
+        q.pop();
+        if (b[x]) continue;
+        b[x] = 1;
+        for (auto [y, v]:edge[x])
+            if (dis[y] > max(dis[x], v)){
+                dis[y] = max(dis[x], v);
+                q.push({dis[y], y});
+            }
+    }
+}
+
+void solve() {
+    cin >> n >> m;
+    for (int i = 1; i <= m; i ++ ){
+        int x, y, v;
+        cin >> x >> y >> v;
+        E[i] = {x, y, v};
+        edge[x].push_back({y, v});
+        edge[y].push_back({x, v});
+    }
+    dij(1, d1);
+    dij(n, dn);
+    int ans = 2e9;
+    for (int i = 1; i <= m; i ++ ){
+        auto [x, y, MX] = E[i];
+        int sub = min(max(d1[x], dn[y]), max(d1[y], dn[x]));
+        if (MX >= sub){
+            ans = min(ans, MX + sub);
+        }
+    }
+    cout << ans;
+}
 ```

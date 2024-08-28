@@ -163,7 +163,60 @@ $1-x$ 的最大通行时间可以参照二分思路中的 $check$ 求解</li>
 <p>考虑转移，<br>
 $subMAX = min(max(d1_x, dn_y),max(d1_y, dn_x))$<br>
 如果 $MAX \geq subMAX$, $ans = max(ans, MAX + subMAX)$</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"></pre></div></div>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e6</span> + <span class="pl-c1">10</span>;
+
+<span class="pl-k">struct</span> <span class="pl-en">Node</span>{
+    <span class="pl-k">int</span> x, y, v;
+}E[N];
+
+vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; edge[N];
+
+<span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> d1[N], dn[N];
+<span class="pl-k">bool</span> b[N];
+
+<span class="pl-k">using</span> pt = pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;;
+
+<span class="pl-k">void</span> <span class="pl-en">dij</span>(<span class="pl-k">int</span> st, <span class="pl-k">int</span> *dis){
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) b[i] = <span class="pl-c1">0</span>, dis[i] = <span class="pl-c1">1e9</span>;
+    dis[st] = <span class="pl-c1">0</span>;
+    priority_queue&lt;pt, vector&lt;pt&gt;, greater&lt;pt&gt;&gt; q;
+    q.<span class="pl-c1">push</span>({dis[st], st});
+    <span class="pl-k">while</span> (!q.<span class="pl-c1">empty</span>()){
+        <span class="pl-k">int</span> x = q.<span class="pl-c1">top</span>().<span class="pl-smi">second</span>;
+        q.<span class="pl-c1">pop</span>();
+        <span class="pl-k">if</span> (b[x]) <span class="pl-k">continue</span>;
+        b[x] = <span class="pl-c1">1</span>;
+        <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v]:edge[x])
+            <span class="pl-k">if</span> (dis[y] &gt; <span class="pl-c1">max</span>(dis[x], v)){
+                dis[y] = <span class="pl-c1">max</span>(dis[x], v);
+                q.<span class="pl-c1">push</span>({dis[y], y});
+            }
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i ++ ){
+        <span class="pl-k">int</span> x, y, v;
+        cin &gt;&gt; x &gt;&gt; y &gt;&gt; v;
+        E[i] = {x, y, v};
+        edge[x].<span class="pl-c1">push_back</span>({y, v});
+        edge[y].<span class="pl-c1">push_back</span>({x, v});
+    }
+    <span class="pl-c1">dij</span>(<span class="pl-c1">1</span>, d1);
+    <span class="pl-c1">dij</span>(n, dn);
+    <span class="pl-k">int</span> ans = <span class="pl-c1">2e9</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i ++ ){
+        <span class="pl-k">auto</span> [x, y, MX] = E[i];
+        <span class="pl-k">int</span> sub = <span class="pl-c1">min</span>(<span class="pl-c1">max</span>(d1[x], dn[y]), <span class="pl-c1">max</span>(d1[y], dn[x]));
+        <span class="pl-k">if</span> (MX &gt;= sub){
+            ans = <span class="pl-c1">min</span>(ans, MX + sub);
+        }
+    }
+    cout &lt;&lt; ans;
+}</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
