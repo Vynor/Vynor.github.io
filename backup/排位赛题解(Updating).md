@@ -71,3 +71,6 @@ $2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$
 - $1-x$ 的最大通行时间可以参照二分思路中的 $check$ 求解
 - 而对于 $y-n$ 的最大通行时间，因为 $y$ 常变 $n$ 唯一，所以可以预处理 $n-y$ 的最短路下的最大通行时间。因为是无向图，所以 $n-y = y-n$。
 
+考虑转移，
+$subMAX = min(max(d1_x, dn_y),max(d1_y, dn_x))$
+如果 $MAX \geq subMAX$, $ans = max(ans, MAX + subMAX)$
