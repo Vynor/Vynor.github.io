@@ -229,6 +229,8 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
 设置$dp_{i,j}$ 表示为，考虑前 $i$ 个字符，子序列为 $j$ 的数量。<br>
 设置 $j$ 为</p>
 <ul>
+<li>0: $""$
+</li>
 <li>1: $"a"$
 </li>
 <li>2: $"ab"$
@@ -240,8 +242,9 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
 <ul>
 <li>如果 $s_i \neq "?"$。考虑前 $i-1$ 个字符带来的贡献， $dp_{i,j} \leftarrow dp_{i,j}$。考虑 $s_i$ 可以作为结尾带来的贡献，即 $dp_{i,j} += dp_{i,j-1}$
 </li>
-<li>如果 $s_i = "?"$。考虑前 $i-1$ 个字符带来的贡献，由于 $s_i$ 有 $3$ 种可能，可以使得 $dp_{i,j} \leftarrow 3 * dp_{i-1,j}$。考虑 $s_i$作为结尾带来的贡献，$dp_{i,j} += dp_{i,j-1}$</li>
-</ul></div>
+<li>如果 $s_i = "?"$。考虑前 $i-1$ 个字符带来的贡献，由于 $s_i$ 有 $3$ 种可能，可以使得 $dp_{i,j} \leftarrow 3 * dp_{i-1,j}$。考虑 $s_i$作为结尾带来的贡献， $dp_{i,j} +＝ dp_{i-1,j-1}$，与上情况不同的是 $j$ 有3种取值方式</li>
+</ul>
+<p>考虑初始化， $dp_{0,0} = 1$，即存在空集为 $1$</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
