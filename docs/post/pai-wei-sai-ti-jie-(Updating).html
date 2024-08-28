@@ -12,13 +12,13 @@
     </script>
 <meta name="description" content="# day5D背包问题 # 
 
-### 题目描述 ###
+**题目描述**
 共 $n$ 件物品，第 $i$ 件物品的价值是 $a_i$，
 小A决定在这 $n$ 件物品中挑选出价值和是 $m$ 的物品装进背包里带给小B。">
 <meta property="og:title" content="排位赛题解(Updating)">
 <meta property="og:description" content="# day5D背包问题 # 
 
-### 题目描述 ###
+**题目描述**
 共 $n$ 件物品，第 $i$ 件物品的价值是 $a_i$，
 小A决定在这 $n$ 件物品中挑选出价值和是 $m$ 的物品装进背包里带给小B。">
 <meta property="og:type" content="article">
@@ -92,13 +92,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h1>day5D背包问题</h1>
-<h3>题目描述</h3>
-<p>共 $n$ 件物品，第 $i$ 件物品的价值是 $a_i$，<br>
+<p><strong>题目描述</strong><br>
+共 $n$ 件物品，第 $i$ 件物品的价值是 $a_i$，<br>
 小A决定在这 $n$ 件物品中挑选出价值和是 $m$ 的物品装进背包里带给小B。<br>
 但是糟糕的是背包不慎破了一个洞，有一些物品(也有可能是0或全部)遗失了。<br>
-小A现在想知道剩下的价值和可能是多少？(升序输出)</p>
-<h4>数据范围</h4>
-<p>$n,m,a_i \le 500$</p>
+小A现在想知道剩下的价值和可能是多少？(升序输出)<br>
+<strong>数据范围</strong><br>
+$n,m,a_i \le 500$</p>
 <h2>思路</h2>
 <p>我们考虑对于一件物品，他只有这3种情况：</p>
 <ul>
@@ -144,15 +144,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
             cout &lt;&lt; k &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>;
 }</pre></div>
 <h1>day4F配送</h1>
-<h3>题目描述</h3>
-<p>有1张 $n$ 个顶点 和 $m$ 条边的无向图，每条边具有通行时间。问 $1-n$ 的路径的权值最小是多少？一条路径的权值定义为通过边的最长通行时间和次长通行时间的和。</p>
-<h4>数据范围</h4>
-<p>$2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$</p>
+<p><strong>题目描述</strong><br>
+有1张 $n$ 个顶点 和 $m$ 条边的无向图，每条边具有通行时间。问 $1-n$ 的路径的权值最小是多少？一条路径的权值定义为通过边的最长通行时间和次长通行时间的和。<br>
+<strong>数据范围</strong><br>
+$2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$</p>
 <h2>思路</h2>
-<h4>二分</h4>
+<h3><strong>二分</strong></h3>
 <p>考虑二分答案ans，设置 $d_x$表示从 $1-x$ 的<strong>最大通行时间</strong>。走一遍最短路，如果 $d_y + w \le ans$，表示可以从 $x$ 走到 $y$，否则超过二分值，不可走，最后返回<strong>是否</strong>可以到 $n$。<br>
 时间复杂度为 $O({log{2e9}} *  MlogM)$，显然会TLE，二分做法不可取</p>
-<h4>枚举</h4>
+<h3><strong>枚举</strong></h3>
 <p>考虑<strong>枚举边</strong>作为 $1-n$ 路径上<strong>最大通行时间</strong> $MAX$ 的贡献者。那么只需要求出路径上<strong>除去</strong>该边的<strong>次大值</strong> $subMAX$ 即可，分别求出 $1$ 到 该边的一个端点的最大值 和 该边的另外一个端点到 $n$ 的最大值，2者取 $max$ 就是次大值。</p>
 <p>设置该边的2个端点分别为 $x,y$，</p>
 <ul>
@@ -219,8 +219,8 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
     cout &lt;&lt; ans;
 }</pre></div>
 <h1>day4G字符串替换</h1>
-<h3>题目描述</h3>
-<p>给定一个长度为 $n$ 的字符串 $s$，仅包含 $a,b,c,?$ 4种字符。<br>
+<p><strong>题目描述</strong><br>
+给定一个长度为 $n(0 \le n \le 3e5)$ 的字符串 $s$，仅包含 $a,b,c,?$ 4种字符。<br>
 你可以将字符 $?$ 替换成 $a,b,c$ 中任意一个字符，你必须将 $?$ 全部替换掉，得到字符串 $t$。<br>
 问子序列 $"abc"$ 在所有字符串 $t$ 出现的次数之和。答案对 $1e9+7$取模。</p>
 <h2>思路</h2>
@@ -286,7 +286,8 @@ string s;
         }
     }
     cout &lt;&lt; f[n][<span class="pl-c1">3</span>];
-}</pre></div></div>
+}</pre></div>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -450,6 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </html>
