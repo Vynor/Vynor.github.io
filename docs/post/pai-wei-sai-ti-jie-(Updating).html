@@ -147,7 +147,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h3>题目描述</h3>
 <p>有1张 $n$ 个顶点 和 $m$ 条边的无向图，每条边具有通行时间。问 $1-n$ 的路径的权值最小是多少？一条路径的权值定义为通过边的最长通行时间和次长通行时间的和。</p>
 <h4>数据范围</h4>
-<p>$2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$</p></div>
+<p>$2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$</p>
+<h2>思路</h2>
+<h4>二分</h4>
+<p>考虑二分答案ans，设置 $d_x$表示从 $1-x$ 的<strong>最大通行时间</strong>。走一遍最短路，如果 $d_y + w &amp;lt;= ans$，表示可以从 $x$ 走到 $y$，否则超过二分值，不可走，最后返回<strong>是否</strong>可以到 $n$。<br>
+时间复杂度为 $O({log{2e9}} *  MlogM)$，显然会TLE，二分做法不可取</p>
+<h4>枚举</h4></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
