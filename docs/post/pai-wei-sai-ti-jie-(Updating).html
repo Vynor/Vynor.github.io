@@ -246,7 +246,47 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
 </ul>
 <p>考虑初始化， $dp_{0,0} = 1$，即存在空集为 $1$。注意在 $s_i = "?"$ 时，空集也会因此翻 $3$ 倍。</p>
 <h2>代码</h2>
-<div class="highlight highlight-source-c++"><pre class="notranslate"></pre></div></div>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">3e5</span> + <span class="pl-c1">10</span>, mod = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>;
+
+<span class="pl-k">int</span> n;
+string s;
+<span class="pl-k">int</span> f[N][<span class="pl-c1">4</span>];
+
+<span class="pl-k">int</span> <span class="pl-en">check</span>(<span class="pl-k">char</span> x)
+{
+    <span class="pl-k">if</span> (x == <span class="pl-s"><span class="pl-pds">'</span>a<span class="pl-pds">'</span></span>)
+        <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (x == <span class="pl-s"><span class="pl-pds">'</span>b<span class="pl-pds">'</span></span>)
+        <span class="pl-k">return</span> <span class="pl-c1">2</span>;
+    <span class="pl-k">else</span>
+        <span class="pl-k">return</span> <span class="pl-c1">3</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; n &gt;&gt; s;
+    s = <span class="pl-s"><span class="pl-pds">"</span>$<span class="pl-pds">"</span></span> + s;
+    f[<span class="pl-c1">0</span>][<span class="pl-c1">0</span>] = <span class="pl-c1">1</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (s[i] != <span class="pl-s"><span class="pl-pds">'</span>?<span class="pl-pds">'</span></span>)
+        {
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt;= <span class="pl-c1">3</span>; j++)
+                f[i][j] = f[i - <span class="pl-c1">1</span>][j];
+            f[i][<span class="pl-c1">check</span>(s[i])] = (f[i][<span class="pl-c1">check</span>(s[i])] + f[i][<span class="pl-c1">check</span>(s[i]) - <span class="pl-c1">1</span>]) % mod;
+        }
+        <span class="pl-k">else</span>
+        {
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt;= <span class="pl-c1">3</span>; j++)
+            {
+                f[i][j] = ((f[i - <span class="pl-c1">1</span>][j] + f[i - <span class="pl-c1">1</span>][j]) % mod + f[i - <span class="pl-c1">1</span>][j]) % mod;
+                <span class="pl-k">if</span> (j != <span class="pl-c1">0</span>)
+                    f[i][j] = (f[i][j] + f[i - <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>]) % mod;
+            }
+        }
+    }
+    cout &lt;&lt; f[n][<span class="pl-c1">3</span>];
+}</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

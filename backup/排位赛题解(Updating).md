@@ -157,5 +157,45 @@ void solve() {
 
 ## 代码 ##
 ```c++
+const int N = 3e5 + 10, mod = 1e9 + 7;
 
+int n;
+string s;
+int f[N][4];
+
+int check(char x)
+{
+    if (x == 'a')
+        return 1;
+    else if (x == 'b')
+        return 2;
+    else
+        return 3;
+}
+
+void solve()
+{
+    cin >> n >> s;
+    s = "$" + s;
+    f[0][0] = 1;
+    for (int i = 1; i <= n; i++)
+    {
+        if (s[i] != '?')
+        {
+            for (int j = 0; j <= 3; j++)
+                f[i][j] = f[i - 1][j];
+            f[i][check(s[i])] = (f[i][check(s[i])] + f[i][check(s[i]) - 1]) % mod;
+        }
+        else
+        {
+            for (int j = 0; j <= 3; j++)
+            {
+                f[i][j] = ((f[i - 1][j] + f[i - 1][j]) % mod + f[i - 1][j]) % mod;
+                if (j != 0)
+                    f[i][j] = (f[i][j] + f[i - 1][j - 1]) % mod;
+            }
+        }
+    }
+    cout << f[n][3];
+}
 ```
