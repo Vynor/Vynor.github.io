@@ -152,7 +152,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h4>二分</h4>
 <p>考虑二分答案ans，设置 $d_x$表示从 $1-x$ 的<strong>最大通行时间</strong>。走一遍最短路，如果 $d_y + w \le ans$，表示可以从 $x$ 走到 $y$，否则超过二分值，不可走，最后返回<strong>是否</strong>可以到 $n$。<br>
 时间复杂度为 $O({log{2e9}} *  MlogM)$，显然会TLE，二分做法不可取</p>
-<h4>枚举</h4></div>
+<h4>枚举</h4>
+<p>考虑<strong>枚举边</strong>作为 $1-n$ 路径上<strong>最大通行时间</strong> $MAX$ 的贡献者。那么只需要求出路径上<strong>除去</strong>该边的<strong>次大值</strong> $subMAX$ 即可，分别求出 $1$ 到 该边的一个端点的最大值 和 该边的另外一个端点到 $n$ 的最大值，2者取 $max$ 就是次大值。</p>
+<p>设置该边的2个端点分别为 $x,y$，</p>
+<ul>
+<li>
+$1-x$ 的最大通行时间可以参照二分思路中的 $check$ 求解</li>
+<li>而对于 $y-n$ 的最大通行时间，因为 $y$ 常变 $n$ 唯一，所以可以预处理 $n-y$ 的最短路下的最大通行时间。因为是无向图，所以 $n-y = y-n$。</li>
+</ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
