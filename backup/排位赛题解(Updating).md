@@ -199,4 +199,5 @@ void solve()
     cout << f[n][3];
 }
 ```
+
 <!-- ##{"script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script>"}## -->
