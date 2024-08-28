@@ -225,7 +225,24 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
 问子序列 $"abc"$ 在所有字符串 $t$ 出现的次数之和。答案对 $1e9+7$取模。</p>
 <h2>思路</h2>
 <p>如果字符串 $s$ 只有 $a,b,c$ 三种字符，问<strong>子序列</strong> $"abc"$ 的数量，可以使用线性动态规划解决。<br>
-而现在多了个状态未定的字符 $?$</p></div>
+而现在多了个状态未定的字符 $?$，同样可以从动态规划入手。<br>
+设置$dp_{i,j}$ 表示为，考虑前 $i$ 个字符，子序列为 $j$ 的数量。<br>
+设置 $j$ 为</p>
+<ul>
+<li>1: $"a"$
+</li>
+<li>2: $"ab"$
+</li>
+<li>3: $"abc"$
+</li>
+</ul>
+<p>考虑转移</p>
+<ul>
+<li>如果 $s_i \neq "?"$。考虑前 $i-1$ 个字符带来的贡献， $dp_{i,j} \leftarrow dp_{i,j}$。考虑 $s_i$ 可以作为结尾带来的贡献，即 $dp_{i,j} += dp_{i,j-1}$
+</li>
+<li>如果 $s_i = "?"$。考虑前 $i-1$ 个字符带来的贡献，由于 $s_i$ 有 $3$ 种可能，可以使得 $dp_{i,j} \leftarrow 3 * dp_{i-1,j}$
+</li>
+</ul></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
