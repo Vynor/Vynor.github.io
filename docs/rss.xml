@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Wed, 28 Aug 2024 11:21:17 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>数据结构</title><link>https://Vynor.github.io/post/shu-ju-jie-gou.html</link><description>## 树状数组 ##&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Wed, 28 Aug 2024 11:25:03 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>数据结构</title><link>https://Vynor.github.io/post/shu-ju-jie-gou.html</link><description>## 树状数组 ##&#13;
 树状数组是一种支持**单点修改**和**区间查询**，代码量小的数据结构。</description><guid isPermaLink="true">https://Vynor.github.io/post/shu-ju-jie-gou.html</guid><pubDate>Tue, 27 Aug 2024 14:15:38 +0000</pubDate></item><item><title>排位赛题解(Updating)</title><link>https://Vynor.github.io/post/pai-wei-sai-ti-jie-%28Updating%29.html</link><description># day5D背包问题 # &#13;
 &#13;
 **题目描述**&#13;
@@ -7,7 +7,7 @@
 小A决定在这 $n$ 件物品中挑选出价值和是 $m$ 的物品装进背包里带给小B。</description><guid isPermaLink="true">https://Vynor.github.io/post/pai-wei-sai-ti-jie-%28Updating%29.html</guid><pubDate>Tue, 27 Aug 2024 14:00:30 +0000</pubDate></item><item><title>368ABC题解</title><link>https://Vynor.github.io/post/368ABC-ti-jie.html</link><description># D - Minimum Steiner Tree # &#13;
 &#13;
 ## 思路 ##&#13;
-法一：思考一个点作为关键点可能满足的条件：&#13;
+思考一个点作为关键点可能满足的条件：&#13;
 - 指定顶点 $V_i$&#13;
 - 连接2个指定顶点的中间点。</description><guid isPermaLink="true">https://Vynor.github.io/post/368ABC-ti-jie.html</guid><pubDate>Mon, 26 Aug 2024 16:59:23 +0000</pubDate></item><item><title>测试</title><link>https://Vynor.github.io/post/ce-shi.html</link><description># Test #&#13;
 ```&#13;
