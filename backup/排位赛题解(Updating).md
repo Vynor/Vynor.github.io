@@ -75,6 +75,7 @@ $2 \le n \le 3e5, m \le 1e6, 1 \le u,v \le n, 1 \le w \le 1e9$
 $subMAX = min(max(d1_x, dn_y),max(d1_y, dn_x))$
 如果 $MAX \geq subMAX$, $ans = max(ans, MAX + subMAX)$
 
+## 代码 ##
 ```c++
 using namespace std;
 const int N = 1e6 + 10;
@@ -135,4 +136,7 @@ void solve() {
 
 ### 题目描述 ###
 给定一个长度为 $n$ 的字符串 $s$，仅包含 $a,b,c,?$ 4种字符。
-你可以将字符 $$
+你可以将字符 $?$ 替换成 $a,b,c$ 中任意一个字符，你必须将 $?$ 全部替换掉，得到字符串 $t$。
+问子序列 $"abc"$ 在所有字符串 $t$ 出现的次数之和。答案对 $1e9+7$取模。
+
+## 思路 ##

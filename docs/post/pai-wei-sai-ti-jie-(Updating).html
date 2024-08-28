@@ -163,6 +163,7 @@ $1-x$ 的最大通行时间可以参照二分思路中的 $check$ 求解</li>
 <p>考虑转移，<br>
 $subMAX = min(max(d1_x, dn_y),max(d1_y, dn_x))$<br>
 如果 $MAX \geq subMAX$, $ans = max(ans, MAX + subMAX)$</p>
+<h2>代码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e6</span> + <span class="pl-c1">10</span>;
 
@@ -220,7 +221,9 @@ vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&g
 <h1>day4G字符串替换</h1>
 <h3>题目描述</h3>
 <p>给定一个长度为 $n$ 的字符串 $s$，仅包含 $a,b,c,?$ 4种字符。<br>
-你可以将字符 $$</p></div>
+你可以将字符 $?$ 替换成 $a,b,c$ 中任意一个字符，你必须将 $?$ 全部替换掉，得到字符串 $t$。<br>
+问子序列 $"abc"$ 在所有字符串 $t$ 出现的次数之和。答案对 $1e9+7$取模。</p>
+<h2>思路</h2></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
