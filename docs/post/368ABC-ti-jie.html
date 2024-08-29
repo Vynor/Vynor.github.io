@@ -146,6 +146,49 @@ vector&lt;<span class="pl-k">int</span>&gt; edge[N];
     }
     cout &lt;&lt; n - rear ;
 }</pre></div>
+<h1>E - Train Delay</h1>
+<p>从时间排序的角度思考。<br>
+对所有的时间排序就能得到大小为 $2m$的数组。<br>
+设置 $D[j]$ 为站点 $j$ 的最近到达时间。<br>
+时间分为2类</p>
+<ul>
+<li>对于出发时间，需要满足 $T_i \geq D[A]$, 那么 $X[i] = max(X[i], D[A] - T_i)$
+</li>
+<li>对于到达时间, $D[i]$ 的取值会因延迟而增大，即 $D[B] = max(D[B], X[i] + T_i)$
+</li>
+</ul>
+<p>因为时间从小到大排序，使得新时间数组没有<strong>后效性</strong>，所以可以递推解决。<br>
+<strong>代码</strong></p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">Node</span>{
+    <span class="pl-k">int</span> A, B, ty, t, pos;
+    <span class="pl-k">bool</span> <span class="pl-k">operator</span>&lt;(<span class="pl-k">const</span> Node &amp;A) <span class="pl-k">const</span>{
+        <span class="pl-k">if</span> (t == A.<span class="pl-smi">t</span>)
+            <span class="pl-k">return</span> ty &lt; A.<span class="pl-smi">ty</span>; <span class="pl-c"><span class="pl-c">//</span>先到达 后开始</span>
+        <span class="pl-k">return</span> t &lt; A.<span class="pl-smi">t</span>;
+    }
+}a[N];
+
+<span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> x[N], D[N];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; x[<span class="pl-c1">1</span>];
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i ++ ){
+        <span class="pl-k">int</span> A, B, s, t; cin &gt;&gt; A &gt;&gt; B &gt;&gt; s &gt;&gt; t;
+        a[i] = {A, B, <span class="pl-c1">1</span>, s, i};
+        a[i + m] = {A, B, <span class="pl-c1">0</span>, t, i};
+    }
+    <span class="pl-c1">sort</span>(a + <span class="pl-c1">1</span>, a + <span class="pl-c1">2</span> * m + <span class="pl-c1">1</span>);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= <span class="pl-c1">2</span> * m; i ++ ){
+        <span class="pl-k">if</span> (a[i].<span class="pl-smi">ty</span> == <span class="pl-c1">1</span>){ <span class="pl-c"><span class="pl-c">//</span>出发事件</span>
+            x[a[i].<span class="pl-smi">pos</span>] = <span class="pl-c1">max</span>(x[a[i].<span class="pl-smi">pos</span>], D[a[i].<span class="pl-smi">A</span>] - a[i].<span class="pl-smi">t</span>);
+        }<span class="pl-k">else</span>{<span class="pl-c"><span class="pl-c">//</span>到达事件</span>
+            D[a[i].<span class="pl-smi">B</span>] = <span class="pl-c1">max</span>(D[a[i].<span class="pl-smi">B</span>], a[i].<span class="pl-smi">t</span> + x[a[i].<span class="pl-smi">pos</span>]);
+        }
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">2</span>; i &lt;= m; i ++ )
+        cout &lt;&lt; x[i] &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>;
+}</pre></div>
 <h1>F - Dividing Game</h1>
 <p>类<a href="https://vynor.github.io/post/bo-yi-lun.html#nim%E6%B8%B8%E6%88%8F" rel="nofollow">Nim游戏</a><br>
 每个数 $x$ 可以当作数目为 $cnt$ 的一堆石子<br>
