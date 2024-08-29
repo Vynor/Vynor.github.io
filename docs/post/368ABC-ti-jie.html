@@ -10,18 +10,14 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="# **难度**: $D < F < G < E$ #
-
-# D - Minimum Steiner Tree # 
+<meta name="description" content="# D - Minimum Steiner Tree # 
 
 ## 思路 ##
 思考一个点作为关键点可能满足的条件：
 - 指定顶点 $V_i$
 - 作为二个指定顶点的必经之路。">
 <meta property="og:title" content="368ABC题解">
-<meta property="og:description" content="# **难度**: $D < F < G < E$ #
-
-# D - Minimum Steiner Tree # 
+<meta property="og:description" content="# D - Minimum Steiner Tree # 
 
 ## 思路 ##
 思考一个点作为关键点可能满足的条件：
@@ -97,10 +93,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>
-<strong>难度</strong>: $D &amp;lt; F &amp;lt; G &amp;lt; E$
-</h1>
-<h1>D - Minimum Steiner Tree</h1>
+<div class="markdown-body" id="postBody"><h1>D - Minimum Steiner Tree</h1>
 <h2>思路</h2>
 <p>思考一个点作为关键点可能满足的条件：</p>
 <ul>
@@ -192,7 +185,7 @@ $cnt$ 取值的结论就是 $x$ 分解质因子的指数和</p>
 </li>
 </ol>
 <p>找 $B_i$ 可以用Set先存下满足条件的 $B_i$ ,再用内置的二分函数查找。<br>
-而区间求和涉及单点修改和区间查询操作，树状数组完全可以胜任。<br>
+而区间求和涉及单点修改和区间查询操作，<a href="https://vynor.github.io/post/shu-ju-jie-gou.html" rel="nofollow">树状数组</a>完全可以胜任。<br>
 注意选择乘 $B_i \geq 2$ 不一定最优，记得特判。<br>
 总的时间复杂度为max($N$, $M64log64$)</p>
 <h2>代码</h2>
