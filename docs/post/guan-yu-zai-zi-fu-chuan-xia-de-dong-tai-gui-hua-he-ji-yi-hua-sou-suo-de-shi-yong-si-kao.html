@@ -25,8 +25,7 @@
 
 问在所有字符串 $t$ 中，子序列'abc'出现的次数之和
 
-二者**区别**在于一个字符串对于答案来说，能为题目一至多带来1的贡献，而对题目二能带来不止1的贡献
-而且发现题目一似乎与**组合数学**有关，毕竟全部字符未知，所有状态就是 $26^n$ 种，取其中合法的状态。">
+二者**区别**在于一个字符串对于答案来说，能为题目一至多带来1的贡献，而对题目二能带来不止1的贡献。">
 <meta property="og:title" content="关于在字符串下的动态规划和记忆化搜索的使用思考">
 <meta property="og:description" content="先看两道题
 题目一：[zbw的签到](https://icpc.qlu.edu.cn/p/P2407)
@@ -43,8 +42,7 @@
 
 问在所有字符串 $t$ 中，子序列'abc'出现的次数之和
 
-二者**区别**在于一个字符串对于答案来说，能为题目一至多带来1的贡献，而对题目二能带来不止1的贡献
-而且发现题目一似乎与**组合数学**有关，毕竟全部字符未知，所有状态就是 $26^n$ 种，取其中合法的状态。">
+二者**区别**在于一个字符串对于答案来说，能为题目一至多带来1的贡献，而对题目二能带来不止1的贡献。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/guan-yu-zai-zi-fu-chuan-xia-de-dong-tai-gui-hua-he-ji-yi-hua-sou-suo-de-shi-yong-si-kao.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -128,9 +126,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <a href="https://vynor.github.io/post/pai-wei-sai-ti-jie-%28Updating%29.html#day4g%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2" rel="nofollow">题目描述</a><br>
 (本博客有收录)</p>
 <p>问在所有字符串 $t$ 中，子序列"abc"出现的次数之和</p>
-<p>二者<strong>区别</strong>在于一个字符串对于答案来说，能为题目一至多带来1的贡献，而对题目二能带来不止1的贡献<br>
+<p>二者<strong>区别</strong>在于一个字符串对于答案来说，能为题目一至多带来1的贡献，而对题目二能带来不止1的贡献。<br>
+并且题目一是无限制条件的全随机，题目二是有限制条件(非'?'固定)的伪随机。<br>
 而且发现题目一似乎与<strong>组合数学</strong>有关，毕竟全部字符未知，所有状态就是 $26^n$ 种，取其中合法的状态。<br>
-但是题目二从所有状态下手会很头疼，更像是<strong>动态规划</strong>，讨论字符的取值对总答案的贡献。</p>
+但是题目二从所有状态下手会很头疼，因为次数和字符串状态牵涉太深，更像是<strong>动态规划</strong>，讨论字符的取值对总答案的贡献。</p>
 <p>在此贴一个题目一的题解：<br>
 枚举从 $1-n$ 的长度 $len$，对于 $len$ 考虑从后往前搜索第 $i$ 位的取值<br>
 设置 $dfs(pos, ok1, ok2)$ 表示为搜索到第 $pos$ 位，之前状态为 $ok1, ok2$ 的所有合法序列</p>
