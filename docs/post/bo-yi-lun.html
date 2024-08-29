@@ -98,6 +98,17 @@ $(y - x) * \frac{(\sqrt{2} + 1)}{2} = x$<br>
 <p>$n$ 堆石子，第 $i$ 堆有 $a_i$ 个，2人互相取石子，操作为对任意一堆取任意数量的石子，无法操作为输。<br>
 结论:<br>
 $a_i$ <strong>异或和为零</strong>时先手必败态，否则先手必胜。</p>
+<h2>SG函数</h2>
+<p>先手必胜：当且仅当SG函数不为零 (当然递推也可以解决胜负)<br>
+$SG(u) = \text{mex}$  { $SG(v)$ } 。构建有向无环图, $v$ 代表 $u$ 的后继状态。<br>
+SG函数关键在于可以求取游戏的和<br>
+设置 $G_i$ 代表一种游戏,</p>
+<ul>
+<li>$G = G_1 + G_2 + G_i$</li>
+<li>每次选择一个 $G_i$, 移动一步</li>
+</ul>
+<p>SG函数厉害之处在于:<br>
+$SG(G) = SG(G_1) \oplus SG(G_2) \oplus SG(G_i)$</p>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
