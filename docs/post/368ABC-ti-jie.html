@@ -146,6 +146,29 @@ vector&lt;<span class="pl-k">int</span>&gt; edge[N];
     }
     cout &lt;&lt; n - rear ;
 }</pre></div>
+<h1>F - Dividing Game</h1>
+<p>类<a href="https://vynor.github.io/post/bo-yi-lun.html#nim%E6%B8%B8%E6%88%8F" rel="nofollow">Nim游戏</a><br>
+每个数 $x$ 可以当作数目为 $cnt$ 的一堆石子<br>
+$cnt$ 取值的结论就是 $x$ 分解质因子的指数和</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n;
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    <span class="pl-k">int</span> res = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        <span class="pl-k">int</span> x, cnt = <span class="pl-c1">0</span>;
+        cin &gt;&gt; x;
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">2</span>; j &lt;= x / j; j ++ ){
+            <span class="pl-k">while</span> (x % j == <span class="pl-c1">0</span>){
+                x /= j;
+                ++ cnt;
+            }
+        }
+        <span class="pl-k">if</span> (x != <span class="pl-c1">1</span>) ++ cnt;
+        res ^= cnt;
+    }
+    cout &lt;&lt; (!res ? <span class="pl-s"><span class="pl-pds">"</span>Bruno<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>Anna<span class="pl-pds">"</span></span>);
+}</pre></div>
 <h1>G - Add and Multiply Queries</h1>
 <h2>思路</h2>
 <p>注意到</p>
