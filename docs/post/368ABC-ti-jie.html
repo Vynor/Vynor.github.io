@@ -227,7 +227,7 @@ $cnt$ 取值的结论就是 $x$ 分解质因子的指数和</p>
 <li>区间求和 $A_i$
 </li>
 </ol>
-<p>找 $B_i$ 可以用Set先存下满足条件的 $B_i$ ,再用内置的二分函数查找。<br>
+<p>找 $B_i$ 可以用Set先存下满足条件的 $B_i$ 的下标,再用内置的二分函数查找。<br>
 而区间求和涉及单点修改和区间查询操作，<a href="https://vynor.github.io/post/shu-ju-jie-gou.html" rel="nofollow">树状数组</a>完全可以胜任。<br>
 注意选择乘 $B_i \geq 2$ 不一定最优，记得特判。<br>
 总的时间复杂度为max($N$, $M64log64$)</p>
