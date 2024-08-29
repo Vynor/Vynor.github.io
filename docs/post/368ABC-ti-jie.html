@@ -12,14 +12,12 @@
     </script>
 <meta name="description" content="# D - Minimum Steiner Tree # 
 
-## 思路 ##
 思考一个点作为关键点可能满足的条件：
 - 指定顶点 $V_i$
 - 作为二个指定顶点的必经之路。">
 <meta property="og:title" content="368ABC题解">
 <meta property="og:description" content="# D - Minimum Steiner Tree # 
 
-## 思路 ##
 思考一个点作为关键点可能满足的条件：
 - 指定顶点 $V_i$
 - 作为二个指定顶点的必经之路。">
@@ -94,7 +92,6 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h1>D - Minimum Steiner Tree</h1>
-<h2>思路</h2>
 <p>思考一个点作为关键点可能满足的条件：</p>
 <ul>
 <li>指定顶点 $V_i$
@@ -108,7 +105,6 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>非指定非关键</li>
 </ol>
 <p>无论是普通DFS检查还是拓扑序算法删点都可以判断任意点的类型</p>
-<h2>代码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span>拓扑序</span>
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
 
@@ -157,8 +153,7 @@ vector&lt;<span class="pl-k">int</span>&gt; edge[N];
 <li>对于到达时间, $D[i]$ 的取值会因延迟而增大，即 $D[B] = max(D[B], X[i] + T_i)$
 </li>
 </ul>
-<p>因为时间从小到大排序，使得新时间数组没有<strong>后效性</strong>，所以可以递推解决。<br>
-<strong>代码</strong></p>
+<p>因为时间从小到大排序，使得新时间数组没有<strong>后效性</strong>，所以可以递推解决。</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">Node</span>{
     <span class="pl-k">int</span> A, B, ty, t, pos;
     <span class="pl-k">bool</span> <span class="pl-k">operator</span>&lt;(<span class="pl-k">const</span> Node &amp;A) <span class="pl-k">const</span>{
@@ -213,7 +208,6 @@ $cnt$ 取值的结论就是 $x$ 分解质因子的指数和</p>
     cout &lt;&lt; (!res ? <span class="pl-s"><span class="pl-pds">"</span>Bruno<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>Anna<span class="pl-pds">"</span></span>);
 }</pre></div>
 <h1>G - Add and Multiply Queries</h1>
-<h2>思路</h2>
 <p>注意到</p>
 <blockquote>
 <p>保证给定类型三查询的答案最多超过 $1e18$，并且 $1e18 \le 2^{64}$</p>
@@ -231,7 +225,6 @@ $cnt$ 取值的结论就是 $x$ 分解质因子的指数和</p>
 而区间求和涉及单点修改和区间查询操作，<a href="https://vynor.github.io/post/shu-ju-jie-gou.html" rel="nofollow">树状数组</a>完全可以胜任。<br>
 注意选择乘 $B_i \geq 2$ 不一定最优，记得特判。<br>
 总的时间复杂度为max($N$, $M64log64$)</p>
-<h2>代码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span><span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
 
