@@ -252,6 +252,16 @@ SPFA也可以判断 $S$ 能否抵达一个<strong>负环</strong>，只需要记
     }
     <span class="pl-k">return</span> <span class="pl-c1">false</span>;
 }</pre></div>
+<h2>Floyd</h2>
+<p>多源汇最短路算法<br>
+$f[k][i][j]$ 表示从 $i$ 到 $j$，中间只经过 $1-k$ 的最短路径的长度<br>
+考虑转移</p>
+<ul>
+<li>不经过 $k$ $f[k-1][i][j]$
+</li>
+<li>经过 $k$ $f[k-1][i][k] + f[k-1][k][j]$
+</li>
+</ul>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
