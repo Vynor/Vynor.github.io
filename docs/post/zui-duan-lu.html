@@ -257,11 +257,26 @@ SPFA也可以判断 $S$ 能否抵达一个<strong>负环</strong>，只需要记
 $f[k][i][j]$ 表示从 $i$ 到 $j$，中间只经过 $1-k$ 的最短路径的长度<br>
 考虑转移</p>
 <ul>
-<li>不经过 $k$ $f[k-1][i][j]$
+<li>不经过 $k$, $f[k-1][i][j]$
 </li>
-<li>经过 $k$ $f[k-1][i][k] + f[k-1][k][j]$
+<li>经过 $k$, $f[k-1][i][k] + f[k-1][k][j]$
 </li>
 </ul>
+<p>二者取 $min$</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    <span class="pl-c"><span class="pl-c">//</span>非空间优化</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">1</span>; k &lt;= n; k ++ ) <span class="pl-c"><span class="pl-c">//</span>注意k作为第一维</span>
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= n; j ++ )
+                f[k][i][j] = <span class="pl-c1">min</span>(f[k-<span class="pl-c1">1</span>][i][j], f[k-<span class="pl-c1">1</span>][i][k] + f[k-<span class="pl-c1">1</span>][k][j]);
+
+    <span class="pl-c"><span class="pl-c">//</span>空间优化</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">1</span>; k &lt;= n; k++) 
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= n; j++)
+                <span class="pl-k">if</span> (f[i][k] &lt; <span class="pl-c1">1</span> &lt;&lt; <span class="pl-c1">30</span> &amp;&amp; f[k][j] &lt; <span class="pl-c1">1</span> &lt;&lt; <span class="pl-c1">30</span>)
+                    f[i][j] = <span class="pl-c1">min</span>(f[i][j], f[i][k] + f[k][j]);
+}</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
