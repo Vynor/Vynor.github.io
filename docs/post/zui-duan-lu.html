@@ -212,12 +212,19 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
 <p>因此需要判断整张图上是否存在负环时，最严谨的做法时设置一个超级源点，向图上每个顶点连一条权值是 $0$ 的边，然后以超级源点为起点跑一遍Bellman-Ford算法</p>
 </div>
 <h2>SPFA</h2>
+<p>Bellman-Ford的<strong>优化</strong><br>
+很多时候我们并不需要那么多无用的松弛操作。<br>
+很显然，只有上一次被松弛的结点，所连接的边，才有可能引起下一次松弛。<br>
+那么只需要用队列来维护 <strong>引起松弛的结点</strong>，就只能访问必要的边了。<br>
+SPFA也可以判断 $S$ 能否抵达一个<strong>负环</strong>，只需要记录最短路经过的边数，但至少为 $n$ 条边时，说明从起点 $S$ 抵达一个负环。<br>
+时间复杂度最多(<strong>被卡</strong>)为 $O(NM)$</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; edge[N];
 
 <span class="pl-k">int</span> n, m, s;
-<span class="pl-k">int</span> dist[N], b[N], q[N*N];
+<span class="pl-k">int</span> dist[N], b[N], q[N * M], cnt[N];
 
-<span class="pl-k">void</span> <span class="pl-en">spfa</span>(<span class="pl-k">int</span> s){
+<span class="pl-k">bool</span> <span class="pl-en">spfa</span>(<span class="pl-k">int</span> s)
+{
     <span class="pl-c1">memset</span>(dist, <span class="pl-c1">127</span>, <span class="pl-k">sizeof</span> dist);
     <span class="pl-c1">memset</span>(b, <span class="pl-c1">false</span>, <span class="pl-k">sizeof</span> b);
     dist[s] = <span class="pl-c1">0</span>;
@@ -225,19 +232,25 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
 
     <span class="pl-k">int</span> front = <span class="pl-c1">1</span>, rear = <span class="pl-c1">0</span>;
     q[++rear] = s;
-    <span class="pl-k">while</span> (front &lt;= rear){
+    <span class="pl-k">while</span> (front &lt;= rear)
+    {
         <span class="pl-k">int</span> x = q[front];
-        ++ front;
+        ++front;
         b[x] = <span class="pl-c1">false</span>;
-        <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v]:edge[x])
-            <span class="pl-k">if</span> (dist[y] &gt; dist[x] + v){
+        <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
+            <span class="pl-k">if</span> (dist[y] &gt; dist[x] + v)
+            {
                 dist[y] = dist[x] + v;
-                <span class="pl-k">if</span> (!b[y]){
+                cnt[y] = cnt[x] + <span class="pl-c1">1</span>;
+                <span class="pl-k">if</span> (cnt[y] &gt;= n) <span class="pl-k">return</span> <span class="pl-c1">true</span>; <span class="pl-c"><span class="pl-c">//</span>存在负环</span>
+                <span class="pl-k">if</span> (!b[y])
+                {
                     q[++rear] = y;
                     b[y] = <span class="pl-c1">true</span>;
                 }
             }
     }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
 }</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
