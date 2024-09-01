@@ -217,68 +217,59 @@ $k = 1$ 时，B一定选择深度最深的点使得最小值最大化<br>
 假设次深与最深重复，那么次深的实际贡献就是去掉重复之后剩余的部分。<br>
 然后，你就会惊奇的发现——这不就是<strong>树链剖分</strong>吗<br>
 先找到所有<strong>中链</strong>，然后排序取最大</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">ll n, d[N], fa[N], son[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">ll n, d[N], fa[N], son[N]; <span class="pl-c"><span class="pl-c">//</span> son记录重节点</span>
 vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; edge[N];
 
-<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> x){ <span class="pl-c"><span class="pl-c">//</span>处理重节点</span>
+<span class="pl-k">void</span> <span class="pl-en">dfs_1</span>(<span class="pl-k">int</span> x) <span class="pl-c"><span class="pl-c">//</span> 求重节点son</span>
+{
     <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
-        <span class="pl-k">if</span> (y != fa[x]){
+        <span class="pl-k">if</span> (y != fa[x])
+        {
             fa[y] = x;
-            <span class="pl-c1">dfs</span>(y);
-            <span class="pl-k">if</span> (d[x] &lt; d[y] + v){
+            <span class="pl-c1">dfs_1</span>(y);
+            <span class="pl-k">if</span> (d[x] &lt; d[y] + v){  
                 d[x] = d[y] + v;
                 son[x] = y;
             }
         }
 }
 
-vector&lt;ll&gt; ans;
-
-<span class="pl-c"><span class="pl-c">//</span>top</span>
-
 <span class="pl-k">int</span> top[N];
 
-<span class="pl-k">void</span> <span class="pl-en">dfs_2</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> t){ <span class="pl-c"><span class="pl-c">//</span>寻找top</span>
+vector&lt;ll&gt; ans;
+
+<span class="pl-k">void</span> <span class="pl-en">dfs_2</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> t) <span class="pl-c"><span class="pl-c">//</span> 求top 以及 中链</span>
+{
     top[x] = t;
-    <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v]:edge[x])
-        <span class="pl-k">if</span> (y != fa[x]){
-            <span class="pl-k">if</span> (y == son[x]){
-                <span class="pl-c1">dfs_2</span>(y, t);
-            }<span class="pl-k">else</span>{
-                <span class="pl-c1">dfs_2</span>(y, y);
-            }
-        }
-    <span class="pl-k">if</span> (top[x] == <span class="pl-c1">0</span>) top[x] = x;
-    <span class="pl-c"><span class="pl-c">//</span>cout &lt;&lt; x &lt;&lt; " - " &lt;&lt; top[x] &lt;&lt; '\n';</span>
-}
-
-<span class="pl-k">void</span> <span class="pl-en">dfs_3</span>(<span class="pl-k">int</span> x){ <span class="pl-c"><span class="pl-c">//</span>求中链</span>
-    <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v]:edge[x])
-        <span class="pl-k">if</span> (y != fa[x]){
-            <span class="pl-k">if</span> (y == top[y]){
-                <span class="pl-c"><span class="pl-c">//</span>cout &lt;&lt; "链：" &lt;&lt; y &lt;&lt; '\n';</span>
-                ans.<span class="pl-c1">push_back</span>(d[y] + v);
-            }
-            <span class="pl-c1">dfs_3</span>(y);
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
+        <span class="pl-k">if</span> (y != fa[x])
+        {
+            <span class="pl-c1">dfs_2</span>(y, y == son[x] ? t : y); 
+            <span class="pl-k">if</span> (y == top[y])
+                ans.<span class="pl-c1">push_back</span>(d[y] + v); 
         }
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
     cin &gt;&gt; n;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt; n; i ++ ){
-        <span class="pl-k">int</span> x, y, v;
-        cin &gt;&gt; x &gt;&gt; y &gt;&gt; v;
-        edge[x].<span class="pl-c1">push_back</span>({y, v});
-        edge[y].<span class="pl-c1">push_back</span>({x, v});
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt; n; i++)
+    {
+        <span class="pl-k">int</span> u, v, w;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        edge[u].<span class="pl-c1">push_back</span>({v, w});
+        edge[v].<span class="pl-c1">push_back</span>({u, w});
     }
-    <span class="pl-c1">dfs</span>(<span class="pl-c1">1</span>);
+    <span class="pl-c"><span class="pl-c">//</span> 以1为根</span>
+    <span class="pl-c1">dfs_1</span>(<span class="pl-c1">1</span>); 
     <span class="pl-c1">dfs_2</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>);
-    <span class="pl-c1">dfs_3</span>(<span class="pl-c1">1</span>);
     ans.<span class="pl-c1">push_back</span>(d[<span class="pl-c1">1</span>]);
-    <span class="pl-k">while</span> (ans.<span class="pl-c1">size</span>() &lt; n - <span class="pl-c1">1</span>) ans.<span class="pl-c1">push_back</span>(<span class="pl-c1">0</span>);
-    <span class="pl-c1">sort</span>(ans.<span class="pl-c1">begin</span>(), ans.<span class="pl-c1">end</span>(), greater&lt;<span class="pl-k">int</span>&gt;()); <span class="pl-c"><span class="pl-c">//</span>贪心取最大</span>
+    <span class="pl-k">while</span> (ans.<span class="pl-c1">size</span>() &lt; n - <span class="pl-c1">1</span>)
+        ans.<span class="pl-c1">push_back</span>(<span class="pl-c1">0</span>);
+    <span class="pl-c1">sort</span>(ans.<span class="pl-c1">begin</span>(), ans.<span class="pl-c1">end</span>(), greater&lt;ll&gt;());
     ll res = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i ++ ){
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i++)
+    {
         res += ans[i] * <span class="pl-c1">2</span>;
         cout &lt;&lt; res &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
     }
