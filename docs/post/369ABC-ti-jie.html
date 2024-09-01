@@ -165,7 +165,49 @@ ll f[N][N];
         }<span class="pl-k">while</span> (<span class="pl-c1">next_permutation</span>(b.<span class="pl-c1">begin</span>() + <span class="pl-c1">1</span>, b.<span class="pl-c1">end</span>()));
         cout &lt;&lt; res + more &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
     }
-}   </pre></div></div>
+}   </pre></div>
+<h1>F - Gather Coins</h1>
+<p>最长上升子序列 $(LIS)$模板题<br>
+难点在于记录<strong>路径</strong></p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> h, w, n;
+pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; coins[N];
+<span class="pl-k">int</span> f[N];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; h &gt;&gt; w &gt;&gt; n;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i ++ ) cin &gt;&gt; coins[i].<span class="pl-smi">first</span> &gt;&gt; coins[i].<span class="pl-smi">second</span>;
+
+    <span class="pl-c1">sort</span>(coins, coins + n);
+    vector&lt;<span class="pl-k">int</span>&gt; <span class="pl-c1">f</span>(n, <span class="pl-c1">1e9</span>), <span class="pl-c1">id</span>(n, -<span class="pl-c1">1</span>), <span class="pl-c1">pre</span>(n, -<span class="pl-c1">1</span>);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i ++ ){
+        <span class="pl-k">int</span> x = coins[i].<span class="pl-smi">second</span>;
+        <span class="pl-k">int</span> it = <span class="pl-c1">upper_bound</span>(f.<span class="pl-c1">begin</span>(), f.<span class="pl-c1">end</span>(), x) - f.<span class="pl-c1">begin</span>();
+        f[it] = x;
+        id[it] = i; 
+        pre[i] = it ? id[it - <span class="pl-c1">1</span>] : -<span class="pl-c1">1</span>;
+    }
+
+    <span class="pl-k">int</span> m = n - <span class="pl-c1">1</span>;
+    <span class="pl-k">while</span> (id[m] == -<span class="pl-c1">1</span>) -- m;
+    <span class="pl-k">int</span> now = id[m];
+    vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; <span class="pl-c1">path</span>(<span class="pl-c1">1</span>, {h, w});
+    <span class="pl-k">while</span> (now != -<span class="pl-c1">1</span>){
+        path.<span class="pl-c1">push_back</span>(coins[now]);
+        now = pre[now];
+    }
+    path.<span class="pl-c1">push_back</span>(<span class="pl-c1">make_pair</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>));
+    <span class="pl-c1">reverse</span>(path.<span class="pl-c1">begin</span>(), path.<span class="pl-c1">end</span>());
+    string s;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt; path.<span class="pl-c1">size</span>(); i ++ ){
+        <span class="pl-k">int</span> d = path[i].<span class="pl-smi">first</span> - path[i - <span class="pl-c1">1</span>].<span class="pl-smi">first</span>;
+        <span class="pl-k">int</span> r = path[i].<span class="pl-smi">second</span> - path[i - <span class="pl-c1">1</span>].<span class="pl-smi">second</span>;
+        <span class="pl-k">while</span> (d -- ) s.<span class="pl-c1">push_back</span>(<span class="pl-s"><span class="pl-pds">'</span>D<span class="pl-pds">'</span></span>);
+        <span class="pl-k">while</span> (r -- ) s.<span class="pl-c1">push_back</span>(<span class="pl-s"><span class="pl-pds">'</span>R<span class="pl-pds">'</span></span>);
+    }
+    cout &lt;&lt; m + <span class="pl-c1">1</span> &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+    cout &lt;&lt; s &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+}</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
