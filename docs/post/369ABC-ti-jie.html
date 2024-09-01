@@ -99,7 +99,7 @@ $f[i][1] = x + max$ { $f[j][0]$ } OR max { $f[j][1]$ }</li>
 $f[i][0] = x * 2 + max$ { $f[j][1]$ } OR max { $f[j][0]$ }</li>
 </ul>
 <p>时间复杂度为 $O(N^2)$<br>
-显然可以设置 $g[1or0]$ 表示 max { $f[j][1or0]$ }, 将时间优化到 $O(N)$</p>
+可以设置 $g[1or0]$ 表示 max { $f[j][1or0]$ }, 将时间优化到 $O(N)$</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>() {
     cin &gt;&gt; n;
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
