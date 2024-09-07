@@ -12,4 +12,29 @@
 
 合法条件就是 $cnt == y - x \lor cnt - 1 >= y$
 
-#  #
+# F. Equivalent Rewriting #
+观察到一个位置上元素的最终状态只与**最后一次**改变有关，操作间具有依赖关系。
+对操作建图，合法操作就是拓扑序。图上一定存在 $1-n$ 拓扑序，因为任意一次操作只会对后面造成影响——连单向边。
+新问题就是是否存在不同的拓扑序，即拓扑序是否唯一。
+思考最简单的有差异拓扑序：只有2个位置不同，且相邻。
+枚举每个位置的最后一次操作 $pre$，如果前一步操作也改变该位置，那么无法交换，否则可以。
+```c++
+for (int i = 1; i <= n; i ++ ){
+        int p;
+        cin >> p;
+        while (p -- ){
+            int x; cin >> x;
+            pre[x] = i;
+            edge[i].insert(x);
+        }
+    }
+    //只要不是链，就行
+    for (int i = 1; i <= m; i ++ )
+        if (pre[i])
+            if (edge[pre[i] - 1].count(i)) flag[pre[i]] = true;
+    int px = -1; //交换 px - 1 和 px
+    for (int i = 2; i <= n; i ++ )
+        if (!flag[i]){
+            px = i;  break;
+        }
+```
