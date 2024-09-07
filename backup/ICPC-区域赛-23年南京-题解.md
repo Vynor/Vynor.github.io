@@ -38,3 +38,43 @@ for (int i = 1; i <= n; i ++ ){
             px = i;  break;
         }
 ```
+# C. Primitive Root #
+$g \oplus (P - 1) \equiv 1(mod P) \implies g \oplus (P - 1) = kP + 1 (k是非负整数)$ 
+解法一：
+> [!TIP]
+> $a + b <= a \oplus b <= a + b$
+
+解法二：
+$[0, m]内的数异或一个固定的数x会划分为logm段区间，固定前缀，计算 [L, R]区间有多少个形如 KP + 1的数$
+```c++
+ll p, m;
+ 
+ll get(ll x)
+{
+    -- x;
+    if (x < 0)
+        return 0;
+    return x / p + 1; // 正整数(下取整) + 整数0
+}
+ 
+ll query(ll L, ll R)
+{
+    return get(R) - get(L - 1);
+}
+ 
+void solve()
+{
+    cin >> p >> m;
+    ll ans = 0;
+    for (int i = 60; i >= 0; i--)
+        if (m >> i & 1){
+            //无与伦比的写法
+            ll L = m >> i ^ 1;
+            L ^= (p - 1) >> i;
+            L <<= i;
+            ans += query(L, L + (1ll << i) - 1);
+        }
+    ans += query(m ^ (p - 1), m ^ (p - 1));
+    cout << ans << '\n';
+}
+```
