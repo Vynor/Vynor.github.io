@@ -78,3 +78,6 @@ void solve()
     cout << ans << '\n';
 }
 ```
+# G. Knapsack #
+01背包 
+设置 $dp[i][j]$ 代表
