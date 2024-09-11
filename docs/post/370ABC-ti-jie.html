@@ -306,6 +306,84 @@ map记录sum[i]<br>
         mp[sum] = (mp[sum] + f[i]) % mod;
     }
     cout &lt;&lt; f[n];
+}</pre></div>
+<h2>F - Dividing Game</h2>
+<p>注意到是求最小的最大值 $x$,<strong>经典</strong>二进制搜索<br>
+对于每次搜索<br>
+枚举 $i:1-n$ 作为起点的可行性。由于是环，所以<strong>经典</strong>做法——数组加倍数组拉开环。<br>
+对于起点 $i$：<br>
+如何走一步到 $j$ 使得总操作尽量可行,<strong>经典</strong>贪心思路: $找到满足[i, j] \geq x 的最小j$<br>
+因为 $k$ 人，所以进行 $k$ 次操作就能判断是否可行。<br>
+但是时间上是 $N^2$,需要优化。<br>
+思考优化走的操作,<strong>经典</strong>倍增—— $f[i][j]代表i进行2^j分割能到达的位置$<br>
+时间就从 $k 优化到 logk$<br>
+<strong>真正难点</strong><br>
+思考不作为分割点的数目如何求，只要检查起点可行的数目，在用总数相减即可。<br>
+结论：如果一个位置作为起点不会被切割，也不在其他位置作为起点的是被切割，画图感性理解一下。</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">int</span> <span class="pl-k">long</span> <span class="pl-k">long</span>
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, inf = <span class="pl-c1">1e9</span>;
+
+<span class="pl-k">int</span> n, k;
+<span class="pl-k">int</span> a[N * <span class="pl-c1">2</span>], f[N * <span class="pl-c1">2</span>][<span class="pl-c1">31</span>];
+
+<span class="pl-k">int</span> <span class="pl-en">check</span>(<span class="pl-k">int</span> x)
+{
+    <span class="pl-k">int</span> q = <span class="pl-c1">0</span>, r = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n * <span class="pl-c1">2</span>; i++)
+    {
+        <span class="pl-k">while</span> (q &lt; x &amp;&amp; r &lt; n * <span class="pl-c1">2</span>){
+            q += a[++r];
+        }
+        <span class="pl-k">if</span> (q &gt;= x){
+            f[i][<span class="pl-c1">0</span>] = r;
+        }
+        <span class="pl-k">else</span>{
+            f[i][<span class="pl-c1">0</span>] = inf;
+        }
+        q -= a[i];
+    }
+    <span class="pl-c"><span class="pl-c">//</span> 倍增</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= <span class="pl-c1">30</span>; j++)
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n * <span class="pl-c1">2</span>; i++)
+            <span class="pl-k">if</span> (f[i][j - <span class="pl-c1">1</span>] + <span class="pl-c1">1</span> &lt;= n * <span class="pl-c1">2</span> &amp;&amp; f[f[i][j - <span class="pl-c1">1</span>] + <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>] &lt;= n * <span class="pl-c1">2</span>)
+                f[i][j] = f[f[i][j - <span class="pl-c1">1</span>] + <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>];
+            <span class="pl-k">else</span>
+                f[i][j] = inf;
+    <span class="pl-k">int</span> res = <span class="pl-c1">0</span>;
+    <span class="pl-c"><span class="pl-c">//</span> 求方案数</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">int</span> px = i;
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">30</span>; j &gt;= <span class="pl-c1">0</span>; j -- )
+        {
+            <span class="pl-k">if</span> (k &gt;&gt; j &amp; <span class="pl-c1">1</span>){
+                px = f[px][j] + <span class="pl-c1">1</span>;
+            }
+            <span class="pl-k">if</span> (px &gt; i + n)
+                <span class="pl-k">break</span>;
+        }
+        <span class="pl-k">if</span> (px &lt;= i + n){
+            ++ res;
+        }
+    }
+    <span class="pl-k">return</span> res;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; n &gt;&gt; k;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        cin &gt;&gt; a[i];
+        a[i + n] = a[i];
+    }
+    <span class="pl-k">int</span> l = <span class="pl-c1">0</span>, r = <span class="pl-c1">2e9</span>;
+    <span class="pl-k">while</span> (l &lt; r){
+        <span class="pl-k">int</span> mid = (l + r + <span class="pl-c1">1</span>) / <span class="pl-c1">2</span>;
+        <span class="pl-k">if</span> (<span class="pl-c1">check</span>(mid)) l = mid;
+        <span class="pl-k">else</span> r = mid - <span class="pl-c1">1</span>;
+    }
+    cout &lt;&lt; l &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span> &lt;&lt; n - <span class="pl-c1">check</span>(l) ;
 }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
