@@ -286,7 +286,7 @@ dp[i]表示只考虑前i个并以第i个结尾的方案数<br>
 那么 $sum[j] = sum[i] - K$<br>
 然后用总数减去不合法j的方案数。<br>
 map记录sum[i]<br>
-思考：典型的哈希优化DP，记得初始化空集</p>
+思考：典型的01分类讨论，DP优化题目，记得初始化空集</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">int</span> <span class="pl-k">long</span> <span class="pl-k">long</span>
 <span class="pl-k">const</span> <span class="pl-k">int</span> mod = <span class="pl-c1">998244353</span>;
 
