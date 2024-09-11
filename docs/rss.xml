@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Wed, 11 Sep 2024 09:47:48 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>370ABC题解</title><link>https://Vynor.github.io/post/370ABC-ti-jie.html</link><description># D - Cross Explosion # &#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Wed, 11 Sep 2024 10:26:25 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>370ABC题解</title><link>https://Vynor.github.io/post/370ABC-ti-jie.html</link><description>## D - Cross Explosion ##&#13;
 考察对**Set**的使用，尤其是**prev**函数&#13;
 ```c++&#13;
 void solve() {&#13;
@@ -56,7 +56,18 @@ void solve() {&#13;
             ans += !st[i][j];&#13;
     cout &lt;&lt; ans;&#13;
 }&#13;
-```。</description><guid isPermaLink="true">https://Vynor.github.io/post/370ABC-ti-jie.html</guid><pubDate>Wed, 11 Sep 2024 09:43:00 +0000</pubDate></item><item><title>一味的依赖题解是慢性死亡</title><link>https://Vynor.github.io/post/yi-wei-de-yi-lai-ti-jie-shi-man-xing-si-wang.html</link><description>题解是梦幻，&#13;
+```&#13;
+&#13;
+## E - Avoid K Partition ##&#13;
+考虑dp&#13;
+dp[i]表示只考虑前i个并以第i个结尾的方案数&#13;
+可以枚举前一个分界点来进行N^2的暴力转移&#13;
+**if ()**&#13;
+    **dp[i] += dp[j] (j &lt; i &amp;&amp; sum[i] - sum[j] != K)**&#13;
+统计满足 $sum[j] != sum[i] - K$ 太难，因为左边是变量&#13;
+不妨反向统计 $sum[i] - sum[j] = K$&#13;
+那么 $sum[j] = sum[i] - K$&#13;
+然后用总数减去不合法j的方案数。</description><guid isPermaLink="true">https://Vynor.github.io/post/370ABC-ti-jie.html</guid><pubDate>Wed, 11 Sep 2024 09:43:00 +0000</pubDate></item><item><title>一味的依赖题解是慢性死亡</title><link>https://Vynor.github.io/post/yi-wei-de-yi-lai-ti-jie-shi-man-xing-si-wang.html</link><description>题解是梦幻，&#13;
 她给人做题的希望；&#13;
 题解又是毒药，&#13;
 她给人单向的线性思考，腐蚀心灵。</description><guid isPermaLink="true">https://Vynor.github.io/post/yi-wei-de-yi-lai-ti-jie-shi-man-xing-si-wang.html</guid><pubDate>Sat, 07 Sep 2024 10:25:54 +0000</pubDate></item><item><title>369ABC题解</title><link>https://Vynor.github.io/post/369ABC-ti-jie.html</link><description># D - Bonus EXP # &#13;

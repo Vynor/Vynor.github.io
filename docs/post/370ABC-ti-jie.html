@@ -10,7 +10,7 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="# D - Cross Explosion # 
+<meta name="description" content="## D - Cross Explosion ##
 考察对**Set**的使用，尤其是**prev**函数
 ```c++
 void solve() {
@@ -67,9 +67,20 @@ void solve() {
             ans += !st[i][j];
     cout << ans;
 }
-```。">
+```
+
+## E - Avoid K Partition ##
+考虑dp
+dp[i]表示只考虑前i个并以第i个结尾的方案数
+可以枚举前一个分界点来进行N^2的暴力转移
+**if ()**
+    **dp[i] += dp[j] (j < i && sum[i] - sum[j] != K)**
+统计满足 $sum[j] != sum[i] - K$ 太难，因为左边是变量
+不妨反向统计 $sum[i] - sum[j] = K$
+那么 $sum[j] = sum[i] - K$
+然后用总数减去不合法j的方案数。">
 <meta property="og:title" content="370ABC题解">
-<meta property="og:description" content="# D - Cross Explosion # 
+<meta property="og:description" content="## D - Cross Explosion ##
 考察对**Set**的使用，尤其是**prev**函数
 ```c++
 void solve() {
@@ -126,7 +137,18 @@ void solve() {
             ans += !st[i][j];
     cout << ans;
 }
-```。">
+```
+
+## E - Avoid K Partition ##
+考虑dp
+dp[i]表示只考虑前i个并以第i个结尾的方案数
+可以枚举前一个分界点来进行N^2的暴力转移
+**if ()**
+    **dp[i] += dp[j] (j < i && sum[i] - sum[j] != K)**
+统计满足 $sum[j] != sum[i] - K$ 太难，因为左边是变量
+不妨反向统计 $sum[i] - sum[j] = K$
+那么 $sum[j] = sum[i] - K$
+然后用总数减去不合法j的方案数。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/370ABC-ti-jie.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -197,7 +219,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>D - Cross Explosion</h1>
+<div class="markdown-body" id="postBody"><h2>D - Cross Explosion</h2>
 <p>考察对<strong>Set</strong>的使用，尤其是<strong>prev</strong>函数</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>() {
     <span class="pl-k">int</span> n, m;
@@ -252,6 +274,38 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= m; j ++ )
             ans += !st[i][j];
     cout &lt;&lt; ans;
+}</pre></div>
+<h2>E - Avoid K Partition</h2>
+<p>考虑dp<br>
+dp[i]表示只考虑前i个并以第i个结尾的方案数<br>
+可以枚举前一个分界点来进行N^2的暴力转移<br>
+<strong>if ()</strong><br>
+<strong>dp[i] += dp[j] (j &lt; i &amp;&amp; sum[i] - sum[j] != K)</strong><br>
+统计满足 $sum[j] != sum[i] - K$ 太难，因为左边是变量<br>
+不妨反向统计 $sum[i] - sum[j] = K$<br>
+那么 $sum[j] = sum[i] - K$<br>
+然后用总数减去不合法j的方案数。<br>
+map记录sum[i]<br>
+思考：典型的哈希优化DP，记得初始化空集</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">int</span> <span class="pl-k">long</span> <span class="pl-k">long</span>
+<span class="pl-k">const</span> <span class="pl-k">int</span> mod = <span class="pl-c1">998244353</span>;
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
+    <span class="pl-k">int</span> n, K;
+    cin &gt;&gt; n &gt;&gt; K;
+    <span class="pl-k">int</span> f[n+<span class="pl-c1">1</span>] = {};
+    <span class="pl-k">int</span> S = <span class="pl-c1">1</span>, sum = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> </span>
+    map&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; mp;
+    mp[<span class="pl-c1">0</span>] = <span class="pl-c1">1</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        <span class="pl-k">int</span> x;
+        cin &gt;&gt; x;
+        sum += x;
+        f[i] = ((S - mp[sum - K]) % mod + mod) % mod;
+        S += f[i], S %= mod;
+        mp[sum] = (mp[sum] + f[i]) % mod;
+    }
+    cout &lt;&lt; f[n];
 }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
@@ -416,6 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </html>
