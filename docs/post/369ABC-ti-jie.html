@@ -100,24 +100,24 @@ $f[i][0] = x * 2 + max$ { $f[j][1]$ } OR max { $f[j][0]$ }</li>
 </ul>
 <p>时间复杂度为 $O(N^2)$<br>
 可以设置 $g[1or0]$ 表示 max { $f[j][1or0]$ }, 将时间优化到 $O(N)$</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+<div class="highlight highlight-source-c++"><pre class="notranslate">void solve() {
     cin &gt;&gt; n;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+    for (int i = 1; i &lt;= n; i ++ ){
         ll x;
         cin &gt;&gt; x;
-        <span class="pl-k">if</span> (i == <span class="pl-c1">1</span>){
-            f[i][<span class="pl-c1">1</span>] = x;
-            f[i][<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span>只能不选</span>
-            g[<span class="pl-c1">1</span>] = <span class="pl-c1">max</span>(g[<span class="pl-c1">1</span>], f[i][<span class="pl-c1">1</span>]);
-            g[<span class="pl-c1">0</span>] = <span class="pl-c1">max</span>(g[<span class="pl-c1">0</span>], f[i][<span class="pl-c1">0</span>]);
-        }<span class="pl-k">else</span>{
-            f[i][<span class="pl-c1">1</span>] = <span class="pl-c1">man</span>(x + g[<span class="pl-c1">0</span>], g[<span class="pl-c1">1</span>]);
-            f[i][<span class="pl-c1">0</span>] = <span class="pl-c1">man</span>(x * <span class="pl-c1">2</span> + g[<span class="pl-c1">1</span>], g[<span class="pl-c1">0</span>]);
-            g[<span class="pl-c1">1</span>] = <span class="pl-c1">max</span>(g[<span class="pl-c1">1</span>], f[i][<span class="pl-c1">1</span>]);
-            g[<span class="pl-c1">0</span>] = <span class="pl-c1">max</span>(g[<span class="pl-c1">0</span>], f[i][<span class="pl-c1">0</span>]);
+        if (i == 1){
+            f[i][1] = x;
+            f[i][0] = 0; //只能不选
+            g[1] = max(g[1], f[i][1]);
+            g[0] = max(g[0], f[i][0]);
+        }else{
+            f[i][1] = man(x + g[0], g[1]);
+            f[i][0] = man(x * 2 + g[1], g[0]);
+            g[1] = max(g[1], f[i][1]);
+            g[0] = max(g[0], f[i][0]);
         }
     }
-    cout &lt;&lt; <span class="pl-c1">max</span>(g[<span class="pl-c1">0</span>], g[<span class="pl-c1">1</span>]) ;
+    cout &lt;&lt; max(g[0], g[1]) ;
 }</pre></div>
 <h1>E - Sightseeing Tour</h1>
 <p>对于每次询问考虑暴力做法。<br>
@@ -127,86 +127,86 @@ $f[i][0] = x * 2 + max$ { $f[j][1]$ } OR max { $f[j][0]$ }</li>
 那么询问一次的时间就是 $O(k! * 2^k)$，总查询时间就是 $O(Q*k!*2^k) = 1.1e8$<br>
 总结：Floyd + 全排列<br>
 代码如下</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">ll E[M][<span class="pl-c1">2</span>], w[M];
+<div class="highlight highlight-source-c++"><pre class="notranslate">ll E[M][2], w[M];
 ll f[N][N];
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
-    <span class="pl-k">int</span> n, m;
+void solve() {
+    int n, m;
     cin &gt;&gt; n &gt;&gt; m;
-    <span class="pl-c1">memset</span>(f, <span class="pl-c1">0x3f</span>, <span class="pl-k">sizeof</span> f);
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) f[i][i] = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i ++ ){
+    memset(f, 0x3f, sizeof f);
+    for (int i = 1; i &lt;= n; i ++ ) f[i][i] = 0;
+    for (int i = 1; i &lt;= m; i ++ ){
         ll a, b, c;
         cin &gt;&gt; a &gt;&gt; b &gt;&gt; c; 
-        E[i][<span class="pl-c1">0</span>] = a, E[i][<span class="pl-c1">1</span>] = b, w[i] = c;
-        f[a][b] = f[b][a] = <span class="pl-c1">min</span>(f[a][b], c);
+        E[i][0] = a, E[i][1] = b, w[i] = c;
+        f[a][b] = f[b][a] = min(f[a][b], c);
     }
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">1</span>; k &lt;= n; k ++ )
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= n; j ++ )
-                    f[i][j] = <span class="pl-c1">min</span>(f[i][j], f[i][k] + f[k][j]);
-    <span class="pl-k">int</span> q; cin &gt;&gt; q;
-    <span class="pl-k">while</span> (q -- ){
-        <span class="pl-k">int</span> len;
+    for (int k = 1; k &lt;= n; k ++ )
+        for (int i = 1; i &lt;= n; i ++ )
+            for (int j = 1; j &lt;= n; j ++ )
+                    f[i][j] = min(f[i][j], f[i][k] + f[k][j]);
+    int q; cin &gt;&gt; q;
+    while (q -- ){
+        int len;
         cin &gt;&gt; len;
-        vector&lt;<span class="pl-k">int</span>&gt; <span class="pl-c1">b</span>(len + <span class="pl-c1">1</span>);
-        ll more = <span class="pl-c1">0</span>;
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= len; i ++ ) cin &gt;&gt; b[i], more += w[b[i]];
-        <span class="pl-c1">sort</span>(b.<span class="pl-c1">begin</span>() + <span class="pl-c1">1</span>, b.<span class="pl-c1">end</span>()); <span class="pl-c"><span class="pl-c">//</span>先排序再全排列</span>
-        ll res = <span class="pl-c1">1e18</span>;
-        <span class="pl-k">do</span>{
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; <span class="pl-c1">1</span> &lt;&lt; len; i ++ ){ <span class="pl-c"><span class="pl-c">//</span>状态压缩</span>
-                ll cost = <span class="pl-c1">0</span>;
-                cost += f[<span class="pl-c1">1</span>][E[b[<span class="pl-c1">1</span>]][i &amp; <span class="pl-c1">1</span>]] + f[E[b[len]][((i &gt;&gt; (len - <span class="pl-c1">1</span>)) &amp; <span class="pl-c1">1</span>) ^ <span class="pl-c1">1</span>]][n];
-                <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt; len; j ++ )
-                    cost += f[E[b[j]][((i &gt;&gt; j - <span class="pl-c1">1</span>) &amp; <span class="pl-c1">1</span>) ^ <span class="pl-c1">1</span>]][E[b[j+<span class="pl-c1">1</span>]][(i &gt;&gt; j) &amp; <span class="pl-c1">1</span>]];
-                res = <span class="pl-c1">min</span>(res, cost);
+        vector&lt;int&gt; b(len + 1);
+        ll more = 0;
+        for (int i = 1; i &lt;= len; i ++ ) cin &gt;&gt; b[i], more += w[b[i]];
+        sort(b.begin() + 1, b.end()); //先排序再全排列
+        ll res = 1e18;
+        do{
+            for (int i = 0; i &lt; 1 &lt;&lt; len; i ++ ){ //状态压缩
+                ll cost = 0;
+                cost += f[1][E[b[1]][i &amp; 1]] + f[E[b[len]][((i &gt;&gt; (len - 1)) &amp; 1) ^ 1]][n];
+                for (int j = 1; j &lt; len; j ++ )
+                    cost += f[E[b[j]][((i &gt;&gt; j - 1) &amp; 1) ^ 1]][E[b[j+1]][(i &gt;&gt; j) &amp; 1]];
+                res = min(res, cost);
             }
-        }<span class="pl-k">while</span> (<span class="pl-c1">next_permutation</span>(b.<span class="pl-c1">begin</span>() + <span class="pl-c1">1</span>, b.<span class="pl-c1">end</span>()));
-        cout &lt;&lt; res + more &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+        }while (next_permutation(b.begin() + 1, b.end()));
+        cout &lt;&lt; res + more &lt;&lt; '\n';
     }
 }   </pre></div>
 <h1>F - Gather Coins</h1>
 <p>最长上升子序列 $(LIS)$模板题<br>
 难点在于记录<strong>路径</strong></p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> h, w, n;
-pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; coins[N];
-<span class="pl-k">int</span> f[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">int h, w, n;
+pair&lt;int, int&gt; coins[N];
+int f[N];
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
     cin &gt;&gt; h &gt;&gt; w &gt;&gt; n;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i ++ ) cin &gt;&gt; coins[i].<span class="pl-smi">first</span> &gt;&gt; coins[i].<span class="pl-smi">second</span>;
+    for (int i = 0; i &lt; n; i ++ ) cin &gt;&gt; coins[i].first &gt;&gt; coins[i].second;
 
-    <span class="pl-c1">sort</span>(coins, coins + n);
-    vector&lt;<span class="pl-k">int</span>&gt; <span class="pl-c1">f</span>(n, <span class="pl-c1">1e9</span>), <span class="pl-c1">id</span>(n, -<span class="pl-c1">1</span>), <span class="pl-c1">pre</span>(n, -<span class="pl-c1">1</span>);
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i ++ ){
-        <span class="pl-k">int</span> x = coins[i].<span class="pl-smi">second</span>;
-        <span class="pl-k">int</span> it = <span class="pl-c1">upper_bound</span>(f.<span class="pl-c1">begin</span>(), f.<span class="pl-c1">end</span>(), x) - f.<span class="pl-c1">begin</span>();
+    sort(coins, coins + n);
+    vector&lt;int&gt; f(n, 1e9), id(n, -1), pre(n, -1);
+    for (int i = 0; i &lt; n; i ++ ){
+        int x = coins[i].second;
+        int it = upper_bound(f.begin(), f.end(), x) - f.begin();
         f[it] = x;
         id[it] = i; 
-        pre[i] = it ? id[it - <span class="pl-c1">1</span>] : -<span class="pl-c1">1</span>;
+        pre[i] = it ? id[it - 1] : -1;
     }
 
-    <span class="pl-k">int</span> m = n - <span class="pl-c1">1</span>;
-    <span class="pl-k">while</span> (id[m] == -<span class="pl-c1">1</span>) -- m;
-    <span class="pl-k">int</span> now = id[m];
-    vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; <span class="pl-c1">path</span>(<span class="pl-c1">1</span>, {h, w});
-    <span class="pl-k">while</span> (now != -<span class="pl-c1">1</span>){
-        path.<span class="pl-c1">push_back</span>(coins[now]);
+    int m = n - 1;
+    while (id[m] == -1) -- m;
+    int now = id[m];
+    vector&lt;pair&lt;int, int&gt;&gt; path(1, {h, w});
+    while (now != -1){
+        path.push_back(coins[now]);
         now = pre[now];
     }
-    path.<span class="pl-c1">push_back</span>(<span class="pl-c1">make_pair</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>));
-    <span class="pl-c1">reverse</span>(path.<span class="pl-c1">begin</span>(), path.<span class="pl-c1">end</span>());
+    path.push_back(make_pair(1, 1));
+    reverse(path.begin(), path.end());
     string s;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt; path.<span class="pl-c1">size</span>(); i ++ ){
-        <span class="pl-k">int</span> d = path[i].<span class="pl-smi">first</span> - path[i - <span class="pl-c1">1</span>].<span class="pl-smi">first</span>;
-        <span class="pl-k">int</span> r = path[i].<span class="pl-smi">second</span> - path[i - <span class="pl-c1">1</span>].<span class="pl-smi">second</span>;
-        <span class="pl-k">while</span> (d -- ) s.<span class="pl-c1">push_back</span>(<span class="pl-s"><span class="pl-pds">'</span>D<span class="pl-pds">'</span></span>);
-        <span class="pl-k">while</span> (r -- ) s.<span class="pl-c1">push_back</span>(<span class="pl-s"><span class="pl-pds">'</span>R<span class="pl-pds">'</span></span>);
+    for (int i = 1; i &lt; path.size(); i ++ ){
+        int d = path[i].first - path[i - 1].first;
+        int r = path[i].second - path[i - 1].second;
+        while (d -- ) s.push_back('D');
+        while (r -- ) s.push_back('R');
     }
-    cout &lt;&lt; m + <span class="pl-c1">1</span> &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
-    cout &lt;&lt; s &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+    cout &lt;&lt; m + 1 &lt;&lt; '\n';
+    cout &lt;&lt; s &lt;&lt; '\n';
 }</pre></div>
 <h1>G - As far as possible</h1>
 <p>要求从 $1$ 出发经过必经点再到 $1$结束，不妨设置成 $1$ 为根的树。<br>
@@ -217,61 +217,61 @@ $k = 1$ 时，B一定选择深度最深的点使得最小值最大化<br>
 假设次深与最深重复，那么次深的实际贡献就是去掉重复之后剩余的部分。<br>
 然后，你就会惊奇的发现——这不就是<strong>树链剖分</strong>吗<br>
 先找到所有<strong>中链</strong>，然后排序取最大</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">ll n, d[N], fa[N], son[N]; <span class="pl-c"><span class="pl-c">//</span> son记录重节点</span>
-vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; edge[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">ll n, d[N], fa[N], son[N]; // son记录重节点
+vector&lt;pair&lt;int, int&gt;&gt; edge[N];
 
-<span class="pl-k">void</span> <span class="pl-en">dfs_1</span>(<span class="pl-k">int</span> x) <span class="pl-c"><span class="pl-c">//</span> 求重节点son</span>
+void dfs_1(int x) // 求重节点son
 {
-    <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
-        <span class="pl-k">if</span> (y != fa[x])
+    for (<span class="pl-smi">auto</span> [y, v] : edge[x])
+        if (y != fa[x])
         {
             fa[y] = x;
-            <span class="pl-c1">dfs_1</span>(y);
-            <span class="pl-k">if</span> (d[x] &lt; d[y] + v){  
+            dfs_1(y);
+            if (d[x] &lt; d[y] + v){  
                 d[x] = d[y] + v;
                 son[x] = y;
             }
         }
 }
 
-<span class="pl-k">int</span> top[N];
+int top[N];
 
 vector&lt;ll&gt; ans;
 
-<span class="pl-k">void</span> <span class="pl-en">dfs_2</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> t) <span class="pl-c"><span class="pl-c">//</span> 求top 以及 中链</span>
+void dfs_2(int x, int t) // 求top 以及 中链
 {
     top[x] = t;
-    <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
-        <span class="pl-k">if</span> (y != fa[x])
+    for (<span class="pl-smi">auto</span> [y, v] : edge[x])
+        if (y != fa[x])
         {
-            <span class="pl-c1">dfs_2</span>(y, y == son[x] ? t : y); 
-            <span class="pl-k">if</span> (y == top[y])
-                ans.<span class="pl-c1">push_back</span>(d[y] + v); 
+            dfs_2(y, y == son[x] ? t : y); 
+            if (y == top[y])
+                ans.push_back(d[y] + v); 
         }
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
     cin &gt;&gt; n;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt; n; i++)
+    for (int i = 1; i &lt; n; i++)
     {
-        <span class="pl-k">int</span> u, v, w;
+        int u, v, w;
         cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
-        edge[u].<span class="pl-c1">push_back</span>({v, w});
-        edge[v].<span class="pl-c1">push_back</span>({u, w});
+        edge[u].push_back({v, w});
+        edge[v].push_back({u, w});
     }
-    <span class="pl-c"><span class="pl-c">//</span> 以1为根</span>
-    <span class="pl-c1">dfs_1</span>(<span class="pl-c1">1</span>); 
-    <span class="pl-c1">dfs_2</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>);
-    ans.<span class="pl-c1">push_back</span>(d[<span class="pl-c1">1</span>]);
-    <span class="pl-k">while</span> (ans.<span class="pl-c1">size</span>() &lt; n - <span class="pl-c1">1</span>)
-        ans.<span class="pl-c1">push_back</span>(<span class="pl-c1">0</span>);
-    <span class="pl-c1">sort</span>(ans.<span class="pl-c1">begin</span>(), ans.<span class="pl-c1">end</span>(), greater&lt;ll&gt;());
-    ll res = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; i++)
+    // 以1为根
+    dfs_1(1); 
+    dfs_2(1, 1);
+    ans.push_back(d[1]);
+    while (ans.size() &lt; n - 1)
+        ans.push_back(0);
+    sort(ans.begin(), ans.end(), <span class="pl-en">greater</span>&lt;ll&gt;());
+    ll res = 0;
+    for (int i = 0; i &lt; n; i++)
     {
-        res += ans[i] * <span class="pl-c1">2</span>;
-        cout &lt;&lt; res &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+        res += ans[i] * 2;
+        cout &lt;&lt; res &lt;&lt; '\n';
     }
 }</pre></div>
 </div>

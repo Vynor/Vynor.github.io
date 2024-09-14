@@ -221,57 +221,57 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><h2>D - Cross Explosion</h2>
 <p>考察对<strong>Set</strong>的使用，尤其是<strong>prev</strong>函数</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>() {
-    <span class="pl-k">int</span> n, m;
+<div class="highlight highlight-source-c++"><pre class="notranslate">void solve() {
+    int n, m;
     cin &gt;&gt; n &gt;&gt; m;
-    vector&lt;vector&lt;<span class="pl-k">bool</span>&gt;&gt; <span class="pl-c1">st</span>(n + <span class="pl-c1">1</span>, vector&lt;<span class="pl-k">bool</span>&gt;(m + <span class="pl-c1">1</span>, <span class="pl-c1">false</span>));
-    vector&lt;set&lt;<span class="pl-k">int</span>&gt;&gt; <span class="pl-c1">u</span>(m + <span class="pl-c1">2</span>), <span class="pl-c1">d</span>(m + <span class="pl-c1">2</span>), <span class="pl-c1">l</span>(n + <span class="pl-c1">2</span>), <span class="pl-c1">r</span>(n + <span class="pl-c1">2</span>);
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt;= n + <span class="pl-c1">1</span>; i ++ )
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt;= m + <span class="pl-c1">1</span>; j ++ ){
-            l[i].<span class="pl-c1">insert</span>(j), r[i].<span class="pl-c1">insert</span>(j);
-            u[j].<span class="pl-c1">insert</span>(i), d[j].<span class="pl-c1">insert</span>(i);
+    vector&lt;vector&lt;bool&gt;&gt; st(n + 1, <span class="pl-en">vector</span>&lt;bool&gt;(m + 1, false));
+    vector&lt;set&lt;int&gt;&gt; u(m + 2), d(m + 2), l(n + 2), r(n + 2);
+    for (int i = 0; i &lt;= n + 1; i ++ )
+        for (int j = 0; j &lt;= m + 1; j ++ ){
+            l[i].insert(j), r[i].insert(j);
+            u[j].insert(i), d[j].insert(i);
         }
 
-    <span class="pl-k">auto</span> gao = [&amp;](<span class="pl-k">int</span> x, <span class="pl-k">int</span> y){ <span class="pl-c"><span class="pl-c">//</span>爆破函数</span>
-        st[x][y] = <span class="pl-c1">true</span>;
-        l[x].<span class="pl-c1">erase</span>(y);
-        r[x].<span class="pl-c1">erase</span>(y);
-        u[y].<span class="pl-c1">erase</span>(x);
-        d[y].<span class="pl-c1">erase</span>(x);
+    <span class="pl-smi">auto</span> gao = [&amp;](int x, int y){ //爆破函数
+        st[x][y] = true;
+        l[x].erase(y);
+        r[x].erase(y);
+        u[y].erase(x);
+        d[y].erase(x);
     };
 
-    <span class="pl-k">int</span> q;
+    int q;
     cin &gt;&gt; q;
-    <span class="pl-k">int</span> cnt = <span class="pl-c1">0</span>;
-    <span class="pl-k">while</span> (q -- ){
-        <span class="pl-k">int</span> x, y;
+    int cnt = 0;
+    while (q -- ){
+        int x, y;
         cin &gt;&gt; x &gt;&gt; y;
-        <span class="pl-k">if</span> (!st[x][y]){
-            <span class="pl-c1">gao</span>(x, y);
-        }<span class="pl-k">else</span>{
-            <span class="pl-c"><span class="pl-c">//</span>4个方向</span>
-            <span class="pl-c"><span class="pl-c">//</span>右</span>
-            <span class="pl-k">auto</span> ir = r[x].<span class="pl-c1">upper_bound</span>(y),
-                il = <span class="pl-c1">prev</span>(l[x].<span class="pl-c1">upper_bound</span>(y)),
-                iu = <span class="pl-c1">prev</span>(u[y].<span class="pl-c1">upper_bound</span>(x)),
-                id = d[y].<span class="pl-c1">upper_bound</span>(x);
-            <span class="pl-k">if</span> (*ir &gt;= <span class="pl-c1">1</span> &amp;&amp; *ir &lt;= m) {
-                <span class="pl-c1">gao</span>(x, *ir);
+        if (!st[x][y]){
+            gao(x, y);
+        }else{
+            //4个方向
+            //右
+            <span class="pl-smi">auto</span> ir = r[x].upper_bound(y),
+                il = prev(l[x].upper_bound(y)),
+                iu = prev(u[y].upper_bound(x)),
+                id = d[y].upper_bound(x);
+            if (*ir &gt;= 1 &amp;&amp; *ir &lt;= m) {
+                gao(x, *ir);
             }
-            <span class="pl-k">if</span> (*il &gt;= <span class="pl-c1">1</span> &amp;&amp; *il &lt;= m){
-                <span class="pl-c1">gao</span>(x, *il);
+            if (*il &gt;= 1 &amp;&amp; *il &lt;= m){
+                gao(x, *il);
             }
-            <span class="pl-k">if</span> (*iu &gt;= <span class="pl-c1">1</span> &amp;&amp; *iu &lt;= n){
-                <span class="pl-c1">gao</span>(*iu, y);
+            if (*iu &gt;= 1 &amp;&amp; *iu &lt;= n){
+                gao(*iu, y);
             }
-            <span class="pl-k">if</span> (*id &gt;= <span class="pl-c1">1</span> &amp;&amp; *id &lt;= n){
-                <span class="pl-c1">gao</span>(*id, y);
+            if (*id &gt;= 1 &amp;&amp; *id &lt;= n){
+                gao(*id, y);
             }
         }
     }
-    <span class="pl-k">int</span> ans = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= m; j ++ )
+    int ans = 0;
+    for (int i = 1; i &lt;= n; i ++ )
+        for (int j = 1; j &lt;= m; j ++ )
             ans += !st[i][j];
     cout &lt;&lt; ans;
 }</pre></div>
@@ -287,18 +287,18 @@ dp[i]表示只考虑前i个并以第i个结尾的方案数<br>
 然后用总数减去不合法j的方案数。<br>
 map记录sum[i]<br>
 思考：典型的01分类讨论，DP优化题目，记得初始化空集</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">int</span> <span class="pl-k">long</span> <span class="pl-k">long</span>
-<span class="pl-k">const</span> <span class="pl-k">int</span> mod = <span class="pl-c1">998244353</span>;
+<div class="highlight highlight-source-c++"><pre class="notranslate">#define int long long
+const int mod = 998244353;
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
-    <span class="pl-k">int</span> n, K;
+void solve(){
+    int n, K;
     cin &gt;&gt; n &gt;&gt; K;
-    <span class="pl-k">int</span> f[n+<span class="pl-c1">1</span>] = {};
-    <span class="pl-k">int</span> S = <span class="pl-c1">1</span>, sum = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> </span>
-    map&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; mp;
-    mp[<span class="pl-c1">0</span>] = <span class="pl-c1">1</span>;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
-        <span class="pl-k">int</span> x;
+    int f[n+1] = {};
+    int S = 1, sum = 0; // 
+    map&lt;int, int&gt; mp;
+    mp[0] = 1;
+    for (int i = 1; i &lt;= n; i ++ ){
+        int x;
         cin &gt;&gt; x;
         sum += x;
         f[i] = ((S - mp[sum - K]) % mod + mod) % mod;
@@ -320,70 +320,70 @@ map记录sum[i]<br>
 <strong>真正难点</strong><br>
 思考不作为分割点的数目如何求，只要检查起点可行的数目，在用总数相减即可。<br>
 结论：如果一个位置作为起点不会被切割，也不会在其他位置作为起点的时候被切割，画图感性理解一下。</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">define</span> <span class="pl-en">int</span> <span class="pl-k">long</span> <span class="pl-k">long</span>
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, inf = <span class="pl-c1">1e9</span>;
+<div class="highlight highlight-source-c++"><pre class="notranslate">#define int long long
+const int N = 2e5 + 10, inf = 1e9;
 
-<span class="pl-k">int</span> n, k;
-<span class="pl-k">int</span> a[N * <span class="pl-c1">2</span>], f[N * <span class="pl-c1">2</span>][<span class="pl-c1">31</span>];
+int n, k;
+int a[N * 2], f[N * 2][31];
 
-<span class="pl-k">int</span> <span class="pl-en">check</span>(<span class="pl-k">int</span> x)
+int check(int x)
 {
-    <span class="pl-k">int</span> q = <span class="pl-c1">0</span>, r = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n * <span class="pl-c1">2</span>; i++)
+    int q = 0, r = 0;
+    for (int i = 1; i &lt;= n * 2; i++)
     {
-        <span class="pl-k">while</span> (q &lt; x &amp;&amp; r &lt; n * <span class="pl-c1">2</span>){
+        while (q &lt; x &amp;&amp; r &lt; n * 2){
             q += a[++r];
         }
-        <span class="pl-k">if</span> (q &gt;= x){
-            f[i][<span class="pl-c1">0</span>] = r;
+        if (q &gt;= x){
+            f[i][0] = r;
         }
-        <span class="pl-k">else</span>{
-            f[i][<span class="pl-c1">0</span>] = inf;
+        else{
+            f[i][0] = inf;
         }
         q -= a[i];
     }
-    <span class="pl-c"><span class="pl-c">//</span> 倍增</span>
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= <span class="pl-c1">30</span>; j++)
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n * <span class="pl-c1">2</span>; i++)
-            <span class="pl-k">if</span> (f[i][j - <span class="pl-c1">1</span>] + <span class="pl-c1">1</span> &lt;= n * <span class="pl-c1">2</span> &amp;&amp; f[f[i][j - <span class="pl-c1">1</span>] + <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>] &lt;= n * <span class="pl-c1">2</span>)
-                f[i][j] = f[f[i][j - <span class="pl-c1">1</span>] + <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>];
-            <span class="pl-k">else</span>
+    // 倍增
+    for (int j = 1; j &lt;= 30; j++)
+        for (int i = 1; i &lt;= n * 2; i++)
+            if (f[i][j - 1] + 1 &lt;= n * 2 &amp;&amp; f[f[i][j - 1] + 1][j - 1] &lt;= n * 2)
+                f[i][j] = f[f[i][j - 1] + 1][j - 1];
+            else
                 f[i][j] = inf;
-    <span class="pl-k">int</span> res = <span class="pl-c1">0</span>;
-    <span class="pl-c"><span class="pl-c">//</span> 求方案数</span>
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    int res = 0;
+    // 求方案数
+    for (int i = 1; i &lt;= n; i++)
     {
-        <span class="pl-k">int</span> px = i;
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">30</span>; j &gt;= <span class="pl-c1">0</span>; j -- )
+        int px = i;
+        for (int j = 30; j &gt;= 0; j -- )
         {
-            <span class="pl-k">if</span> (k &gt;&gt; j &amp; <span class="pl-c1">1</span>){
-                px = f[px][j] + <span class="pl-c1">1</span>;
+            if (k &gt;&gt; j &amp; 1){
+                px = f[px][j] + 1;
             }
-            <span class="pl-k">if</span> (px &gt; i + n)
-                <span class="pl-k">break</span>;
+            if (px &gt; i + n)
+                break;
         }
-        <span class="pl-k">if</span> (px &lt;= i + n){
+        if (px &lt;= i + n){
             ++ res;
         }
     }
-    <span class="pl-k">return</span> res;
+    return res;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
     cin &gt;&gt; n &gt;&gt; k;
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    for (int i = 1; i &lt;= n; i++)
     {
         cin &gt;&gt; a[i];
         a[i + n] = a[i];
     }
-    <span class="pl-k">int</span> l = <span class="pl-c1">0</span>, r = <span class="pl-c1">2e9</span>;
-    <span class="pl-k">while</span> (l &lt; r){
-        <span class="pl-k">int</span> mid = (l + r + <span class="pl-c1">1</span>) / <span class="pl-c1">2</span>;
-        <span class="pl-k">if</span> (<span class="pl-c1">check</span>(mid)) l = mid;
-        <span class="pl-k">else</span> r = mid - <span class="pl-c1">1</span>;
+    int l = 0, r = 2e9;
+    while (l &lt; r){
+        int mid = (l + r + 1) / 2;
+        if (check(mid)) l = mid;
+        else r = mid - 1;
     }
-    cout &lt;&lt; l &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span> &lt;&lt; n - <span class="pl-c1">check</span>(l) ;
+    cout &lt;&lt; l &lt;&lt; ' ' &lt;&lt; n - check(l) ;
 }</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>

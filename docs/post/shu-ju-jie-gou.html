@@ -89,18 +89,18 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>树状数组是一种支持<strong>单点修改</strong>和<strong>区间查询</strong>，代码量小的数据结构。<br>
 普通树状数组维护的信息及运算要满足<strong>结合律</strong>和<strong>可拆分</strong>，如加法，乘法，异或等<br>
 如下示例加法：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n, c[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">int n, c[N];
 
-<span class="pl-k">int</span> <span class="pl-en">lowbit</span>(<span class="pl-k">int</span> x){<span class="pl-k">return</span> x &amp; -x;}
+int lowbit(int x){return x &amp; -x;}
 
-<span class="pl-k">void</span> <span class="pl-en">modify</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> val){
-    <span class="pl-k">for</span> (; x &lt;= n; x += <span class="pl-c1">lowbit</span>(x)) c[x] += val;
+void modify(int x, int val){
+    for (; x &lt;= n; x += lowbit(x)) c[x] += val;
 }
 
-ll <span class="pl-en">query</span>(<span class="pl-k">int</span> x){ <span class="pl-c"><span class="pl-c">//</span>[1, x]</span>
-    ll res = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (; x; x -= <span class="pl-c1">lowbit</span>(x)) res += c[x];
-    <span class="pl-k">return</span> res;
+ll query(int x){ //[1, x]
+    ll res = 0;
+    for (; x; x -= lowbit(x)) res += c[x];
+    return res;
 }</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>

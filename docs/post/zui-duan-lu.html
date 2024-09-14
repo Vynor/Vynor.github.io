@@ -219,55 +219,55 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>经暴打，使用优先队列的时间更优，因为常数更小，小心被<strong>Set</strong>卡常哦</p>
 </div>
 <p><strong>优先队列</strong></p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> d[N];
-<span class="pl-k">int</span> st[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">int d[N];
+int st[N];
 
-<span class="pl-k">using</span> pt = pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;;
+<span class="pl-k">using</span> pt = pair&lt;int, int&gt;;
 
-<span class="pl-k">void</span> <span class="pl-en">dij</span>(<span class="pl-k">int</span> s, <span class="pl-k">int</span> u)
+void dij(int s, int u)
 {
-    <span class="pl-c1">memset</span>(d, <span class="pl-c1">0x3f</span>, <span class="pl-k">sizeof</span> d);
-    <span class="pl-c1">memset</span>(st, <span class="pl-c1">false</span>, <span class="pl-k">sizeof</span> st);
-    d[s] = <span class="pl-c1">0</span>;
+    memset(d, 0x3f, sizeof d);
+    memset(st, false, sizeof st);
+    d[s] = 0;
     priority_queue&lt;pt, vector&lt;pt&gt;, greater&lt;pt&gt;&gt; q;
-    q.<span class="pl-c1">push</span>({d[s], s});
-    <span class="pl-k">while</span> (!q.<span class="pl-c1">empty</span>())
+    q.push({d[s], s});
+    while (!q.empty())
     {
-        <span class="pl-k">int</span> x = q.<span class="pl-c1">top</span>().<span class="pl-smi">second</span>;
-        q.<span class="pl-c1">pop</span>();
-        <span class="pl-k">if</span> (st[x])
-            <span class="pl-k">continue</span>;
-        st[x] = <span class="pl-c1">true</span>;
-        <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
-            <span class="pl-k">if</span> (d[y] &gt; d[x] + v)
+        int x = q.top().second;
+        q.pop();
+        if (st[x])
+            continue;
+        st[x] = true;
+        for (<span class="pl-smi">auto</span> [y, v] : edge[x])
+            if (d[y] &gt; d[x] + v)
             {
                 d[y] = d[x] + v;
-                q.<span class="pl-c1">push</span>({d[y], y});
+                q.push({d[y], y});
             }
     }
 }</pre></div>
 <p><strong>Set</strong></p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; edge[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;int, int&gt;&gt; edge[N];
 
-<span class="pl-k">int</span> n, m, s;
-<span class="pl-k">int</span> dist[N];
+int n, m, s;
+int dist[N];
 
-set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; q;
+set&lt;pair&lt;int, int&gt;&gt; q;
 
-<span class="pl-k">void</span> <span class="pl-en">dij</span>(<span class="pl-k">int</span> s){
-    <span class="pl-c1">memset</span>(dist, <span class="pl-c1">127</span>, <span class="pl-k">sizeof</span> dist);
-    dist[s] = <span class="pl-c1">0</span>; q.<span class="pl-c1">clear</span>();
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) 
-        q.<span class="pl-c1">insert</span>(<span class="pl-c1">make_pair</span>(dist[i], i));
-    <span class="pl-k">while</span> (!q.<span class="pl-c1">empty</span>()){
-        <span class="pl-k">int</span> x = q.<span class="pl-c1">begin</span>()-&gt;<span class="pl-smi">second</span>;
-        q.<span class="pl-c1">erase</span>(q.<span class="pl-c1">begin</span>());
-        <span class="pl-k">if</span> (dist[x] &gt; <span class="pl-c1">1</span> &lt;&lt; <span class="pl-c1">30</span>) <span class="pl-k">break</span>;<span class="pl-c"><span class="pl-c">//</span>无法抵达x</span>
-        <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v]:edge[x])
-            <span class="pl-k">if</span> (dist[y] &gt; dist[x] + v){
-                q.<span class="pl-c1">erase</span>(<span class="pl-c1">make_pair</span>(dist[y], y));
+void dij(int s){
+    memset(dist, 127, sizeof dist);
+    dist[s] = 0; q.clear();
+    for (int i = 1; i &lt;= n; i ++ ) 
+        q.insert(make_pair(dist[i], i));
+    while (!q.empty()){
+        int x = q.begin()-&gt;second;
+        q.erase(q.begin());
+        if (dist[x] &gt; 1 &lt;&lt; 30) break;//无法抵达x
+        for (<span class="pl-smi">auto</span> [y, v]:edge[x])
+            if (dist[y] &gt; dist[x] + v){
+                q.erase(make_pair(dist[y], y));
                 dist[y] = dist[x] + v;
-                q.<span class="pl-c1">insert</span>(<span class="pl-c1">make_pair</span>(dist[y], y));
+                q.insert(make_pair(dist[y], y));
             }
     }    
 }</pre></div>
@@ -276,36 +276,36 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
 由于每轮松弛会使得最短路的边数至少+1，而最短路的边数最多 $n-1$，故最多进行 $n-1$轮松弛操作。<br>
 如果第 $n$ 轮循环时仍然存在可以松弛的边，说明从 $S$ 出发，能够抵达一个<strong>负环</strong>。<br>
 时间复杂度为 $O(NM)$</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">Node</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate">struct Node
 {
-    <span class="pl-k">int</span> x, y, v;
+    int x, y, v;
 } edge[M];
 
-<span class="pl-k">int</span> n, m, num = <span class="pl-c1">0</span>;
-<span class="pl-k">int</span> dist[N];
+int n, m, num = 0;
+int dist[N];
 
-<span class="pl-k">bool</span> <span class="pl-en">bf</span>(<span class="pl-k">int</span> s)
+bool bf(int s)
 {
-    <span class="pl-c1">memset</span>(dist, <span class="pl-c1">127</span>, <span class="pl-k">sizeof</span> dist);
-    dist[s] = <span class="pl-c1">0</span>;
-    <span class="pl-k">int</span> cnt = <span class="pl-c1">0</span>;
-    <span class="pl-k">for</span> (;;)
+    memset(dist, 127, sizeof dist);
+    dist[s] = 0;
+    int cnt = 0;
+    for (;;)
     {
         ++cnt;
-        <span class="pl-k">bool</span> ok = <span class="pl-c1">false</span>;
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= num; i++)
+        bool ok = false;
+        for (int i = 1; i &lt;= num; i++)
         {
-            <span class="pl-k">auto</span> [x, y, v] = edge[i];
-            <span class="pl-k">if</span> (dist[x] &lt; <span class="pl-c1">1</span> &lt;&lt; <span class="pl-c1">30</span> &amp;&amp; dist[y] &gt; dist[x] + v){ <span class="pl-c"><span class="pl-c">//</span>可以到达x &amp;&amp; 能松弛 </span>
+            <span class="pl-smi">auto</span> [x, y, v] = edge[i];
+            if (dist[x] &lt; 1 &lt;&lt; 30 &amp;&amp; dist[y] &gt; dist[x] + v){ //可以到达x &amp;&amp; 能松弛 
                 dist[y] = dist[x] + v;
-                ok = <span class="pl-c1">true</span>;
+                ok = true;
             }
         }
-        <span class="pl-k">if</span> (ok &amp;&amp; cnt == n) <span class="pl-k">return</span> <span class="pl-c1">true</span>;
-        <span class="pl-k">if</span> (!ok)
-            <span class="pl-k">break</span>;
+        if (ok &amp;&amp; cnt == n) return true;
+        if (!ok)
+            break;
     }
-    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+    return false;
 }</pre></div>
 <div class="markdown-alert markdown-alert-warning"><p class="markdown-alert-title"><svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p><p>需要注意的是，以 $S$ 点为源点跑Bellman-Ford算法时，如果没有给出存在负环的结果，只能说明从 $S$ 点出发不能抵达一个负环，&gt;不能说明图上不存在负环。</p>
 <p>因此需要判断整张图上是否存在负环时，最严谨的做法时设置一个超级源点，向图上每个顶点连一条权值是 $0$ 的边，然后以超级源点为起点跑一遍Bellman-Ford算法</p>
@@ -317,39 +317,39 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
 那么只需要用队列来维护 <strong>引起松弛的结点</strong>，就只能访问必要的边了。<br>
 SPFA也可以判断 $S$ 能否抵达一个<strong>负环</strong>，只需要记录最短路经过的边数，但至少为 $n$ 条边时，说明从起点 $S$ 抵达一个负环。<br>
 时间复杂度最多(<strong>被卡</strong>)为 $O(NM)$</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; edge[N];
+<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;int, int&gt;&gt; edge[N];
 
-<span class="pl-k">int</span> n, m, s;
-<span class="pl-k">int</span> dist[N], b[N], q[N * M], cnt[N];
+int n, m, s;
+int dist[N], b[N], q[N * M], cnt[N];
 
-<span class="pl-k">bool</span> <span class="pl-en">spfa</span>(<span class="pl-k">int</span> s)
+bool spfa(int s)
 {
-    <span class="pl-c1">memset</span>(dist, <span class="pl-c1">127</span>, <span class="pl-k">sizeof</span> dist);
-    <span class="pl-c1">memset</span>(b, <span class="pl-c1">false</span>, <span class="pl-k">sizeof</span> b);
-    dist[s] = <span class="pl-c1">0</span>;
-    b[s] = <span class="pl-c1">true</span>;
+    memset(dist, 127, sizeof dist);
+    memset(b, false, sizeof b);
+    dist[s] = 0;
+    b[s] = true;
 
-    <span class="pl-k">int</span> front = <span class="pl-c1">1</span>, rear = <span class="pl-c1">0</span>;
+    int front = 1, rear = 0;
     q[++rear] = s;
-    <span class="pl-k">while</span> (front &lt;= rear)
+    while (front &lt;= rear)
     {
-        <span class="pl-k">int</span> x = q[front];
+        int x = q[front];
         ++front;
-        b[x] = <span class="pl-c1">false</span>;
-        <span class="pl-k">for</span> (<span class="pl-k">auto</span> [y, v] : edge[x])
-            <span class="pl-k">if</span> (dist[y] &gt; dist[x] + v)
+        b[x] = false;
+        for (<span class="pl-smi">auto</span> [y, v] : edge[x])
+            if (dist[y] &gt; dist[x] + v)
             {
                 dist[y] = dist[x] + v;
-                cnt[y] = cnt[x] + <span class="pl-c1">1</span>;
-                <span class="pl-k">if</span> (cnt[y] &gt;= n) <span class="pl-k">return</span> <span class="pl-c1">true</span>; <span class="pl-c"><span class="pl-c">//</span>存在负环</span>
-                <span class="pl-k">if</span> (!b[y])
+                cnt[y] = cnt[x] + 1;
+                if (cnt[y] &gt;= n) return true; //存在负环
+                if (!b[y])
                 {
                     q[++rear] = y;
-                    b[y] = <span class="pl-c1">true</span>;
+                    b[y] = true;
                 }
             }
     }
-    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+    return false;
 }</pre></div>
 <h2>Floyd</h2>
 <p>多源汇最短路算法<br>
@@ -362,19 +362,19 @@ $f[k][i][j]$ 表示从 $i$ 到 $j$，中间只经过 $1-k$ 的最短路径的长
 </li>
 </ul>
 <p>二者取 $min$</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>() {
-    <span class="pl-c"><span class="pl-c">//</span>非空间优化</span>
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">1</span>; k &lt;= n; k ++ ) <span class="pl-c"><span class="pl-c">//</span>注意k作为第一维</span>
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= n; j ++ )
-                f[k][i][j] = <span class="pl-c1">min</span>(f[k-<span class="pl-c1">1</span>][i][j], f[k-<span class="pl-c1">1</span>][i][k] + f[k-<span class="pl-c1">1</span>][k][j]);
+<div class="highlight highlight-source-c++"><pre class="notranslate">void solve() {
+    //非空间优化
+    for (int k = 1; k &lt;= n; k ++ ) //注意k作为第一维
+        for (int i = 1; i &lt;= n; i ++ )
+            for (int j = 1; j &lt;= n; j ++ )
+                f[k][i][j] = min(f[k-1][i][j], f[k-1][i][k] + f[k-1][k][j]);
 
-    <span class="pl-c"><span class="pl-c">//</span>空间优化</span>
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">1</span>; k &lt;= n; k++) 
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= n; j++)
-                <span class="pl-k">if</span> (f[i][k] &lt; <span class="pl-c1">1</span> &lt;&lt; <span class="pl-c1">30</span> &amp;&amp; f[k][j] &lt; <span class="pl-c1">1</span> &lt;&lt; <span class="pl-c1">30</span>)
-                    f[i][j] = <span class="pl-c1">min</span>(f[i][j], f[i][k] + f[k][j]);
+    //空间优化
+    for (int k = 1; k &lt;= n; k++) 
+        for (int i = 1; i &lt;= n; i++)
+            for (int j = 1; j &lt;= n; j++)
+                if (f[i][k] &lt; 1 &lt;&lt; 30 &amp;&amp; f[k][j] &lt; 1 &lt;&lt; 30)
+                    f[i][j] = min(f[i][j], f[i][k] + f[k][j]);
 }</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
