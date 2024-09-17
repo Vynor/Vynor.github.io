@@ -105,38 +105,38 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>非指定非关键</li>
 </ol>
 <p>无论是普通DFS检查还是拓扑序算法删点都可以判断任意点的类型</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">//拓扑序
-const int N = 2e5 + 10;
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span>拓扑序</span>
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
 
-vector&lt;int&gt; edge[N];
+vector&lt;<span class="pl-k">int</span>&gt; edge[N];
 
-int n, k, d[N];
-int q[N];
-bool b[N];
+<span class="pl-k">int</span> n, k, d[N];
+<span class="pl-k">int</span> q[N];
+<span class="pl-k">bool</span> b[N];
 
-void solve(){
+<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
     cin &gt;&gt; n &gt;&gt; k;
-    for (int i = 1; i &lt; n; i ++ ){
-        int x, y;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt; n; i ++ ){
+        <span class="pl-k">int</span> x, y;
         cin &gt;&gt; x &gt;&gt; y;
-        edge[x].push_back(y);
-        edge[y].push_back(x);
+        edge[x].<span class="pl-c1">push_back</span>(y);
+        edge[y].<span class="pl-c1">push_back</span>(x);
         ++ d[x], ++ d[y];
     }
-    for (int i = 1; i &lt;= k; i ++ ){
-        int v;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= k; i ++ ){
+        <span class="pl-k">int</span> v;
         cin &gt;&gt; v;
-        b[v] = true;
+        b[v] = <span class="pl-c1">true</span>;
     }
-    int front = 1, rear = 0;
-    for (int i = 1; i &lt;= n; i ++ ) 
-        if (!b[i] &amp;&amp; d[i] == 1) 
+    <span class="pl-k">int</span> front = <span class="pl-c1">1</span>, rear = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) 
+        <span class="pl-k">if</span> (!b[i] &amp;&amp; d[i] == <span class="pl-c1">1</span>) 
             q[++rear] = i;
-    while (front &lt;= rear){
-        int x = q[front];
+    <span class="pl-k">while</span> (front &lt;= rear){
+        <span class="pl-k">int</span> x = q[front];
         ++ front;
-        for (<span class="pl-smi">auto</span> y : edge[x])
-            if (!b[y] &amp;&amp; -- d[y] == 1){
+        <span class="pl-k">for</span> (<span class="pl-k">auto</span> y : edge[x])
+            <span class="pl-k">if</span> (!b[y] &amp;&amp; -- d[y] == <span class="pl-c1">1</span>){
                 q[++rear] = y;
             }
     }
@@ -154,58 +154,58 @@ void solve(){
 </li>
 </ul>
 <p>因为时间从小到大排序，使得新时间数组没有<strong>后效性</strong>，所以可以递推解决。</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">struct Node{
-    int A, B, ty, t, pos;
-    bool operator&lt;(const Node &amp;A) const{
-        if (t == A.t)
-            return ty &lt; A.ty; //先到达 后开始
-        return t &lt; A.t;
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">Node</span>{
+    <span class="pl-k">int</span> A, B, ty, t, pos;
+    <span class="pl-k">bool</span> <span class="pl-k">operator</span>&lt;(<span class="pl-k">const</span> Node &amp;A) <span class="pl-k">const</span>{
+        <span class="pl-k">if</span> (t == A.<span class="pl-smi">t</span>)
+            <span class="pl-k">return</span> ty &lt; A.<span class="pl-smi">ty</span>; <span class="pl-c"><span class="pl-c">//</span>先到达 后开始</span>
+        <span class="pl-k">return</span> t &lt; A.<span class="pl-smi">t</span>;
     }
 }a[N];
 
-int n, m;
-int x[N], D[N];
+<span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> x[N], D[N];
 
-void solve() {
-    cin &gt;&gt; n &gt;&gt; m &gt;&gt; x[1];
-    for (int i = 1; i &lt;= m; i ++ ){
-        int A, B, s, t; cin &gt;&gt; A &gt;&gt; B &gt;&gt; s &gt;&gt; t;
-        a[i] = {A, B, 1, s, i};
-        a[i + m] = {A, B, 0, t, i};
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; x[<span class="pl-c1">1</span>];
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i ++ ){
+        <span class="pl-k">int</span> A, B, s, t; cin &gt;&gt; A &gt;&gt; B &gt;&gt; s &gt;&gt; t;
+        a[i] = {A, B, <span class="pl-c1">1</span>, s, i};
+        a[i + m] = {A, B, <span class="pl-c1">0</span>, t, i};
     }
-    sort(a + 1, a + 2 * m + 1);
-    for (int i = 1; i &lt;= 2 * m; i ++ ){
-        if (a[i].ty == 1){ //出发事件
-            x[a[i].pos] = max(x[a[i].pos], D[a[i].A] - a[i].t);
-        }else{//到达事件
-            D[a[i].B] = max(D[a[i].B], a[i].t + x[a[i].pos]);
+    <span class="pl-c1">sort</span>(a + <span class="pl-c1">1</span>, a + <span class="pl-c1">2</span> * m + <span class="pl-c1">1</span>);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= <span class="pl-c1">2</span> * m; i ++ ){
+        <span class="pl-k">if</span> (a[i].<span class="pl-smi">ty</span> == <span class="pl-c1">1</span>){ <span class="pl-c"><span class="pl-c">//</span>出发事件</span>
+            x[a[i].<span class="pl-smi">pos</span>] = <span class="pl-c1">max</span>(x[a[i].<span class="pl-smi">pos</span>], D[a[i].<span class="pl-smi">A</span>] - a[i].<span class="pl-smi">t</span>);
+        }<span class="pl-k">else</span>{<span class="pl-c"><span class="pl-c">//</span>到达事件</span>
+            D[a[i].<span class="pl-smi">B</span>] = <span class="pl-c1">max</span>(D[a[i].<span class="pl-smi">B</span>], a[i].<span class="pl-smi">t</span> + x[a[i].<span class="pl-smi">pos</span>]);
         }
     }
-    for (int i = 2; i &lt;= m; i ++ )
-        cout &lt;&lt; x[i] &lt;&lt; ' ';
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">2</span>; i &lt;= m; i ++ )
+        cout &lt;&lt; x[i] &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>;
 }</pre></div>
 <h1>F - Dividing Game</h1>
 <p>类<a href="https://vynor.github.io/post/bo-yi-lun.html#nim%E6%B8%B8%E6%88%8F" rel="nofollow">Nim游戏</a><br>
 每个数 $x$ 可以当作数目为 $cnt$ 的一堆石子<br>
 $cnt$ 取值的结论就是 $x$ 分解质因子的指数和</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">int n;
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n;
 
-void solve() {
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
     cin &gt;&gt; n;
-    int res = 0;
-    for (int i = 1; i &lt;= n; i ++ ){
-        int x, cnt = 0;
+    <span class="pl-k">int</span> res = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        <span class="pl-k">int</span> x, cnt = <span class="pl-c1">0</span>;
         cin &gt;&gt; x;
-        for (int j = 2; j &lt;= x / j; j ++ ){
-            while (x % j == 0){
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">2</span>; j &lt;= x / j; j ++ ){
+            <span class="pl-k">while</span> (x % j == <span class="pl-c1">0</span>){
                 x /= j;
                 ++ cnt;
             }
         }
-        if (x != 1) ++ cnt;
+        <span class="pl-k">if</span> (x != <span class="pl-c1">1</span>) ++ cnt;
         res ^= cnt;
     }
-    cout &lt;&lt; (!res ? "Bruno" : "Anna");
+    cout &lt;&lt; (!res ? <span class="pl-s"><span class="pl-pds">"</span>Bruno<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>Anna<span class="pl-pds">"</span></span>);
 }</pre></div>
 <h1>G - Add and Multiply Queries</h1>
 <p>注意到</p>
@@ -225,78 +225,79 @@ void solve() {
 而区间求和涉及单点修改和区间查询操作，<a href="https://vynor.github.io/post/shu-ju-jie-gou.html" rel="nofollow">树状数组</a>完全可以胜任。<br>
 注意选择乘 $B_i \geq 2$ 不一定最优，记得特判。<br>
 总的时间复杂度为max($N$, $M64log64$)</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#include&lt;bits/stdc++.h&gt;
-#define IOS ios::sync_with_stdio(false);cin.tie(0);cout.tie(0)
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span><span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
 
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> std;
-typedef long long ll;
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
 
-const int N = 1e5 + 10;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>;
 
-int n, m;
-int A[N], B[N];
+<span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> A[N], B[N];
 ll c[N];
 
-int lowbit(int x) {return x &amp; -x;}
+<span class="pl-k">int</span> <span class="pl-en">lowbit</span>(<span class="pl-k">int</span> x) {<span class="pl-k">return</span> x &amp; -x;}
 
-void modify(int x, int pos){
-    for (; x &lt;= n; x += lowbit(x)) c[x] += pos;
+<span class="pl-k">void</span> <span class="pl-en">modify</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> pos){
+    <span class="pl-k">for</span> (; x &lt;= n; x += <span class="pl-c1">lowbit</span>(x)) c[x] += pos;
 }
 
-ll query(int x){
-    ll res = 0;
-    for (; x; x -= lowbit(x)) res += c[x];
-    return res;
+ll <span class="pl-en">query</span>(<span class="pl-k">int</span> x){
+    ll res = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (; x; x -= <span class="pl-c1">lowbit</span>(x)) res += c[x];
+    <span class="pl-k">return</span> res;
 }
 
-void solve() {
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
     cin &gt;&gt; n;
-    for (int i = 1; i &lt;= n; i ++ ) cin &gt;&gt; A[i];
-    for (int i = 1; i &lt;= n; i ++ ) cin &gt;&gt; B[i];
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) cin &gt;&gt; A[i];
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) cin &gt;&gt; B[i];
 
-    //build
-    for (int i = 1; i &lt;= n; i ++ ) modify(i, A[i]);
-    set&lt;int&gt; se;
-    for (int i = 1; i &lt;= n; i ++ ) if (B[i] &gt; 1) se.insert(i);
+    <span class="pl-c"><span class="pl-c">//</span>build</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) <span class="pl-c1">modify</span>(i, A[i]);
+    set&lt;<span class="pl-k">int</span>&gt; se;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) <span class="pl-k">if</span> (B[i] &gt; <span class="pl-c1">1</span>) se.<span class="pl-c1">insert</span>(i);
 
     cin &gt;&gt; m;
-    while (m -- ){
-        int op, x, y;
+    <span class="pl-k">while</span> (m -- ){
+        <span class="pl-k">int</span> op, x, y;
         cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
-        if (op == 1){
-            modify(x, - A[x] + y);
+        <span class="pl-k">if</span> (op == <span class="pl-c1">1</span>){
+            <span class="pl-c1">modify</span>(x, - A[x] + y);
             A[x] = y;
-        }else if (op == 2){
-            if (B[x] &gt; 1) se.erase(x);
+        }<span class="pl-k">else</span> <span class="pl-k">if</span> (op == <span class="pl-c1">2</span>){
+            <span class="pl-k">if</span> (B[x] &gt; <span class="pl-c1">1</span>) se.<span class="pl-c1">erase</span>(x);
             B[x] = y;
-            if (B[x] &gt; 1) se.insert(x);
-        }else{
+            <span class="pl-k">if</span> (B[x] &gt; <span class="pl-c1">1</span>) se.<span class="pl-c1">insert</span>(x);
+        }<span class="pl-k">else</span>{
             ll res = A[x++];
-            while (x &lt;= y){
-                <span class="pl-smi">auto</span> it = se.lower_bound(x);
-                if (it == se.end() || *it &gt; y){
-                    res += query(y) - query(x - 1);
-                    break;
-                }else{
-                    res += query(*it - 1) - query(x - 1);
-                    res = max(res + A[*it], res * B[*it]);
-                    x = *it + 1;
+            <span class="pl-k">while</span> (x &lt;= y){
+                <span class="pl-k">auto</span> it = se.<span class="pl-c1">lower_bound</span>(x);
+                <span class="pl-k">if</span> (it == se.<span class="pl-c1">end</span>() || *it &gt; y){
+                    res += <span class="pl-c1">query</span>(y) - <span class="pl-c1">query</span>(x - <span class="pl-c1">1</span>);
+                    <span class="pl-k">break</span>;
+                }<span class="pl-k">else</span>{
+                    res += <span class="pl-c1">query</span>(*it - <span class="pl-c1">1</span>) - <span class="pl-c1">query</span>(x - <span class="pl-c1">1</span>);
+                    res = <span class="pl-c1">max</span>(res + A[*it], res * B[*it]);
+                    x = *it + <span class="pl-c1">1</span>;
                 }
             }
-            cout &lt;&lt; res &lt;&lt; '\n';
+            cout &lt;&lt; res &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
         }
     }
 }
 
-signed main() {
+<span class="pl-k">signed</span> <span class="pl-en">main</span>() {
     IOS;
-    int t = 1;
-//    cin &gt;&gt; t;
-    while (t--) {
-        solve();
+    <span class="pl-k">int</span> t = <span class="pl-c1">1</span>;
+<span class="pl-c"><span class="pl-c">//</span>    cin &gt;&gt; t;</span>
+    <span class="pl-k">while</span> (t--) {
+        <span class="pl-c1">solve</span>();
     }
-    return 0;
-}</pre></div>
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}
+</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
