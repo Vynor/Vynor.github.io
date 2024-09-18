@@ -102,6 +102,95 @@ ll <span class="pl-en">query</span>(<span class="pl-k">int</span> x){ <span clas
     <span class="pl-k">for</span> (; x; x -= <span class="pl-c1">lowbit</span>(x)) res += c[x];
     <span class="pl-k">return</span> res;
 }</pre></div>
+<h2>线段树</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">info</span>{
+};
+
+<span class="pl-k">struct</span> <span class="pl-en">tag</span>{
+};
+
+info <span class="pl-k">operator</span>+(<span class="pl-k">const</span> info &amp;l, <span class="pl-k">const</span> info &amp;r){
+}
+
+info <span class="pl-k">operator</span>+(<span class="pl-k">const</span> info &amp;v, <span class="pl-k">const</span> tag &amp;t){ <span class="pl-c"><span class="pl-c">//</span> 区间修改</span>
+}
+
+tag <span class="pl-k">operator</span>+(<span class="pl-k">const</span> tag &amp;t1, <span class="pl-k">const</span> tag &amp;t2){ <span class="pl-c"><span class="pl-c">//</span>懒标记和并</span>
+}
+
+<span class="pl-k">struct</span> <span class="pl-en">Node</span>{
+    tag t;
+    info val;
+} seg[N * <span class="pl-c1">4</span>];
+
+<span class="pl-k">void</span> <span class="pl-en">settag</span>(<span class="pl-k">int</span> id, tag t){
+    seg[id].<span class="pl-smi">val</span> = seg[id].<span class="pl-smi">val</span> + t;
+    seg[id].<span class="pl-smi">t</span> = seg[id].<span class="pl-smi">t</span> + t;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">pushdown</span>(<span class="pl-k">int</span> id){ <span class="pl-c"><span class="pl-c">//</span> 每一步都需要标记下传</span>
+    <span class="pl-k">if</span> (){ <span class="pl-c"><span class="pl-c">//</span> 标记非空</span>
+        <span class="pl-c1">settag</span>(id * <span class="pl-c1">2</span>, seg[id].<span class="pl-smi">t</span>);
+        <span class="pl-c1">settag</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, seg[id].<span class="pl-smi">t</span>);
+        <span class="pl-c"><span class="pl-c">//</span>初始化标记</span>
+
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">update</span>(<span class="pl-k">int</span> id){
+    seg[id].<span class="pl-smi">val</span> = seg[id * <span class="pl-c1">2</span>].<span class="pl-smi">val</span> + seg[id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>].<span class="pl-smi">val</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">build</span>(<span class="pl-k">int</span> id, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r){
+    <span class="pl-k">if</span> (l == r)
+    {
+        seg[id].<span class="pl-smi">val</span> = <span class="pl-c1">info</span>();
+        seg[id].<span class="pl-smi">t</span> = <span class="pl-c1">tag</span>();
+    }
+    <span class="pl-k">else</span>
+    {
+        <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+        <span class="pl-c1">build</span>(id * <span class="pl-c1">2</span>, l, mid);
+        <span class="pl-c1">build</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r);
+        <span class="pl-c1">update</span>(id);
+    }
+}
+
+info <span class="pl-en">query</span>(<span class="pl-k">int</span> id, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r, <span class="pl-k">int</span> ql, <span class="pl-k">int</span> qr){
+    <span class="pl-k">if</span> (l == ql &amp;&amp; r == qr)
+    {
+        <span class="pl-k">return</span> seg[id].<span class="pl-smi">val</span>;
+    }
+    <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+    <span class="pl-c1">pushdown</span>(id);
+    <span class="pl-k">if</span> (qr &lt;= mid)
+        <span class="pl-k">return</span> <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span>, l, mid, ql, qr);
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (ql &gt; mid)
+        <span class="pl-k">return</span> <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, ql, qr);
+    <span class="pl-k">else</span>
+        <span class="pl-k">return</span> <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span>, l, mid, ql, mid) +
+               <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, mid + <span class="pl-c1">1</span>, qr);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">modify</span>(<span class="pl-k">int</span> id, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r, <span class="pl-k">int</span> ql, <span class="pl-k">int</span> qr, tag t){
+    <span class="pl-k">if</span> (l == ql &amp;&amp; r == qr)
+    {
+        <span class="pl-c1">settag</span>(id, t);
+        <span class="pl-k">return</span>;
+    }
+    <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+    <span class="pl-c1">pushdown</span>(id);
+    <span class="pl-k">if</span> (qr &lt;= mid)
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span>, l, mid, ql, qr, t);
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (ql &gt; mid)
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, ql, qr, t);
+    <span class="pl-k">else</span>
+    {
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span>, l, mid, ql, mid, t);
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, mid + <span class="pl-c1">1</span>, qr, t);
+    }
+    <span class="pl-c1">update</span>(id);
+}</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
