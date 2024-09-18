@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="## D - 1D Country ##
+对于每次询问
+二分出对应的L村庄编号和R村庄编号
+村庄编号为前缀和下标，前缀和处理区间和。">
+<meta property="og:title" content="371ABC题解">
+<meta property="og:description" content="## D - 1D Country ##
+对于每次询问
+二分出对应的L村庄编号和R村庄编号
+村庄编号为前缀和下标，前缀和处理区间和。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://Vynor.github.io/post/371ABC-ti-jie.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>371ABC题解</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+<style>.markdown-alert{padding:0.5rem 1rem;margin-bottom:1rem;border-left:.25em solid var(--borderColor-default,var(--color-border-default));}.markdown-alert .markdown-alert-title {display:flex;font-weight:var(--base-text-weight-medium,500);align-items:center;line-height:1;}.markdown-alert>:first-child {margin-top:0;}.markdown-alert>:last-child {margin-bottom:0;}</style><style>.markdown-alert.markdown-alert-tip {border-left-color:var(--borderColor-success-emphasis, var(--color-success-emphasis));background-color:var(--color-success-subtle);}.markdown-alert.markdown-alert-tip .markdown-alert-title {color: var(--fgColor-success,var(--color-success-fg));}</style>
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">371ABC题解</h1>
+<div class="title-right">
+    <a href="https://Vynor.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/Vynor/Vynor.github.io/issues/16" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>D - 1D Country</h2>
+<p>对于每次询问<br>
+二分出对应的L村庄编号和R村庄编号<br>
+村庄编号为前缀和下标，前缀和处理区间和。</p>
+<h2>E - I Hate Sigma Problems</h2>
+<p><strong>经典</strong>思想——拆位<br>
+由于每个元素 $x$ 对区间的贡献独立，所以可以单独考虑每种元素的贡献。<br>
+对于元素 $x$</p>
+<ul>
+<li>
+<strong>方法一</strong>：考虑产生贡献的区间数<br>
+首先区间一定包含下标 $i, a_i = x$.<br>
+不妨从前往后枚举 $i$,那么区间左端点 $L$ 设置在 $i$ 左边(包含)，右端点 $R$ 设置在 $i$ 右边(包含)<br>
+设置 $R$ 可以任意取值，考虑 $L$ 的取值可能，使得不与前面重复。<br>
+显然 $L$ 不能小于等于前一个是 $x$ 的下标 $pre_x$,否则会与前一个位置重复计算区间，使得答案增大。<br>
+所以 $L &amp;gt; pre_x$.<br>
+综上，包含 $位置i$ 的区间数就是 $(i - pre_x) * (n - i + 1)$<br>
+(代码异常的短)</li>
+</ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+<span class="pl-k">int</span> n, pre[N];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    ll ans = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        <span class="pl-k">int</span> x;
+        cin &gt;&gt; x;
+        ans += <span class="pl-c1">1ll</span> * (i - pre[x]) * (n - i + <span class="pl-c1">1</span>);
+        pre[x] = i;
+    }
+    cout &lt;&lt; ans;
+}</pre></div>
+<ul>
+<li>
+<strong>方法二</strong>：考虑不产生贡献的区间数<br>
+不产生贡献的区间一定不包含 $x$<br>
+那么该区间一定夹在2个连续的 $x$ 之间，为方便计算，引入下标 $a_0 = x, a_{n + 1} = x$<br>
+旧问题就转换成新问题——长度为 $len$ 的区间有多少子区间？<br>
+分讨子区间长度大于1和等于1<br>
+总和就是 $C(len, 2) + len$<br>
+合法区间就是非法互补的数目</li>
+</ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+<span class="pl-k">int</span> n;
+vector&lt;<span class="pl-k">int</span>&gt; v[N];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) v[i].<span class="pl-c1">push_back</span>(<span class="pl-c1">0</span>);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        <span class="pl-k">int</span> x;
+        cin &gt;&gt; x;
+        v[x].<span class="pl-c1">push_back</span>(i);
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) v[i].<span class="pl-c1">push_back</span>(n + <span class="pl-c1">1</span>);
+    ll ans = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> x = <span class="pl-c1">1</span>; x &lt;= n; x ++ ){
+        ll r0 = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> 非法方案</span>
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i + <span class="pl-c1">1</span> &lt; v[x].<span class="pl-c1">size</span>(); i ++ ){
+            <span class="pl-k">int</span> l = v[x][i] + <span class="pl-c1">1</span>, r = v[x][i + <span class="pl-c1">1</span>] - <span class="pl-c1">1</span>;
+            <span class="pl-k">if</span> (l &gt; r) <span class="pl-k">continue</span>;
+            ll len = r - l + <span class="pl-c1">1</span>;
+            r0 += len * (len - <span class="pl-c1">1</span>) / <span class="pl-c1">2</span> + len;
+        }
+        ans += <span class="pl-c1">1ll</span> * n * (n - <span class="pl-c1">1</span>) / <span class="pl-c1">2</span> + n - r0;
+    }
+    cout &lt;&lt; ans;
+}</pre></div>
+<h2>F - Takahashi in Narrow Road</h2>
+<p>难点解析：不能越位，像是在一条轨道上<strong>推积木</strong>.</p>
+<div class="markdown-alert markdown-alert-tip"><p class="markdown-alert-title"><svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p><p><strong>经典套路</strong><br>
+对于第 $i$ 人坐标 $x_i$, 定义 $新x_i = x_i - i$</p>
+</div>
+<p>旧 $x_i$ 单调递增使得新 $x_i$ 单调不递减,很难不让人想到 $log$ 级别的做法<br>
+给定 $(t, g)$, 分讨推动 $t$ 的方向<br>
+如果是 $x_t \leq g$ ,需要推动所有在 $[x_t, g]$ 的 $x_i$.否则需要推动所有在 $[g, x_t]$ 的$x_i$.<br>
+贪心最小，一定成距离差1的块，因下标同样差1，所以最终区间内 $x_i$ 相同且为 $g-t$,消耗的步数就是初末区间和的差值.<br>
+如何找到最终的区间左右端点呢，由于 $x_i$ 单调不递减，所以可以<strong>二分</strong><br>
+综上，二分线段树</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">区间修改+区间查询</span>
+<span class="pl-c">维护：区间和 </span>
+<span class="pl-c">操作：查询+区间赋值</span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+
+ll n, q, x[N];
+
+<span class="pl-k">struct</span> <span class="pl-en">info</span>{
+    ll sum, sz;
+    <span class="pl-en">info</span>(){sum = <span class="pl-c1">0</span>; sz = <span class="pl-c1">1</span>;}
+    <span class="pl-en">info</span>(ll sum, ll sz):sum(sum), sz(sz){}
+};
+
+<span class="pl-k">struct</span> <span class="pl-en">tag</span>{
+    ll d;
+    <span class="pl-en">tag</span>(){d = -<span class="pl-c1">1</span>;}
+    <span class="pl-en">tag</span>(ll d):d(d){}
+};
+
+info <span class="pl-k">operator</span>+(<span class="pl-k">const</span> info &amp;l, <span class="pl-k">const</span> info &amp;r){
+    <span class="pl-k">return</span> {l.<span class="pl-smi">sum</span> + r.<span class="pl-smi">sum</span>, l.<span class="pl-smi">sz</span> + r.<span class="pl-smi">sz</span>};
+}
+
+info <span class="pl-k">operator</span>+(<span class="pl-k">const</span> info &amp;v, <span class="pl-k">const</span> tag &amp;t){ <span class="pl-c"><span class="pl-c">//</span> 区间修改</span>
+    <span class="pl-k">return</span> {v.<span class="pl-smi">sz</span> * t.<span class="pl-smi">d</span>, v.<span class="pl-smi">sz</span>};
+}
+
+tag <span class="pl-k">operator</span>+(<span class="pl-k">const</span> tag &amp;t1, <span class="pl-k">const</span> tag &amp;t2){ <span class="pl-c"><span class="pl-c">//</span>懒标记和并</span>
+    <span class="pl-k">return</span> {t2.<span class="pl-smi">d</span>};
+}
+
+<span class="pl-k">struct</span> <span class="pl-en">Node</span>{
+    tag t;
+    info val;
+} seg[N * <span class="pl-c1">4</span>];
+
+<span class="pl-k">void</span> <span class="pl-en">settag</span>(<span class="pl-k">int</span> id, tag t){
+    seg[id].<span class="pl-smi">val</span> = seg[id].<span class="pl-smi">val</span> + t;
+    seg[id].<span class="pl-smi">t</span> = seg[id].<span class="pl-smi">t</span> + t;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">pushdown</span>(<span class="pl-k">int</span> id){ <span class="pl-c"><span class="pl-c">//</span> 每一步都需要标记下传</span>
+    <span class="pl-k">if</span> (seg[id].<span class="pl-smi">t</span>.<span class="pl-smi">d</span> != -<span class="pl-c1">1</span>){ <span class="pl-c"><span class="pl-c">//</span> 标记非空</span>
+        <span class="pl-c1">settag</span>(id * <span class="pl-c1">2</span>, seg[id].<span class="pl-smi">t</span>);
+        <span class="pl-c1">settag</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, seg[id].<span class="pl-smi">t</span>);
+        <span class="pl-c"><span class="pl-c">//</span>初始化标记</span>
+        seg[id].<span class="pl-smi">t</span>.<span class="pl-smi">d</span> = -<span class="pl-c1">1</span>;
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">update</span>(<span class="pl-k">int</span> id){
+    seg[id].<span class="pl-smi">val</span> = seg[id * <span class="pl-c1">2</span>].<span class="pl-smi">val</span> + seg[id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>].<span class="pl-smi">val</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">build</span>(<span class="pl-k">int</span> id, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r){
+    <span class="pl-k">if</span> (l == r){
+        seg[id].<span class="pl-smi">val</span> = <span class="pl-c1">info</span>(x[l], <span class="pl-c1">1</span>);
+        seg[id].<span class="pl-smi">t</span> = <span class="pl-c1">tag</span>(-<span class="pl-c1">1</span>);
+    }
+    <span class="pl-k">else</span>{
+        <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+        <span class="pl-c1">build</span>(id * <span class="pl-c1">2</span>, l, mid);
+        <span class="pl-c1">build</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r);
+        <span class="pl-c1">update</span>(id);
+    }
+}
+
+info <span class="pl-en">query</span>(<span class="pl-k">int</span> id, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r, <span class="pl-k">int</span> ql, <span class="pl-k">int</span> qr){
+    <span class="pl-k">if</span> (l == ql &amp;&amp; r == qr){
+        <span class="pl-k">return</span> seg[id].<span class="pl-smi">val</span>;
+    }
+    <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+    <span class="pl-c1">pushdown</span>(id);
+    <span class="pl-k">if</span> (qr &lt;= mid)
+        <span class="pl-k">return</span> <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span>, l, mid, ql, qr);
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (ql &gt; mid)
+        <span class="pl-k">return</span> <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, ql, qr);
+    <span class="pl-k">else</span>
+        <span class="pl-k">return</span> <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span>, l, mid, ql, mid) +
+               <span class="pl-c1">query</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, mid + <span class="pl-c1">1</span>, qr);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">modify</span>(<span class="pl-k">int</span> id, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r, <span class="pl-k">int</span> ql, <span class="pl-k">int</span> qr, tag t){
+    <span class="pl-k">if</span> (l == ql &amp;&amp; r == qr)
+    {
+        <span class="pl-c1">settag</span>(id, t);
+        <span class="pl-k">return</span>;
+    }
+    <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+    <span class="pl-c1">pushdown</span>(id);
+    <span class="pl-k">if</span> (qr &lt;= mid)
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span>, l, mid, ql, qr, t);
+    <span class="pl-k">else</span> <span class="pl-k">if</span> (ql &gt; mid)
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, ql, qr, t);
+    <span class="pl-k">else</span>
+    {
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span>, l, mid, ql, mid, t);
+        <span class="pl-c1">modify</span>(id * <span class="pl-c1">2</span> + <span class="pl-c1">1</span>, mid + <span class="pl-c1">1</span>, r, mid + <span class="pl-c1">1</span>, qr, t);
+    }
+    <span class="pl-c1">update</span>(id);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) cin &gt;&gt; x[i], x[i] -= i;
+    <span class="pl-c1">build</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n);
+    cin &gt;&gt; q;
+    ll ans = <span class="pl-c1">0</span>;
+    <span class="pl-k">while</span> (q -- ){
+        ll t, g;
+        cin &gt;&gt; t &gt;&gt; g; g -= t;
+        <span class="pl-c"><span class="pl-c">//</span>讨论方向</span>
+        ll xt = <span class="pl-c1">query</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, t, t).<span class="pl-smi">sum</span>;
+        <span class="pl-k">if</span> (xt &lt;= g){ <span class="pl-c"><span class="pl-c">//</span> 向右  //[xt, g]  </span>
+            <span class="pl-k">int</span> l = t, r = n;
+            <span class="pl-k">while</span> (l &lt; r){
+                <span class="pl-k">int</span> mid = (l + r + <span class="pl-c1">1</span>) / <span class="pl-c1">2</span>;
+                <span class="pl-k">if</span> (<span class="pl-c1">query</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, mid, mid).<span class="pl-smi">sum</span> &lt;= g) l = mid;
+                <span class="pl-k">else</span> r = mid - <span class="pl-c1">1</span>;
+            }
+            ans += g * (r - t + <span class="pl-c1">1</span>) - <span class="pl-c1">query</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, t, r).<span class="pl-smi">sum</span>;
+            <span class="pl-c1">modify</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, t, r, <span class="pl-c1">tag</span>(g));
+        }<span class="pl-k">else</span>{ <span class="pl-c"><span class="pl-c">//</span>向左  //[g, xt]</span>
+            <span class="pl-k">int</span> l = <span class="pl-c1">1</span>, r = t;
+            <span class="pl-k">while</span> (l &lt; r){
+                <span class="pl-k">int</span> mid = (l + r) / <span class="pl-c1">2</span>;
+                <span class="pl-k">if</span> (<span class="pl-c1">query</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, mid, mid).<span class="pl-smi">sum</span> &gt;= g) r = mid;
+                <span class="pl-k">else</span> l = mid + <span class="pl-c1">1</span>;
+            }
+            ans += <span class="pl-c1">query</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, l, t).<span class="pl-smi">sum</span> - g * (t - l + <span class="pl-c1">1</span>);
+            <span class="pl-c1">modify</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n, l, t, <span class="pl-c1">tag</span>(g));
+        }
+    }
+    cout &lt;&lt; ans;
+}</pre></div>
+</div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://Vynor.github.io">Sun Ming's Blog</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","Vynor/Vynor.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
