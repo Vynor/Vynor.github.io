@@ -104,7 +104,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 不妨从前往后枚举 $i$,那么区间左端点 $L$ 设置在 $i$ 左边(包含)，右端点 $R$ 设置在 $i$ 右边(包含)<br>
 设置 $R$ 可以任意取值，考虑 $L$ 的取值可能，使得不与前面重复。<br>
 显然 $L$ 不能小于等于前一个是 $x$ 的下标 $pre_x$,否则会与前一个位置重复计算区间，使得答案增大。<br>
-所以 $L &amp;gt; pre_x$.<br>
+所以 $L$ &gt;  $pre_x$.<br>
 综上，包含 $位置i$ 的区间数就是 $(i - pre_x) * (n - i + 1)$<br>
 (代码异常的短)</li>
 </ul>
