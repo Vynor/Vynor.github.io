@@ -230,7 +230,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 合并并查集时需要注意记录2个并查集的顶点，显然<strong>Set</strong>求有序。<br>
 如果记录全部的点，显然最多记录 $n*(n+1)/2$ 次顶点，显然会超时。<br>
 注意到K最大 $MAX$ 为10，所以第 $k-th$ 大只与前 $MAX$ 有关。所以只合并时，只记录 $MAX$ 即可。<br>
-故时间复杂度为 $O(MK)$</p>
+故时间复杂度为 $O(MKlog{2K})$</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
 
 <span class="pl-k">int</span> n, m;
