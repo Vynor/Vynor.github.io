@@ -35,7 +35,32 @@ void solve() {
 ## D - Buildings ##
 熟练使用数据结构栈**Stack**
 ```c++
-```。">
+#include<bits/stdc++.h>
+#define IOS ios::sync_with_stdio(false);cin.tie(0);cout.tie(0)
+
+using namespace std;
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n + 1), ans(n + 1);
+    stack<int> st;
+    for (int i = 1; i <= n; i ++ ) cin >> a[i];
+    for (int i = n; i >= 1; i -- ){
+        int x = a[i];
+        while (!st.empty() && x > st.top()) st.pop();
+        st.push(x);
+        ans[i - 1] = st.size();
+    }
+    for (int i = 1; i <= n; i ++ ){
+        cout << ans[i] << ' ';
+    }
+}
+```
+
+## E - K-th Largest Connected Components ##
+联系通路，并查集
+合并并查集时需要注意记录2个并查集的顶点，显然**Set**求有序。">
 <meta property="og:title" content="372ABC题解">
 <meta property="og:description" content="## B - 3^A ##
 3进制，总是贪心使用高位，使得使用的数目最小
@@ -62,7 +87,32 @@ void solve() {
 ## D - Buildings ##
 熟练使用数据结构栈**Stack**
 ```c++
-```。">
+#include<bits/stdc++.h>
+#define IOS ios::sync_with_stdio(false);cin.tie(0);cout.tie(0)
+
+using namespace std;
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n + 1), ans(n + 1);
+    stack<int> st;
+    for (int i = 1; i <= n; i ++ ) cin >> a[i];
+    for (int i = n; i >= 1; i -- ){
+        int x = a[i];
+        while (!st.empty() && x > st.top()) st.pop();
+        st.push(x);
+        ans[i - 1] = st.size();
+    }
+    for (int i = 1; i <= n; i ++ ){
+        cout << ans[i] << ' ';
+    }
+}
+```
+
+## E - K-th Largest Connected Components ##
+联系通路，并查集
+合并并查集时需要注意记录2个并查集的顶点，显然**Set**求有序。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/372ABC-ti-jie.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -154,7 +204,84 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 }</pre></div>
 <h2>D - Buildings</h2>
 <p>熟练使用数据结构栈<strong>Stack</strong></p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"></pre></div></div>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span><span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
+
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    <span class="pl-k">int</span> n;
+    cin &gt;&gt; n;
+    vector&lt;<span class="pl-k">int</span>&gt; <span class="pl-c1">a</span>(n + <span class="pl-c1">1</span>), <span class="pl-c1">ans</span>(n + <span class="pl-c1">1</span>);
+    stack&lt;<span class="pl-k">int</span>&gt; st;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) cin &gt;&gt; a[i];
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = n; i &gt;= <span class="pl-c1">1</span>; i -- ){
+        <span class="pl-k">int</span> x = a[i];
+        <span class="pl-k">while</span> (!st.<span class="pl-c1">empty</span>() &amp;&amp; x &gt; st.<span class="pl-c1">top</span>()) st.<span class="pl-c1">pop</span>();
+        st.<span class="pl-c1">push</span>(x);
+        ans[i - <span class="pl-c1">1</span>] = st.<span class="pl-c1">size</span>();
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        cout &lt;&lt; ans[i] &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>;
+    }
+}</pre></div>
+<h2>E - K-th Largest Connected Components</h2>
+<p>联系通路，并查集<br>
+合并并查集时需要注意记录2个并查集的顶点，显然<strong>Set</strong>求有序。<br>
+如果记录全部的点，显然最多记录 $n*(n+1)/2$ 次顶点，显然会超时。<br>
+注意到K最大 $MAX$ 为10，所以第 $k-th$ 大只与前 $MAX$ 有关。所以只合并时，只记录 $MAX$ 即可。</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
+
+<span class="pl-k">int</span> n, m;
+set&lt;<span class="pl-k">int</span>&gt; se[N];
+<span class="pl-k">int</span> p[N];
+
+<span class="pl-k">int</span> <span class="pl-en">find</span>(<span class="pl-k">int</span> x){
+    <span class="pl-k">return</span> p[x] == x ? x : p[x] = <span class="pl-c1">find</span>(p[x]);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) p[i] = i, se[i].<span class="pl-c1">insert</span>(i);
+    <span class="pl-k">while</span> (m -- ){
+        <span class="pl-k">int</span> op, x, y;
+        cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
+        <span class="pl-k">if</span> (op == <span class="pl-c1">1</span>){
+            <span class="pl-k">int</span> px = <span class="pl-c1">find</span>(x), py = <span class="pl-c1">find</span>(y);
+            <span class="pl-k">if</span> (px == py) <span class="pl-k">continue</span>;
+            <span class="pl-k">else</span>{
+                p[px] = py;
+                <span class="pl-c"><span class="pl-c">//</span>py祖宗</span>
+                <span class="pl-k">int</span> k = <span class="pl-c1">0</span>;
+                <span class="pl-c"><span class="pl-c">//</span>前10个</span>
+                <span class="pl-k">while</span> (!se[px].<span class="pl-c1">empty</span>() &amp;&amp; k &lt;= <span class="pl-c1">10</span>){
+                    k ++;
+                    <span class="pl-k">int</span> mx = *(--se[px].<span class="pl-c1">end</span>());
+                    se[py].<span class="pl-c1">insert</span>(mx);
+                    se[px].<span class="pl-c1">erase</span>(mx);
+                }
+            }
+        }<span class="pl-k">else</span>{
+            <span class="pl-c"><span class="pl-c">//</span>输出</span>
+            <span class="pl-k">int</span> px = <span class="pl-c1">find</span>(x);
+            <span class="pl-k">if</span> (se[px].<span class="pl-c1">size</span>() &lt; y) cout &lt;&lt; -<span class="pl-c1">1</span> &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+            <span class="pl-k">else</span>{
+                vector&lt;<span class="pl-k">int</span>&gt; v;
+                <span class="pl-k">while</span> (y){
+                    <span class="pl-k">int</span> mx = *(--se[px].<span class="pl-c1">end</span>());
+                    se[px].<span class="pl-c1">erase</span>(mx);
+                    v.<span class="pl-c1">push_back</span>(mx);
+                    y -- ;
+                    <span class="pl-k">if</span> (!y){
+                        cout &lt;&lt; mx &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+                    }
+                }
+                <span class="pl-k">for</span> (<span class="pl-k">auto</span> mx : v) se[px].<span class="pl-c1">insert</span>(mx);
+            }
+        }
+    }
+}</pre></div>
+</div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -318,6 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script><script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </html>
