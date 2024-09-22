@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Sat, 21 Sep 2024 14:30:41 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>372ABC题解</title><link>https://Vynor.github.io/post/372ABC-ti-jie.html</link><description>## B - 3^A ##&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Sun, 22 Sep 2024 13:02:34 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>372ABC题解</title><link>https://Vynor.github.io/post/372ABC-ti-jie.html</link><description>## B - 3^A ##&#13;
 3进制，总是贪心使用高位，使得使用的数目最小&#13;
 ```c++&#13;
 void solve() {&#13;
@@ -49,7 +49,7 @@ void solve() {&#13;
 &#13;
 ## E - K-th Largest Connected Components ##&#13;
 联系通路，并查集&#13;
-合并并查集时需要注意记录2个并查集的顶点，显然**Set**求有序。</description><guid isPermaLink="true">https://Vynor.github.io/post/372ABC-ti-jie.html</guid><pubDate>Sat, 21 Sep 2024 14:12:41 +0000</pubDate></item><item><title>371ABC题解</title><link>https://Vynor.github.io/post/371ABC-ti-jie.html</link><description>## D - 1D Country ##&#13;
+合并并查集时需要合并2个并查集内的顶点，显然**Set**求有序。</description><guid isPermaLink="true">https://Vynor.github.io/post/372ABC-ti-jie.html</guid><pubDate>Sat, 21 Sep 2024 14:12:41 +0000</pubDate></item><item><title>371ABC题解</title><link>https://Vynor.github.io/post/371ABC-ti-jie.html</link><description>## D - 1D Country ##&#13;
 对于每次询问&#13;
 二分出对应的L村庄编号和R村庄编号&#13;
 村庄编号为前缀和下标，前缀和处理区间和。</description><guid isPermaLink="true">https://Vynor.github.io/post/371ABC-ti-jie.html</guid><pubDate>Wed, 18 Sep 2024 08:21:22 +0000</pubDate></item><item><title>370ABC题解</title><link>https://Vynor.github.io/post/370ABC-ti-jie.html</link><description>## D - Cross Explosion ##&#13;
