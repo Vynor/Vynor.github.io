@@ -11,74 +11,10 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="## Tarjan算法 ##
-求强连通分量
-```c++
-vector<int> edge[N];
-
-int dfn[N], low[N], ins[N], idx = 0; //分别代表到i点的时间，返祖最小时间，是否在堆中(或被切割)
-stack<int> stk; //记录经过但待分类的点
-vector<vector<int>> scc; //记录强连通分量
-
-void dfs(int u){
-    dfn[u] = low[u] = ++ idx;
-    ins[u] = true;
-    stk.push(u);
-    for (auto v : edge[u])
-        if (!dfn[v]){ //没搜过
-            dfs(v);
-            low[u] = min(low[u], low[v]);
-        }else{
-            if (ins[v]) low[u] = min(low[u], dfn[v]); //不考虑指向另外强连通分量的横向边，只考虑状态未定的点
-        }
-    if (dfn[u] == low[u]){ //强连通分量的First节点
-        vector<int> c;
-        while (true){
-            int v = stk.top();
-            c.push_back(v);
-            ins[v] = false;//被切割
-            stk.pop();
-            if (v == u) break;
-        }
-        //sort(c.begin(), c.end());
-        scc.push_back(c);
-    }
-}
-```。">
+求强连通分量。">
 <meta property="og:title" content="图的连通性">
 <meta property="og:description" content="## Tarjan算法 ##
-求强连通分量
-```c++
-vector<int> edge[N];
-
-int dfn[N], low[N], ins[N], idx = 0; //分别代表到i点的时间，返祖最小时间，是否在堆中(或被切割)
-stack<int> stk; //记录经过但待分类的点
-vector<vector<int>> scc; //记录强连通分量
-
-void dfs(int u){
-    dfn[u] = low[u] = ++ idx;
-    ins[u] = true;
-    stk.push(u);
-    for (auto v : edge[u])
-        if (!dfn[v]){ //没搜过
-            dfs(v);
-            low[u] = min(low[u], low[v]);
-        }else{
-            if (ins[v]) low[u] = min(low[u], dfn[v]); //不考虑指向另外强连通分量的横向边，只考虑状态未定的点
-        }
-    if (dfn[u] == low[u]){ //强连通分量的First节点
-        vector<int> c;
-        while (true){
-            int v = stk.top();
-            c.push_back(v);
-            ins[v] = false;//被切割
-            stk.pop();
-            if (v == u) break;
-        }
-        //sort(c.begin(), c.end());
-        scc.push_back(c);
-    }
-}
-```。">
+求强连通分量。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/tu-de-lian-tong-xing.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -150,7 +86,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h2>Tarjan算法</h2>
-<p>求强连通分量</p>
+<p>求强连通分量。<br>
+算法思路：在DFS森林上进行操作，不断地整合点成块然后切割块，使得只考虑经过但未被切割的点，这样就忽略了横向边的影响。只要一个点能返祖(自己或经过子树)到更小的时间点，那么这个点就属于某一个强连通块；否则该点就作为这个强连通块的第一个被搜索到的点，强连通块的其他点的返祖最小时间点也一定是该点，那么可以切割并记录该强连通分量。</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; edge[N];
 
 <span class="pl-k">int</span> dfn[N], low[N], ins[N], idx = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span>分别代表到i点的时间，返祖最小时间，是否在堆中(或被切割)</span>
@@ -171,10 +108,10 @@ vector&lt;vector&lt;<span class="pl-k">int</span>&gt;&gt; scc; <span class="pl-c
     <span class="pl-k">if</span> (dfn[u] == low[u]){ <span class="pl-c"><span class="pl-c">//</span>强连通分量的First节点</span>
         vector&lt;<span class="pl-k">int</span>&gt; c;
         <span class="pl-k">while</span> (<span class="pl-c1">true</span>){
-            <span class="pl-k">int</span> v = stk.<span class="pl-c1">top</span>();
-            c.<span class="pl-c1">push_back</span>(v);
+            <span class="pl-k">int</span> v = stk.<span class="pl-c1">top</span>(); <span class="pl-c"><span class="pl-c">//</span>取出</span>
+            c.<span class="pl-c1">push_back</span>(v); <span class="pl-c"><span class="pl-c">//</span>记录</span>
             ins[v] = <span class="pl-c1">false</span>;<span class="pl-c"><span class="pl-c">//</span>被切割</span>
-            stk.<span class="pl-c1">pop</span>();
+            stk.<span class="pl-c1">pop</span>(); <span class="pl-c"><span class="pl-c">//</span>删除</span>
             <span class="pl-k">if</span> (v == u) <span class="pl-k">break</span>;
         }
         <span class="pl-c"><span class="pl-c">//</span>sort(c.begin(), c.end());</span>
