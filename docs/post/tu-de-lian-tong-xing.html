@@ -87,7 +87,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><h2>Tarjan算法</h2>
 <p>求强连通分量。<br>
-算法思路：在DFS森林上进行操作，不断地整合点成块然后切割块，使得只考虑经过但未被切割的点，这样就忽略了横向边的影响。只要一个点能返祖(自己或经过子树)到更小的时间点，那么这个点就属于某一个强连通块；否则该点就作为这个强连通块的第一个被搜索到的点，强连通块的其他点的返祖最小时间点也一定是该点，那么可以切割并记录该强连通分量。</p>
+算法思路：在DFS森林上进行操作，不断地整合点成块然后切割块，使得只考虑经过但未被切割的点，这样就忽略了横向边的影响。只要一个点能返祖(自己或经过子树)到更小的时间点，那么这个点就属于某一个强连通块；否则该点就作为这个强连通块的第一个被搜索到的点，强连通块的其他点的返祖最小时间点也一定是该点，那么可以切割并记录该强连通分量。<br>
+时间复杂度 $O(N+M)$</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; edge[N];
 
 <span class="pl-k">int</span> dfn[N], low[N], ins[N], idx = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span>分别代表到i点的时间，返祖最小时间，是否在堆中(或被切割)</span>
@@ -286,6 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
-
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </html>
