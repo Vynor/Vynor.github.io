@@ -10,7 +10,7 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="## Dijkstra ##
+<meta name="description" content="# Dijkstra #
 单源汇最短路，要求图上**不存在**负权边
 时间复杂度为 $O((N+M)logN)$
 > [!IMPORTANT]
@@ -74,10 +74,10 @@ void dij(int s){
 }
 ```
 
-## Bellman-Ford ##
+# Bellman-Ford #
 Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。">
 <meta property="og:title" content="最短路">
-<meta property="og:description" content="## Dijkstra ##
+<meta property="og:description" content="# Dijkstra #
 单源汇最短路，要求图上**不存在**负权边
 时间复杂度为 $O((N+M)logN)$
 > [!IMPORTANT]
@@ -141,7 +141,7 @@ void dij(int s){
 }
 ```
 
-## Bellman-Ford ##
+# Bellman-Ford #
 Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/zui-duan-lu.html">
@@ -213,7 +213,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h2>Dijkstra</h2>
+<div class="markdown-body" id="postBody"><h1>Dijkstra</h1>
 <p>单源汇最短路，要求图上<strong>不存在</strong>负权边<br>
 时间复杂度为 $O((N+M)logN)$</p>
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>经暴打，使用优先队列的时间更优，因为常数更小，小心被<strong>Set</strong>卡常哦</p>
@@ -271,7 +271,7 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
             }
     }    
 }</pre></div>
-<h2>Bellman-Ford</h2>
+<h1>Bellman-Ford</h1>
 <p>Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。<br>
 由于每轮松弛会使得最短路的边数至少+1，而最短路的边数最多 $n-1$，故最多进行 $n-1$轮松弛操作。<br>
 如果第 $n$ 轮循环时仍然存在可以松弛的边，说明从 $S$ 出发，能够抵达一个<strong>负环</strong>。<br>
@@ -310,7 +310,7 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
 <div class="markdown-alert markdown-alert-warning"><p class="markdown-alert-title"><svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p><p>需要注意的是，以 $S$ 点为源点跑Bellman-Ford算法时，如果没有给出存在负环的结果，只能说明从 $S$ 点出发不能抵达一个负环，&gt;不能说明图上不存在负环。</p>
 <p>因此需要判断整张图上是否存在负环时，最严谨的做法时设置一个超级源点，向图上每个顶点连一条权值是 $0$ 的边，然后以超级源点为起点跑一遍Bellman-Ford算法</p>
 </div>
-<h2>SPFA</h2>
+<h1>SPFA</h1>
 <p>Bellman-Ford的<strong>优化</strong><br>
 很多时候我们并不需要那么多无用的松弛操作。<br>
 很显然，只有上一次被松弛的结点，所连接的边，才有可能引起下一次松弛。<br>
@@ -351,7 +351,7 @@ SPFA也可以判断 $S$ 能否抵达一个<strong>负环</strong>，只需要记
     }
     <span class="pl-k">return</span> <span class="pl-c1">false</span>;
 }</pre></div>
-<h2>Floyd</h2>
+<h1>Floyd</h1>
 <p>多源汇最短路算法<br>
 $f[k][i][j]$ 表示从 $i$ 到 $j$，中间只经过 $1-k$ 的最短路径的长度<br>
 考虑转移</p>
