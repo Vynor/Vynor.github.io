@@ -209,8 +209,16 @@ u64 val[V + <span class="pl-c1">1</span>];
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= V; i ++ ){
         val[i] = <span class="pl-c1">rng</span>();
     }
-}
-</pre></div>
+}</pre></div>
+<p>1.区间各元素的奇偶性问题，与一个值的具体数目无关  -&gt; 异或</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">    pre[i] = pre[i - <span class="pl-c1">1</span>] ^ a;
+    <span class="pl-c"><span class="pl-c">//</span>判断 pre[--l] = pre[r]</span></pre></div>
+<p>2.区间重排列问题，与一个值的具体数目有关  -&gt; 加法</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">    pre[i] = pre[i] + a;
+    <span class="pl-c"><span class="pl-c">//</span>判断pa[r] - pa[--l] == pb[r] - pb[--l]</span></pre></div>
+<p>练习：<br>
+<a href="https://atcoder.jp/contests/abc367/tasks/abc367_f" rel="nofollow">https://atcoder.jp/contests/abc367/tasks/abc367_f</a><br>
+<a href="https://codeforces.com/contest/2014/problem/H" rel="nofollow">https://codeforces.com/contest/2014/problem/H</a></p>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
