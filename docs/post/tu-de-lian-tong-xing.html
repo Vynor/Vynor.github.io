@@ -124,7 +124,46 @@ vector&lt;vector&lt;<span class="pl-k">int</span>&gt;&gt; scc; <span class="pl-c
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>DAG(有向无环图)DFS一遍的出栈顺序是反图的拓扑序<br>
 有向图 SCC缩点 -&gt; DAG<br>
 推论：在缩点完的DAG里一定是个源点(没有入度)</p>
-</div></div>
+</div>
+<p>算法思路：2遍DFS，dfs_1对正图求出栈顺序out，然后翻转out，遍历对其dfs_2对反图求出所有以该源点的强连通分量。</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; e[N], erev[N]; <span class="pl-c"><span class="pl-c">//</span>原图 反图</span>
+
+<span class="pl-k">int</span> vis[N];
+vector&lt;<span class="pl-k">int</span>&gt; c, out;
+
+<span class="pl-k">void</span> <span class="pl-en">dfs_1</span>(<span class="pl-k">int</span> u){
+    vis[u] = <span class="pl-c1">true</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> v : e[u])
+        <span class="pl-k">if</span> (!vis[v]) <span class="pl-c1">dfs_1</span>(v);
+    out.<span class="pl-c1">push_back</span>(u);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">dfs_2</span>(<span class="pl-k">int</span> u){
+    vis[u] = <span class="pl-c1">true</span>;
+    c.<span class="pl-c1">push_back</span>(u);
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> v : erev[u])
+        <span class="pl-k">if</span> (!vis[v]) <span class="pl-c1">dfs_2</span>(v);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    <span class="pl-k">int</span> n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="pl-k">while</span> (m -- ){
+        <span class="pl-k">int</span> x, y;
+        cin &gt;&gt; x &gt;&gt; y;
+        e[x].<span class="pl-c1">push_back</span>(y);
+        erev[y].<span class="pl-c1">push_back</span>(x);
+    }   
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
+        <span class="pl-k">if</span> (!vis[i]) <span class="pl-c1">dfs_1</span>(i);
+    <span class="pl-c1">reverse</span>(out.<span class="pl-c1">begin</span>(), out.<span class="pl-c1">end</span>());
+    <span class="pl-c1">memset</span>(vis, <span class="pl-c1">0</span>, <span class="pl-k">sizeof</span> vis);
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> u : out)
+        <span class="pl-k">if</span> (!vis[u]){
+            c.<span class="pl-c1">clear</span>();
+            <span class="pl-c1">dfs_2</span>(u);
+        }
+}</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
