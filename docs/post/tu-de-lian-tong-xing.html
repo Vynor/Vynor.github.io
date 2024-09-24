@@ -125,7 +125,8 @@ vector&lt;vector&lt;<span class="pl-k">int</span>&gt;&gt; scc; <span class="pl-c
 有向图 SCC缩点 -&gt; DAG<br>
 推论：在缩点完的DAG里一定是个源点(没有入度)</p>
 </div>
-<p>算法思路：2遍DFS，dfs_1对正图求出栈顺序out，然后翻转out，遍历对其dfs_2对反图求出所有以该源点的强连通分量。</p>
+<p>算法思路：2遍DFS，dfs_1对正图求出栈顺序out，然后翻转out，遍历对其dfs_2对反图求出所有以该源点的强连通分量。<br>
+时间复杂度 $O(N+M)$</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; e[N], erev[N]; <span class="pl-c"><span class="pl-c">//</span>原图 反图</span>
 
 <span class="pl-k">int</span> vis[N];
