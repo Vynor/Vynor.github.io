@@ -196,6 +196,21 @@ info <span class="pl-en">query</span>(<span class="pl-k">int</span> id, <span cl
     }
     <span class="pl-c1">update</span>(id);
 }</pre></div>
+<h2>随机哈希</h2>
+<p>解决区间匹配问题</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">std::mt19937_64 <span class="pl-en">rng</span>(std::chrono::steady_clock::now().time_since_epoch().count());
+<span class="pl-k">using</span> u64 = <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ;
+
+<span class="pl-k">const</span> <span class="pl-k">int</span> V = <span class="pl-c1">1e6</span>;
+
+u64 val[V + <span class="pl-c1">1</span>];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= V; i ++ ){
+        val[i] = <span class="pl-c1">rng</span>();
+    }
+}
+</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
