@@ -217,7 +217,7 @@ vector&lt;<span class="pl-k">int</span>&gt; bridge;
             <span class="pl-c1">dfs</span>(v, u);
             ++ ch;
             low[u] = <span class="pl-c1">min</span>(low[u], low[v]);
-            <span class="pl-k">if</span> (low[v] &gt;= dfn[u]) cut[u] = <span class="pl-c1">1</span>; <span class="pl-c"><span class="pl-c">//</span>是割点</span>
+            <span class="pl-k">if</span> (low[v] &gt;= dfn[u]) cut[u] = <span class="pl-c1">1</span>; <span class="pl-c"><span class="pl-c">//</span>是割点   **最关键的判断**</span>
         }<span class="pl-k">else</span> <span class="pl-k">if</span> (v != fa){
             low[u] = <span class="pl-c1">min</span>(low[u], dfn[v]);
         }
