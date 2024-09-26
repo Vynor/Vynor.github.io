@@ -169,6 +169,38 @@ vector&lt;<span class="pl-k">int</span>&gt; c, out;
         }
 }</pre></div>
 <h2>(桥)割边</h2>
+<p>Tarjan算法</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; e[N]; <span class="pl-c"><span class="pl-c">//</span> u -&gt; v 边的编号为second</span>
+
+<span class="pl-k">int</span> dfn[N], low[N], idx = <span class="pl-c1">0</span>;
+
+vector&lt;<span class="pl-k">int</span>&gt; bridge;
+<span class="pl-c"><span class="pl-c">//</span>fa -&gt; u 的 id</span>
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> id){
+    dfn[u] = low[u] = ++ idx;
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> [v, id2] : e[u]){
+        <span class="pl-k">if</span> (!dfn[v]) <span class="pl-c1">dfs</span>(v, id2);
+        <span class="pl-k">if</span> (id != id2) low[u] = <span class="pl-c1">min</span>(low[u], low[v]); <span class="pl-c"><span class="pl-c">//</span>判重 使用id可以判重 但fa不能判重</span>
+    }
+    <span class="pl-k">if</span> (dfn[u] == low[u] &amp;&amp; id != -<span class="pl-c1">1</span>){ <span class="pl-c"><span class="pl-c">//</span>注意id != -1</span>
+        bridge.<span class="pl-c1">push_back</span>(id);
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
+    <span class="pl-k">int</span> n, m;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) e[i].<span class="pl-c1">clear</span>(), dfn[i] = low[i] = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span>初始化</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i ++ ){
+        <span class="pl-k">int</span> u, v;
+        cin &gt;&gt; u &gt;&gt; v;
+        e[u].<span class="pl-c1">push_back</span>({v, i});
+        e[v].<span class="pl-c1">push_back</span>({u, i});
+    }
+    bridge.<span class="pl-c1">clear</span>();
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) <span class="pl-c"><span class="pl-c">//</span>考虑多个连通块</span>
+        <span class="pl-k">if</span> (!dfn[i]) <span class="pl-c1">dfs</span>(i, -<span class="pl-c1">1</span>);
+    cout &lt;&lt; bridge.<span class="pl-c1">size</span>() &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+}</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
