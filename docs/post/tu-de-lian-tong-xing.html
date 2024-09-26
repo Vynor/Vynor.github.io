@@ -204,6 +204,7 @@ vector&lt;<span class="pl-k">int</span>&gt; bridge;
     cout &lt;&lt; bridge.<span class="pl-c1">size</span>() &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
 }</pre></div>
 <h3>割点</h3>
+<p>思考点与点的关系，不能用dfn[u] == low[v]判断割点</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; e[N];
 
 <span class="pl-k">int</span> dfn[N], low[N], idx, sz;
