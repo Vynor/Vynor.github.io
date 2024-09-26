@@ -169,7 +169,8 @@ vector&lt;<span class="pl-k">int</span>&gt; c, out;
         }
 }</pre></div>
 <h2>(桥)割边</h2>
-<p>Tarjan算法</p>
+<p>Tarjan算法<br>
+对于一个点X，考虑其子树的所有返祖边返不到自己先祖</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; e[N]; <span class="pl-c"><span class="pl-c">//</span> u -&gt; v 边的编号为second</span>
 
 <span class="pl-k">int</span> dfn[N], low[N], idx = <span class="pl-c1">0</span>;
