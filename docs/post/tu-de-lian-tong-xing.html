@@ -168,7 +168,8 @@ vector&lt;<span class="pl-k">int</span>&gt; c, out;
             <span class="pl-c1">dfs_2</span>(u);
         }
 }</pre></div>
-<h2>(桥)割边</h2>
+<h2>(桥)割边 和 割点</h2>
+<h3>桥</h3>
 <p>Tarjan算法<br>
 对于一个点X，考虑其子树的所有返祖边返不到自己先祖</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt; e[N]; <span class="pl-c"><span class="pl-c">//</span> u -&gt; v 边的编号为second</span>
@@ -201,6 +202,48 @@ vector&lt;<span class="pl-k">int</span>&gt; bridge;
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) <span class="pl-c"><span class="pl-c">//</span>考虑多个连通块</span>
         <span class="pl-k">if</span> (!dfn[i]) <span class="pl-c1">dfs</span>(i, -<span class="pl-c1">1</span>);
     cout &lt;&lt; bridge.<span class="pl-c1">size</span>() &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+}</pre></div>
+<h3>割点</h3>
+<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; e[N];
+
+<span class="pl-k">int</span> dfn[N], low[N], idx, sz;
+<span class="pl-k">int</span> cut[N];
+
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> fa){
+    dfn[u] = low[u] = ++ idx;
+    <span class="pl-k">int</span> ch = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> v : e[u]){
+        <span class="pl-k">if</span> (!dfn[v]){
+            <span class="pl-c1">dfs</span>(v, u);
+            ++ ch;
+            low[u] = <span class="pl-c1">min</span>(low[u], low[v]);
+            <span class="pl-k">if</span> (low[v] &gt;= dfn[u]) cut[u] = <span class="pl-c1">1</span>; <span class="pl-c"><span class="pl-c">//</span>是割点</span>
+        }<span class="pl-k">else</span> <span class="pl-k">if</span> (v != fa){
+            low[u] = <span class="pl-c1">min</span>(low[u], dfn[v]);
+        }
+    }
+    <span class="pl-k">if</span> (fa == -<span class="pl-c1">1</span> &amp;&amp; ch &lt;= <span class="pl-c1">1</span>) cut[u] = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span>根特殊</span>
+    sz += cut[u];
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
+    <span class="pl-k">int</span> n;
+    <span class="pl-k">while</span> (cin &gt;&gt; n &amp;&amp; n){
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) e[i].<span class="pl-c1">clear</span>(), dfn[i] = low[i] = cut[i] = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span>初始化</span>
+        <span class="pl-k">int</span> u;
+        <span class="pl-k">while</span> (cin &gt;&gt; u &amp;&amp; u){
+            <span class="pl-k">while</span> (<span class="pl-c1">getchar</span>() != <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>){ <span class="pl-c"><span class="pl-c">//</span>判断读行</span>
+                <span class="pl-k">int</span> v;
+                cin &gt;&gt; v;
+                e[u].<span class="pl-c1">push_back</span>(v);
+                e[v].<span class="pl-c1">push_back</span>(u);
+            }
+        }
+        idx = sz = <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
+            <span class="pl-k">if</span> (!dfn[i]) <span class="pl-c1">dfs</span>(i, -<span class="pl-c1">1</span>);
+        cout &lt;&lt; sz &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+    }
 }</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
