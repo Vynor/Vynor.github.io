@@ -247,6 +247,98 @@ vector&lt;<span class="pl-k">int</span>&gt; bridge;
         cout &lt;&lt; sz &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
     }
 }</pre></div>
+<h2>DP有关</h2>
+<p>可以直接在缩点过程中DP<br>
+样例：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span><span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);cin.tie(<span class="pl-c1">0</span>);cout.tie(<span class="pl-c1">0</span>)
+
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">5e5</span> + <span class="pl-c1">10</span>;
+<span class="pl-c"><span class="pl-c">//</span> SCC缩点成DAG进行DP</span>
+
+vector&lt;<span class="pl-k">int</span>&gt; e[N];
+
+<span class="pl-k">int</span> dfn[N], low[N], ins[N], idx = <span class="pl-c1">0</span>;
+stack&lt;<span class="pl-k">int</span>&gt; stk;
+
+<span class="pl-k">int</span> cnt, T;
+<span class="pl-k">int</span> dp[N], bel[N], vis[N], isd[N];
+
+<span class="pl-k">int</span> val[N], ed[N];
+
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u){
+    dfn[u] = low[u] = ++ idx;
+    ins[u] = <span class="pl-c1">true</span>;
+    stk.<span class="pl-c1">push</span>(u);
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> v : e[u])
+        <span class="pl-k">if</span> (!dfn[v]) {
+            <span class="pl-c1">dfs</span>(v);
+            low[u] = <span class="pl-c1">min</span>(low[u], low[v]);
+        }<span class="pl-k">else</span>{
+            <span class="pl-k">if</span> (ins[v]) low[u] = <span class="pl-c1">min</span>(low[u], dfn[v]);
+        }
+    <span class="pl-k">if</span> (dfn[u] == low[u]){
+        ++ cnt;
+        dp[cnt] = <span class="pl-c1">0</span>, isd[cnt] = <span class="pl-c1">0</span>;
+        ++ T;
+        vis[cnt] = T;
+        <span class="pl-k">int</span> sum = <span class="pl-c1">0</span>, is_ed = <span class="pl-c1">0</span>;
+        <span class="pl-k">while</span> (<span class="pl-c1">true</span>){
+            <span class="pl-k">int</span> v = stk.<span class="pl-c1">top</span>();
+            ins[v] = <span class="pl-c1">false</span>;
+            bel[v] = cnt;
+            sum += val[v];
+            <span class="pl-k">if</span> (ed[v]) {
+                is_ed = <span class="pl-c1">true</span>;
+                <span class="pl-c"><span class="pl-c">//</span>cout &lt;&lt; "终点！" &lt;&lt; v &lt;&lt; '\n';</span>
+            }
+            <span class="pl-k">for</span> (<span class="pl-k">auto</span> w : e[v])
+                <span class="pl-k">if</span> (vis[bel[w]] != T &amp;&amp; isd[bel[w]]){
+                    is_ed = <span class="pl-c1">true</span>;
+                    vis[bel[w]] = T;
+                    dp[cnt] = <span class="pl-c1">max</span>(dp[cnt], dp[bel[w]]);
+                }
+            stk.<span class="pl-c1">pop</span>();
+            <span class="pl-k">if</span> (v == u) <span class="pl-k">break</span>;
+        }
+        dp[cnt] += sum;
+        isd[cnt] = is_ed;
+        <span class="pl-c"><span class="pl-c">//</span>cout &lt;&lt; cnt &lt;&lt; ' ' &lt;&lt; dp[cnt] &lt;&lt; ' ' &lt;&lt; isd[cnt] &lt;&lt; '\n';</span>
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    <span class="pl-k">int</span> n, m;
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="pl-k">while</span> (m -- ){
+        <span class="pl-k">int</span> x, y;
+        cin &gt;&gt; x &gt;&gt; y;
+        e[x].<span class="pl-c1">push_back</span>(y);
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) cin &gt;&gt; val[i];
+    <span class="pl-k">int</span> S, P;
+    cin &gt;&gt; S &gt;&gt; P;
+    <span class="pl-k">while</span> (P--){
+        <span class="pl-k">int</span> x;
+        cin &gt;&gt; x;
+        ed[x] = <span class="pl-c1">true</span>;
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ )
+        <span class="pl-k">if</span> (!dfn[i]) <span class="pl-c1">dfs</span>(i);
+    cout &lt;&lt; dp[bel[S]];
+}
+
+<span class="pl-k">signed</span> <span class="pl-en">main</span>() {
+    IOS;
+    <span class="pl-k">int</span> t = <span class="pl-c1">1</span>;
+<span class="pl-c"><span class="pl-c">//</span>    cin &gt;&gt; t;</span>
+    <span class="pl-k">while</span> (t--) {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
 </div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
