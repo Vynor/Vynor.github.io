@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Wed, 09 Oct 2024 12:42:06 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>ABC374题解</title><link>https://Vynor.github.io/post/ABC374-ti-jie.html</link><description>## D - Laser Marking ##&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Sun Ming's Blog</title><link>https://Vynor.github.io</link><description>一个用于分享atcoder题解的博客</description><copyright>Sun Ming's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://Vynor.github.io</link></image><lastBuildDate>Fri, 11 Oct 2024 13:00:49 +0000</lastBuildDate><managingEditor>Sun Ming's Blog</managingEditor><ttl>60</ttl><webMaster>Sun Ming's Blog</webMaster><item><title>ABC374题解</title><link>https://Vynor.github.io/post/ABC374-ti-jie.html</link><description>## D - Laser Marking ##&#13;
 问题可以转换为不同组端点之间的移动的最小代价&#13;
 由于 $n$ 最大6,考虑暴力&#13;
 全排列 + 二进制枚举方向&#13;
@@ -211,8 +211,10 @@ using pt = pair&lt;int, int&gt;;&#13;
 &#13;
 void dij(int s, int u)&#13;
 {&#13;
-    memset(d, 0x3f, sizeof d);&#13;
-    memset(st, false, sizeof st);&#13;
+    for (int i = 1; i &lt;= n; i ++) {&#13;
+        d[i] = 0x3f3f3f3f;&#13;
+        st[i] = false;&#13;
+    }&#13;
     d[s] = 0;&#13;
     priority_queue&lt;pt, vector&lt;pt&gt;, greater&lt;pt&gt;&gt; q;&#13;
     q.push({d[s], s});&#13;

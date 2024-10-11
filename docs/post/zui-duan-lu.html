@@ -25,8 +25,10 @@ using pt = pair<int, int>;
 
 void dij(int s, int u)
 {
-    memset(d, 0x3f, sizeof d);
-    memset(st, false, sizeof st);
+    for (int i = 1; i <= n; i ++) {
+        d[i] = 0x3f3f3f3f;
+        st[i] = false;
+    }
     d[s] = 0;
     priority_queue<pt, vector<pt>, greater<pt>> q;
     q.push({d[s], s});
@@ -92,8 +94,10 @@ using pt = pair<int, int>;
 
 void dij(int s, int u)
 {
-    memset(d, 0x3f, sizeof d);
-    memset(st, false, sizeof st);
+    for (int i = 1; i <= n; i ++) {
+        d[i] = 0x3f3f3f3f;
+        st[i] = false;
+    }
     d[s] = 0;
     priority_queue<pt, vector<pt>, greater<pt>> q;
     q.push({d[s], s});
@@ -226,8 +230,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <span class="pl-k">void</span> <span class="pl-en">dij</span>(<span class="pl-k">int</span> s, <span class="pl-k">int</span> u)
 {
-    <span class="pl-c1">memset</span>(d, <span class="pl-c1">0x3f</span>, <span class="pl-k">sizeof</span> d);
-    <span class="pl-c1">memset</span>(st, <span class="pl-c1">false</span>, <span class="pl-k">sizeof</span> st);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++) {
+        d[i] = <span class="pl-c1">0x3f3f3f3f</span>;
+        st[i] = <span class="pl-c1">false</span>;
+    }
     d[s] = <span class="pl-c1">0</span>;
     priority_queue&lt;pt, vector&lt;pt&gt;, greater&lt;pt&gt;&gt; q;
     q.<span class="pl-c1">push</span>({d[s], s});
