@@ -341,16 +341,13 @@ ll d[N][<span class="pl-c1">12</span>];
     ll ans = <span class="pl-c1">1e18</span>;
     <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt;= k; j ++ ) ans = <span class="pl-c1">min</span>(ans, d[n][j]);
     cout &lt;&lt; ans &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
-}
-```c++
-
-# Bellman-Ford #
-Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。
-由于每轮松弛会使得最短路的边数至少+<span class="pl-c1">1</span>，而最短路的边数最多 $n-<span class="pl-c1">1</span>$，故最多进行 $n-<span class="pl-c1">1</span>$轮松弛操作。
-如果第 $n$ 轮循环时仍然存在可以松弛的边，说明从 $S$ 出发，能够抵达一个**负环**。
-时间复杂度为 $O(NM)$
-```c++
-<span class="pl-k">struct</span> <span class="pl-en">Node</span>
+}</pre></div>
+<h1>Bellman-Ford</h1>
+<p>Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。<br>
+由于每轮松弛会使得最短路的边数至少+1，而最短路的边数最多 $n-1$，故最多进行 $n-1$轮松弛操作。<br>
+如果第 $n$ 轮循环时仍然存在可以松弛的边，说明从 $S$ 出发，能够抵达一个<strong>负环</strong>。<br>
+时间复杂度为 $O(NM)$</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">Node</span>
 {
     <span class="pl-k">int</span> x, y, v;
 } edge[M];
