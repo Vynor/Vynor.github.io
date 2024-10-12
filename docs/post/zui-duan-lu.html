@@ -76,8 +76,10 @@ void dij(int s){
 }
 ```
 
-# Bellman-Ford #
-Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。">
+# 分层图 # 
+点的状态有k种，并且k较小时，可以使用二维 $[x][j]$ 表示 $nk$ 种状态，这样就可以转化为最短路，跑djk
+记得改变转移代码
+经实验，nk状态(不建立分层图，队列维护3条信息)比nk点(建立分层图，队列维护2信息)更简便易写。">
 <meta property="og:title" content="最短路">
 <meta property="og:description" content="# Dijkstra #
 单源汇最短路，要求图上**不存在**负权边
@@ -145,8 +147,10 @@ void dij(int s){
 }
 ```
 
-# Bellman-Ford #
-Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。">
+# 分层图 # 
+点的状态有k种，并且k较小时，可以使用二维 $[x][j]$ 表示 $nk$ 种状态，这样就可以转化为最短路，跑djk
+记得改变转移代码
+经实验，nk状态(不建立分层图，队列维护3条信息)比nk点(建立分层图，队列维护2信息)更简便易写。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://Vynor.github.io/post/zui-duan-lu.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -277,12 +281,76 @@ set&lt;pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&
             }
     }    
 }</pre></div>
-<h1>Bellman-Ford</h1>
-<p>Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。<br>
-由于每轮松弛会使得最短路的边数至少+1，而最短路的边数最多 $n-1$，故最多进行 $n-1$轮松弛操作。<br>
-如果第 $n$ 轮循环时仍然存在可以松弛的边，说明从 $S$ 出发，能够抵达一个<strong>负环</strong>。<br>
-时间复杂度为 $O(NM)$</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">Node</span>
+<h1>分层图</h1>
+<p>点的状态有k种，并且k较小时，可以使用二维 $[x][j]$ 表示 $nk$ 种状态，这样就可以转化为最短路，跑djk<br>
+记得改变转移代码<br>
+经实验，nk状态(不建立分层图，队列维护3条信息)比nk点(建立分层图，队列维护2信息)更简便易写。<br>
+示例如下：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">vector&lt;<span class="pl-k">int</span>&gt; edge[N]; <span class="pl-c"><span class="pl-c">//</span>依情况调整</span>
+
+<span class="pl-k">int</span> n, m, k, a[N];
+
+ll d[N][<span class="pl-c1">12</span>];
+<span class="pl-k">int</span> st[N][<span class="pl-c1">12</span>];
+
+<span class="pl-k">using</span> pt = pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;;
+<span class="pl-k">using</span> ptt = pair&lt;ll, pt&gt;;
+
+<span class="pl-k">void</span> <span class="pl-en">dij</span>()
+{
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) 
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt;= k; j ++ ) {
+            d[i][j] = <span class="pl-c1">1e18</span>, st[i][j] = <span class="pl-c1">false</span>;
+        }
+    priority_queue&lt;ptt, vector&lt;ptt&gt;, greater&lt;ptt&gt;&gt; q;
+    d[<span class="pl-c1">1</span>][<span class="pl-c1">0</span>] = a[<span class="pl-c1">1</span>];
+    q.<span class="pl-c1">push</span>({d[<span class="pl-c1">1</span>][<span class="pl-c1">0</span>], {<span class="pl-c1">1</span>, <span class="pl-c1">0</span>}});
+    d[<span class="pl-c1">1</span>][<span class="pl-c1">1</span>] = <span class="pl-c1">1</span>;
+    q.<span class="pl-c1">push</span>({d[<span class="pl-c1">1</span>][<span class="pl-c1">1</span>], {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>}});
+    <span class="pl-k">while</span> (!q.<span class="pl-c1">empty</span>())
+    {
+        <span class="pl-k">auto</span> [x, j] = q.<span class="pl-c1">top</span>().<span class="pl-smi">second</span>;
+        q.<span class="pl-c1">pop</span>();
+        <span class="pl-k">if</span> (st[x][j])
+            <span class="pl-k">continue</span>;
+        st[x][j] = <span class="pl-c1">true</span>;
+        <span class="pl-k">for</span> (<span class="pl-k">auto</span> y : edge[x]){
+            <span class="pl-k">if</span> (d[y][<span class="pl-c1">0</span>] &gt; d[x][j] + a[y]){
+                d[y][<span class="pl-c1">0</span>] = d[x][j] + a[y];
+                q.<span class="pl-c1">push</span>({d[y][<span class="pl-c1">0</span>], {y, <span class="pl-c1">0</span>}});
+            }
+            <span class="pl-k">if</span> (j &lt; k)
+                <span class="pl-k">if</span> (d[y][j + <span class="pl-c1">1</span>] &gt; d[x][j] + <span class="pl-c1">1</span>){
+                    d[y][j + <span class="pl-c1">1</span>] = d[x][j] + <span class="pl-c1">1</span>;
+                    q.<span class="pl-c1">push</span>({d[y][j + <span class="pl-c1">1</span>], {y, j + <span class="pl-c1">1</span>}});
+                }
+        }
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ) cin &gt;&gt; a[i], edge[i].<span class="pl-c1">clear</span>();
+    <span class="pl-k">while</span> (m -- ){
+        <span class="pl-k">int</span> u, v;
+        cin &gt;&gt; u &gt;&gt; v;
+        edge[u].<span class="pl-c1">push_back</span>(v);
+        edge[v].<span class="pl-c1">push_back</span>(u);
+    }
+    <span class="pl-c1">dij</span>();
+    ll ans = <span class="pl-c1">1e18</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt;= k; j ++ ) ans = <span class="pl-c1">min</span>(ans, d[n][j]);
+    cout &lt;&lt; ans &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+}
+```c++
+
+# Bellman-Ford #
+Bellman–Ford 算法是一种基于松弛（relax）操作的最短路算法，可以求出有负权的图的最短路，并可以对最短路不存在的情况进行判断。
+由于每轮松弛会使得最短路的边数至少+<span class="pl-c1">1</span>，而最短路的边数最多 $n-<span class="pl-c1">1</span>$，故最多进行 $n-<span class="pl-c1">1</span>$轮松弛操作。
+如果第 $n$ 轮循环时仍然存在可以松弛的边，说明从 $S$ 出发，能够抵达一个**负环**。
+时间复杂度为 $O(NM)$
+```c++
+<span class="pl-k">struct</span> <span class="pl-en">Node</span>
 {
     <span class="pl-k">int</span> x, y, v;
 } edge[M];
