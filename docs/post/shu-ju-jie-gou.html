@@ -196,6 +196,27 @@ info <span class="pl-en">query</span>(<span class="pl-k">int</span> id, <span cl
     }
     <span class="pl-c1">update</span>(id);
 }</pre></div>
+<h2>字典树</h2>
+<p>注意：01字典树的二维大小只有2！如果习惯开26则极容易被卡RE</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> nxt[N][M], cnt = <span class="pl-c1">0</span>;
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>(){
+    <span class="pl-k">int</span> n;
+    cin &gt;&gt; n;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i ++ ){
+        string s;
+        cin &gt;&gt; s;
+        <span class="pl-k">int</span> len = s.<span class="pl-c1">size</span>();
+        <span class="pl-k">int</span> now = <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">0</span>; j &lt; len; j ++ ){
+            <span class="pl-k">int</span> x = s[j] - <span class="pl-s"><span class="pl-pds">'</span>a<span class="pl-pds">'</span></span>;
+            <span class="pl-k">if</span> (!nxt[now][x]){
+                nxt[now][x] = ++ cnt;
+            }
+            now = nxt[now][x];
+        }
+    }
+}</pre></div>
 <h2>随机哈希</h2>
 <p>解决区间匹配问题</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">std::mt19937_64 <span class="pl-en">rng</span>(std::chrono::steady_clock::now().time_since_epoch().count());
