@@ -13,34 +13,58 @@
 <meta name="description" content="### 对顶堆求中位数 ###
 可以用 $2$ 个堆维护滑动区间的中位数，分别是小根堆和大根堆.(一般使用multiset或优先队列作为数据结构)
 做法：使用2个堆，大根堆维护较小的值，小根堆维护较大的值，并使2个堆中的元素数目差不大于 $1$
+期间可以不断地添加或删除元素
+代码用multiset举例
 ```c++
         int x = a[i];
+        //添加元素
         if (i == 1){
             q1.insert(x);
-            s1 += x;
         }else if (x > *q1.begin()){
             q2.insert(x);
-            s2 += x;
         }else{
             q1.insert(x);
-            s1 += x;
+        }
+        //元素调整
+        while (abs(int(q1.size() - q2.size())) > 1){
+            if (q1.size() > q2.size()){
+                int y = *q1.begin();
+                q2.insert(y);
+                q1.erase(q1.begin());
+            }else{
+                int y = *q2.begin();
+                q1.insert(y);
+                q2.erase(q2.begin());
+            }
         }
 ```。">
 <meta property="og:title" content="技巧汇总">
 <meta property="og:description" content="### 对顶堆求中位数 ###
 可以用 $2$ 个堆维护滑动区间的中位数，分别是小根堆和大根堆.(一般使用multiset或优先队列作为数据结构)
 做法：使用2个堆，大根堆维护较小的值，小根堆维护较大的值，并使2个堆中的元素数目差不大于 $1$
+期间可以不断地添加或删除元素
+代码用multiset举例
 ```c++
         int x = a[i];
+        //添加元素
         if (i == 1){
             q1.insert(x);
-            s1 += x;
         }else if (x > *q1.begin()){
             q2.insert(x);
-            s2 += x;
         }else{
             q1.insert(x);
-            s1 += x;
+        }
+        //元素调整
+        while (abs(int(q1.size() - q2.size())) > 1){
+            if (q1.size() > q2.size()){
+                int y = *q1.begin();
+                q2.insert(y);
+                q1.erase(q1.begin());
+            }else{
+                int y = *q2.begin();
+                q1.insert(y);
+                q2.erase(q2.begin());
+            }
         }
 ```。">
 <meta property="og:type" content="article">
@@ -115,17 +139,29 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><h3>对顶堆求中位数</h3>
 <p>可以用 $2$ 个堆维护滑动区间的中位数，分别是小根堆和大根堆.(一般使用multiset或优先队列作为数据结构)<br>
-做法：使用2个堆，大根堆维护较小的值，小根堆维护较大的值，并使2个堆中的元素数目差不大于 $1$</p>
+做法：使用2个堆，大根堆维护较小的值，小根堆维护较大的值，并使2个堆中的元素数目差不大于 $1$<br>
+期间可以不断地添加或删除元素<br>
+代码用multiset举例</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">        <span class="pl-k">int</span> x = a[i];
+        <span class="pl-c"><span class="pl-c">//</span>添加元素</span>
         <span class="pl-k">if</span> (i == <span class="pl-c1">1</span>){
             q1.<span class="pl-c1">insert</span>(x);
-            s1 += x;
         }<span class="pl-k">else</span> <span class="pl-k">if</span> (x &gt; *q1.begin()){
             q2.<span class="pl-c1">insert</span>(x);
-            s2 += x;
         }<span class="pl-k">else</span>{
             q1.<span class="pl-c1">insert</span>(x);
-            s1 += x;
+        }
+        <span class="pl-c"><span class="pl-c">//</span>元素调整</span>
+        <span class="pl-k">while</span> (abs(<span class="pl-k">int</span>(q1.size() - q2.size())) &gt; <span class="pl-c1">1</span>){
+            <span class="pl-k">if</span> (q1.<span class="pl-c1">size</span>() &gt; q2.<span class="pl-c1">size</span>()){
+                <span class="pl-k">int</span> y = *q1.<span class="pl-c1">begin</span>();
+                q2.<span class="pl-c1">insert</span>(y);
+                q1.<span class="pl-c1">erase</span>(q1.<span class="pl-c1">begin</span>());
+            }<span class="pl-k">else</span>{
+                <span class="pl-k">int</span> y = *q2.<span class="pl-c1">begin</span>();
+                q1.<span class="pl-c1">insert</span>(y);
+                q2.<span class="pl-c1">erase</span>(q2.<span class="pl-c1">begin</span>());
+            }
         }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
