@@ -1,1 +1,0 @@
-# Vynor.github.io
